@@ -46,11 +46,11 @@
   :config
   (which-key-mode +1))
 
-(use-package solarized-theme
-  :ensure t
-  :config
-  (load-theme 'solarized-light)
-  (set-face-foreground 'font-lock-comment-delimiter-face "red"))
+;; (use-package solarized-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'solarized-light)
+;;   (set-face-foreground 'font-lock-comment-delimiter-face "red"))
 
 (use-package whitespace
   :config
@@ -58,14 +58,15 @@
   (setq whitespace-style
     '(face
        tabs
-       tab-mark
        spaces
-       space-mark
        space-after-tab
        space-befer-tab
        trailing
+       lines-tail
        indentation
        newline
+       tab-mark
+;       space-mark
        newline-mark))
   (global-whitespace-mode 1))
 
