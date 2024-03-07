@@ -1,58 +1,3 @@
-(use-package emacs
-  :config
-  ;; Treesitter config
-
-  ;; Tell Emacs to prefer the treesitter mode
-  ;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
-  (setq major-mode-remap-alist
-    '(
-       (bash-mode . bash-ts-mode)
-       (c-mode . c-ts-mode)
-       (c++-mode . c++-ts-mode)
-       (cpp-mode . cpp-ts-mode)
-       (elisp-mode . elisp-ts-mode)
-       (html-mode . html-ts-mode)
-       (javascript-mode . javascript-ts-mode)
-       (make-mode . cmake-ts-mode)
-       (markdown-mode . markdown-ts-mode)
-       (rust-mode . rust-ts-mode)
-       (markdown-mode . markdown-ts-mode)
-       (yaml-mode . yaml-ts-mode)
-       (js2-mode . js-ts-mode)
-       (typescript-mode . typescript-ts-mode)
-       (json-mode . json-ts-mode)
-       (css-mode . css-ts-mode)
-       (python-mode . python-ts-mode))))
-
-(setq treesit-language-source-alist
-  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-     (cmake "https://github.com/uyha/tree-sitter-cmake")
-     (c "https://github.com/tree-sitter/tree-sitter-c")
-     (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-     (css "https://github.com/tree-sitter/tree-sitter-css")
-     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     (java "https://github.com/tree-sitter/tree-sitter-java")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-     (json "https://github.com/tree-sitter/tree-sitter-json")
-     (make "https://github.com/alemuller/tree-sitter-make")
-     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (rust "https://github.com/tree-sitter/tree-sitter-rust")
-     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-     (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-     (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-
-     ;; (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-     ;; (go "https://github.com/tree-sitter/tree-sitter-go")
-     ;; (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-     ;; (julia "https://github.com/tree-sitter/tree-sitter-julia")
-     ;; (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-     ;; (scala "https://github.com/tree-sitter/tree-sitter-scala")
-     ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
-     ))
-
 (use-package magit
   :ensure t)
 
@@ -68,10 +13,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package web-mode
   :ensure t
-  :mode (("\\.html?\\'" . web-mode)
-          ("\\.erb\\'" . web-mode)
-          ("\\.hbs\\'" . web-mode)
-          ("\\.vue\\'" . web-mode))
+  :mode
+  (("\\.html?\\'" . web-mode)
+    ("\\.erb\\'" . web-mode)
+    ("\\.hbs\\'" . web-mode)
+    ("\\.vue\\'" . web-mode))
   :custom
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
@@ -79,8 +25,9 @@
 
 (use-package markdown-mode
   :ensure t
-  :mode (("\\.md\\'" . gfm-mode)
-          ("\\.markdown\\'" . gfm-mode))
+  :mode
+  (("\\.md\\'" . gfm-mode)
+    ("\\.markdown\\'" . gfm-mode))
   :config
   (setq markdown-fontify-code-blocks-natively t)
   :preface

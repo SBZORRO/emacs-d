@@ -1,7 +1,6 @@
 ;;
 ;;; build-in packages
 ;;
-
 (use-package lisp-mode
   :config
   (setopt lisp-indent-offset 2))
@@ -53,28 +52,42 @@
 ;;   (set-face-foreground 'font-lock-comment-delimiter-face "red"))
 
 (use-package whitespace
+  ;; :diminish
+  ;; (global-whitespace-mode
+  ;;   whitespace-mode
+  ;;   whitespace-newline-mode)
+  ;; :commands
+  ;; (whitespace-buffer
+  ;;   whitespace-cleanup
+  ;;   whitespace-mode
+  ;;   whitespace-turn-off)
   :custom
   (whitespace-auto-cleanup t t)
-  (whitespace-line-column 79)
+  (whitespace-line-column 78)
   (whitespace-rescan-timer-time nil t)
   (whitespace-silent t t)
-  (whitespace-style '(face
-                       ;; indentation
-                       indentation::space
-                       indentation::tab
-                       tabs
-                       ;; spaces
-                       space-after-tab
-                       space-befer-tab
-                       trailing
-                       lines-tail
-                       newline
-                       tab-mark
-                       ;; newline-mark
-                       ;; space-mark
-                       ))
+  (whitespace-style
+    '(face
+       ;; indentation
+       indentation::space
+       indentation::tab
+       tabs
+       ;; spaces
+       space-after-tab
+       space-befer-tab
+       trailing
+       lines-tail
+       newline
+       ;; tab-mark
+       ;; newline-mark
+       ;; space-mark
+       ))
   :custom-face
   (whitespace-indentation ((t (:background "grey11"))))
+  ;; :defines
+  ;; (whitespace-auto-cleanup
+  ;;   whitespace-rescan-timer-time
+  ;;   whitespace-silent)
   :config
   (global-whitespace-mode 1))
 
@@ -92,5 +105,7 @@
 
 ;; highlight the current line
 (use-package hl-line
+  :custom-face
+  (hl-line ((t (:background "grey11"))))
   :config
   (global-hl-line-mode +1))
