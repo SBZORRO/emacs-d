@@ -53,21 +53,29 @@
 ;;   (set-face-foreground 'font-lock-comment-delimiter-face "red"))
 
 (use-package whitespace
+  :custom
+  (whitespace-auto-cleanup t t)
+  (whitespace-line-column 79)
+  (whitespace-rescan-timer-time nil t)
+  (whitespace-silent t t)
+  (whitespace-style '(face
+                       ;; indentation
+                       indentation::space
+                       indentation::tab
+                       tabs
+                       ;; spaces
+                       space-after-tab
+                       space-befer-tab
+                       trailing
+                       lines-tail
+                       newline
+                       tab-mark
+                       ;; newline-mark
+                       ;; space-mark
+                       ))
+  :custom-face
+  (whitespace-indentation ((t (:background "grey11"))))
   :config
-  (setq whitespace-line-column 79)
-  (setq whitespace-style
-    '(face
-       tabs
-       spaces
-       space-after-tab
-       space-befer-tab
-       trailing
-       lines-tail
-       indentation
-       newline
-       tab-mark
-;       space-mark
-       newline-mark))
   (global-whitespace-mode 1))
 
 (use-package paren
