@@ -96,6 +96,13 @@
 (keymap-global-set "M-d" 'my-forward-kill-same-syntax)
 (keymap-global-set "M-o" 'new-previous-line)
 (keymap-global-set "C-o" 'new-next-line)
+(keymap-global-set "C-a" 'my-go-ahead)
+
+(defun my-go-ahead ()
+  (interactive)
+  (if (= (line-beginning-position) (point))
+    (beginning-of-line-text)
+    (beginning-of-line)))
 
 (defun new-previous-line ()
   (interactive)
