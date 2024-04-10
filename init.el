@@ -1,14 +1,12 @@
 (require 'package)
-(setq package-archives
-  '(("gnu"     . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-     ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-     ("nongnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
+
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (package-initialize)
 
 
-(setq url-gateway-method 'socks)
-(setq socks-server '("Default server" "127.0.0.1" 1337 5))
+;; (setq url-gateway-method 'socks)
+;; (setq socks-server '("Default server" "127.0.0.1" 1337 5))
 
 ;;(package-refresh-contents)
 

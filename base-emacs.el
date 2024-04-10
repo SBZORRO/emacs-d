@@ -103,12 +103,12 @@
   ;; (auto-save-list-file-prefix (user-data "auto-save-list/.saves-"))
   (inhibit-startup-echo-area-message "sbzorro")
   (inhibit-startup-screen t)
+  (inhibit-splash-screen t)
   (initial-buffer-choice t)
   (initial-major-mode 'fundamental-mode)
   (initial-scratch-message "")
   (user-mail-address "sbzorro@gmail.com")
 
-  (inhibit-splash-screen t)
   
   ;; advice.el
   (ad-redefinition-action 'accept)
@@ -211,6 +211,7 @@
 
   ;; icomplete.el
   (icomplete-delay-completions-threshold 4000)
+  ;;(icomplete-vertical-mode t)
 
   ;; winner.el
   (winner-mode t)
