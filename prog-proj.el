@@ -1,70 +1,17 @@
-(use-package magit
-  :ensure t)
-
-(use-package geiser-guile
-  :ensure t
-  :init
-  (add-hook 'scheme-mode-hook 'geiser-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;; Markup languages support
-;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package web-mode
   :ensure t
   :mode
   (("\\.html?\\'" . web-mode)
     ("\\.erb\\'" . web-mode)
-    ("\\.hbs\\'" . web-mode)
-    ("\\.vue\\'" . web-mode))
+    ("\\.hbs\\'" . web-mode))
   :custom
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
 
-(use-package markdown-mode
-  :ensure t
-  :mode
-  (("\\.md\\'" . gfm-mode)
-    ("\\.markdown\\'" . gfm-mode))
-  :config
-  (setq markdown-fontify-code-blocks-natively t)
-  :preface
-  (defun jekyll-insert-image-url ()
-    (interactive)
-    (let* ((files (directory-files "../assets/images"))
-            (selected-file (completing-read "Select image: " files nil t)))
-      (insert (format "![%s](/assets/images/%s)" selected-file selected-file))))
-
-  (defun jekyll-insert-post-url ()
-    (interactive)
-    (let* ((project-root (projectile-project-root))
-            (posts-dir (expand-file-name "_posts" project-root))
-            (default-directory posts-dir))
-      (let* ((files (remove "." (mapcar #'file-name-sans-extension (directory-files "."))))
-              (selected-file (completing-read "Select article: " files nil t)))
-        (insert (format "{%% post_url %s %%}" selected-file))))))
-
-(use-package ggtags :ensure t)
-;; (dolist (map (list ggtags-mode-map dired-mode-map))
-;;   (define-key map (kbd "C-c g s") 'ggtags-find-other-symbol)
-;;   (define-key map (kbd "C-c g h") 'ggtags-view-tag-history)
-;;   (define-key map (kbd "C-c g r") 'ggtags-find-reference)
-;;   (define-key map (kbd "C-c g f") 'ggtags-find-file)
-;;   (define-key map (kbd "C-c g c") 'ggtags-create-tags)
-;;   (define-key map (kbd "C-c g u") 'ggtags-update-tags)
-;;   (define-key map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
-;;   (define-key map (kbd "M-.") 'ggtags-find-tag-dwim)
-;;   (define-key map (kbd "M-,") 'pop-tag-mark)
-;;   (define-key map (kbd "C-c <") 'ggtags-prev-mark)
-;;   (define-key map (kbd "C-c >") 'ggtags-next-mark))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;; eglot and dependency
-;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Vue-mode setup
+(define-derived-mode vue-mode web-mode "Vue")
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 
 (use-package eglot
   :ensure
@@ -88,7 +35,42 @@
        "--pch-storage=disk"
        "--header-insertion=iwyu"
        "--header-insertion-decorators"
-       "--query-driver=/usr/bin/**")))
+       "--query-driver=/usr/bin/**"))
+  (add-to-list 'eglot-server-programs
+    `(vue-mode . ("vue-language-server" "--stdio"
+                   :initializationOptions ,(vue-eglot-init-options))))
+  )
+
+(use-package markdown-mode
+  :ensure t
+  :mode
+  (("\\.md\\'" . gfm-mode)
+    ("\\.markdown\\'" . gfm-mode))
+  :config
+  (setq markdown-fontify-code-blocks-natively t))
+
+(use-package magit
+  :ensure t)
+
+(use-package geiser-guile
+  :ensure t
+  :init
+  (add-hook 'scheme-mode-hook 'geiser-mode))
+
+(use-package ggtags :ensure t)
+;; (dolist (map (list ggtags-mode-map dired-mode-map))
+;;   (define-key map (kbd "C-c g s") 'ggtags-find-other-symbol)
+;;   (define-key map (kbd "C-c g h") 'ggtags-view-tag-history)
+;;   (define-key map (kbd "C-c g r") 'ggtags-find-reference)
+;;   (define-key map (kbd "C-c g f") 'ggtags-find-file)
+;;   (define-key map (kbd "C-c g c") 'ggtags-create-tags)
+;;   (define-key map (kbd "C-c g u") 'ggtags-update-tags)
+;;   (define-key map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+;;   (define-key map (kbd "M-.") 'ggtags-find-tag-dwim)
+;;   (define-key map (kbd "M-,") 'pop-tag-mark)
+;;   (define-key map (kbd "C-c <") 'ggtags-prev-mark)
+;;   (define-key map (kbd "C-c >") 'ggtags-next-mark))
+
 ;; (use-package projectile
 ;;   :ensure t
 ;;   :init
@@ -119,3 +101,27 @@
 ;;   :init
 ;;   (add-to-list 'company-backends 'company-c-headers))
 
+(defun vue-eglot-init-options ()
+  (let ((tsdk-path
+          (expand-file-name
+            "lib"
+            (string-trim
+              (shell-command-to-string
+                "npm list --global --parseable typescript | head -n1"))
+            )))
+    `(:typescript
+       (:tsdk ,tsdk-path
+         :languageFeatures
+         (:completion
+           (:defaultTagNameCase "both"
+             :defaultAttrNameCase "kebabCase"
+             :getDocumentNameCasesRequest nil
+             :getDocumentSelectionRequest nil)
+           :diagnostics
+           (:getDocumentVersionRequest nil))
+         :documentFeatures
+         (:documentFormatting
+           (:defaultPrintWidth 100
+             :getDocumentPrintWidthRequest nil)
+           :documentSymbol t
+           :documentColor t)))))

@@ -1,12 +1,8 @@
 (require 'package)
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (package-initialize)
-
-
-;; (setq url-gateway-method 'socks)
-;; (setq socks-server '("Default server" "127.0.0.1" 1337 5))
 
 ;;(package-refresh-contents)
 

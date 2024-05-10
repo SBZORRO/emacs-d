@@ -197,7 +197,7 @@
   (window-divider-default-places 'bottom-only)
 
   ;; nsm.el
-  (nsm-settings-file (user-data "network-security.data"))
+  ;; (nsm-settings-file (user-data "network-security.data"))
 
   ;; minibuffer.el
   (completion-cycle-threshold 1)                  ; TAB cycles candidates

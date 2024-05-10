@@ -23,7 +23,6 @@
   ;; current subdir, instead of the current subdir of this dired buffer
   (setq dired-dwim-target t))
 
-
 (use-package abbrev
   :config
   (setq save-abbrevs 'silently)
