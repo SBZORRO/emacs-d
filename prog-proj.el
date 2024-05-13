@@ -124,4 +124,6 @@
            (:defaultPrintWidth 100
              :getDocumentPrintWidthRequest nil)
            :documentSymbol t
-           :documentColor t)))))
+           :documentColor t))
+       :vue (:hybridMode :json-false)
+       )))
