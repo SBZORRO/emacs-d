@@ -19,6 +19,7 @@
   ;;  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
   (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
   ((c-ts-mode c++-mode c-mode cc-mode) . eglot-ensure)
+  ((vue-mode) . eglot-ensure)
   :custom
   (eglot-send-changes-idle-time 0.1)
   :config
@@ -39,6 +40,8 @@
   (add-to-list 'eglot-server-programs
     `(vue-mode . ("vue-language-server" "--stdio"
                    :initializationOptions ,(vue-eglot-init-options))))
+  (add-to-list 'eglot-server-programs
+    `((python-mode python-ts-mode) . ("pylsp")))
   )
 
 (use-package markdown-mode
