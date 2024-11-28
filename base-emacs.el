@@ -195,6 +195,7 @@
   ;; frame.el
   (window-divider-default-bottom-width 1)
   (window-divider-default-places 'bottom-only)
+  (frame-background-mode 'dark)
 
   ;; nsm.el
   ;; (nsm-settings-file (user-data "network-security.data"))
