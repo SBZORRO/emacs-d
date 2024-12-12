@@ -20,7 +20,7 @@
   (fill-column 78)
   (enable-recursive-minibuffers t)
   (display-line-numbers-width 3)
-  (truncate-lines 1)
+  (truncate-lines nil)
   (tab-width 2)
   (scroll-margin 3)
   (scroll-conservatively 101)
