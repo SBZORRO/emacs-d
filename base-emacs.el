@@ -109,12 +109,11 @@
   (initial-scratch-message "")
   (user-mail-address "sbzorro@gmail.com")
 
-  
   ;; advice.el
   (ad-redefinition-action 'accept)
 
   ;; files.el
-  (auto-save-file-name-transforms '(("\\`/[^/]*:.*" "/tmp" t)))
+  (auto-save-file-name-transforms '((".*" "~/.local/share/emacs/autosaves/" t)))
   (backup-directory-alist '(("." . "~/.local/share/emacs/backups")))
   (delete-old-versions t)
   (directory-abbrev-alist
