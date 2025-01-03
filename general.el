@@ -97,6 +97,7 @@
 (keymap-global-set "M-o" 'new-previous-line)
 (keymap-global-set "C-o" 'new-next-line)
 (keymap-global-set "C-a" 'my-go-ahead)
+(keymap-global-set "C-M-@" 'my-mark-sexp)
 
 (defun my-go-ahead ()
   (interactive)
@@ -115,8 +116,9 @@
   (move-end-of-line 1)
   (newline-and-indent))
 
-(defun prelude-get-positions-of-line-or-region ()
+(defun positions-of-line-or-region ()
   "Return positions (beg . end) of the current line or region."
+  (interactive)
   (let (beg end)
     (if (and mark-active (> (point) (mark)))
       (exchange-point-and-mark))
@@ -139,15 +141,8 @@
   (interactive "p")
   (kill-region (point) (progn (forward-same-syntax arg) (point))))
 
-;; Don't litter file system with *~ backup files; put them all inside
-;; ~/.emacs.d/backup or wherever
-(defun bedrock--backup-file-name (fpath)
-  "Return a new file path of a given file path.
-If the new path's directories does not exist, create them."
-  (let* ((backupRootDir "~/.emacs.d/emacs-backup/")
-          (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path
-          (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") )))
-    (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
-    backupFilePath))
-
-(setopt make-backup-file-name-function 'bedrock--backup-file-name)
+(defun my-mark-sexp (&optional arg allow-extend)
+  (interactive "P\np")
+  (if (eq (use-region-p) nil)
+    (forward-same-syntax (- 1)))
+  (mark-sexp arg allow-extend))
