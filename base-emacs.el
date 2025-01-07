@@ -27,31 +27,20 @@
   (scroll-preserve-screen-position t)
   (completion-ignore-case 1)
 
-  ;; ;; Settings for the Cocoa port
-  ;; (ns-alternate-modifier 'alt)
-  ;; (ns-command-modifier 'meta)
-  ;; (ns-function-modifier 'hyper)
-  ;; (ns-right-alternate-modifier 'alt)
-
-  ;; ;; Settings for the Emacs Mac-port
-  ;; (mac-command-modifier 'meta)
-  ;; (mac-option-modifier 'alt)
-  ;; (mac-pass-command-to-system nil)
-
-  (frame-title-format
-    '(:eval
-       (concat
-         (if buffer-file-name default-directory "%b")
-         "    "
-         (number-to-string
-           (cdr
-             (assq 'width
-               (frame-parameters))))
-         "x"
-         (number-to-string
-           (cdr
-             (assq 'height
-               (frame-parameters)))))))
+  ;; (frame-title-format
+  ;;   '(:eval
+  ;;      (concat
+  ;;        (if buffer-file-name default-directory "%b")
+  ;;        "    "
+  ;;        (number-to-string
+  ;;          (cdr
+  ;;            (assq 'width
+  ;;              (frame-parameters))))
+  ;;        "x"
+  ;;        (number-to-string
+  ;;          (cdr
+  ;;            (assq 'height
+  ;;              (frame-parameters)))))))
 
   (completion-ignored-extensions
     '(".a"
@@ -118,7 +107,6 @@
   (delete-old-versions t)
   (directory-abbrev-alist
     '(("\\`/org" . "~/org")))
-  (directory-free-space-args "-kh")
   (large-file-warning-threshold nil)
   (save-abbrevs 'silently)
   (trash-directory "~/.Trash")
@@ -159,6 +147,11 @@
   (mode-require-final-newline t)
   (completion-auto-select 'second-tab)            ; Much more eager
   ;; (setq completion-auto-select t)                     ; See `C-h v completion-auto-select' for more possible values
+
+  ;; display-fill-column-indicator.el
+  (global-display-fill-column-indicator-mode t)
+  ;; display-line-numbers.el
+  (global-display-line-numbers-mode t)
 
   ;; bytecomp.el
   (byte-compile-verbose nil)
@@ -243,10 +236,43 @@
   ;; :init
   ;; (setq disabled-command-function nil) ;; enable all commands
 
-  ;; :config
+  :config
   ;; (add-hook 'after-save-hook
   ;;   #'executable-make-buffer-file-executable-if-script-p)
+  ;; Nice line wrapping when working with text
+  (add-hook 'text-mode-hook 'visual-line-mode)
+  (add-hook 'prog-mode-hook 'hs-minor-mode)
 
+  ;; treesit.el
+  (setopt treesit-language-source-alist
+    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+       (cmake "https://github.com/uyha/tree-sitter-cmake")
+       (c "https://github.com/tree-sitter/tree-sitter-c")
+       (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+       (css "https://github.com/tree-sitter/tree-sitter-css")
+       (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+       (html "https://github.com/tree-sitter/tree-sitter-html")
+       (java "https://github.com/tree-sitter/tree-sitter-java")
+       (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+       (json "https://github.com/tree-sitter/tree-sitter-json")
+       (make "https://github.com/alemuller/tree-sitter-make")
+       (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+       (python "https://github.com/tree-sitter/tree-sitter-python")
+       (rust "https://github.com/tree-sitter/tree-sitter-rust")
+       (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+       (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+       (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+       (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+
+       ;; (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+       ;; (go "https://github.com/tree-sitter/tree-sitter-go")
+       ;; (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+       ;; (julia "https://github.com/tree-sitter/tree-sitter-julia")
+       ;; (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+       ;; (scala "https://github.com/tree-sitter/tree-sitter-scala")
+       ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
+       ))
+  
   ;; (define-key input-decode-map [?\C-m] [C-m])
 
   ;; ;; Setup keymaps that are bound into by many declarations below.

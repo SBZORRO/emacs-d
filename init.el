@@ -12,8 +12,8 @@
 (require 'use-package)
 (setq use-package-verbose t)
 
-(load-file (expand-file-name "general.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "base-emacs.el" (file-name-directory load-file-name)))
+(load-file (expand-file-name "defunk.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "base-package.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "minibuffer.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "prog-proj.el" (file-name-directory load-file-name)))
