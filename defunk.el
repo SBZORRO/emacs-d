@@ -60,3 +60,58 @@
   (if (eq (use-region-p) nil)
     (forward-same-syntax (- 1)))
   (mark-sexp arg allow-extend))
+
+
+(setq vmacs-ignore-buffers
+  (list
+    "\\` "
+    "\*Buffer List\*"
+    "\*Helm" "\*helm"
+    "*Launch" "\*Warnings\*"
+    "\*RE-Builder\*"
+    "\*dape-repl\*" "\*dape-info"
+    "\*vc-diff\*" "\*magit-" "\*vc-" "\*vc*"
+    "*Backtrace*" "*Package-Lint*" "\*Completions\*" "\*Compile-Log\*"
+    "\*vc-change-log\*" "\*VC-log\*"
+    "\*Async Shell Command\*" "\*Shell Command Output\*"
+    "\*lsp" "\*ccls" "\*gopls" "\*bingo" "\*mspyls" "\*EGLOT"
+    "\*sdcv\*" "\*tramp"  "\*Gofmt Errors\*"
+    "\*Ido Completions\*" "\*Flycheck " "\*Flymake"
+    "magit-process" "magit-diff" "magit-stash"))
+
+(defvar boring-window-modes
+  '(help-mode compilation-mode log-view-mode log-edit-mode
+     gnus-article-mode
+     org-agenda-mode magit-revision-mode ibuffer-mode))
+
+
+(defun vmacs-filter(buf &optional ignore-buffers)
+  (cl-find-if
+    (lambda (f-or-r)
+      (string-match-p f-or-r buf))
+    (or ignore-buffers vmacs-ignore-buffers)))
+
+
+
+(defun bury-boring-windows(&optional bury-cur-win-if-boring)
+  "close boring *Help* windows with `C-g'"
+  (let ((opened-windows (window-list))
+         (cur-buf-win (get-buffer-window)))
+    (dolist (win opened-windows)
+      (with-current-buffer (window-buffer win)
+        (when (or (memq  major-mode boring-window-modes)
+                (vmacs-filter (buffer-name)))
+          (when (and (>  (length (window-list)) 1)
+                  (not (minibufferp))
+                  (or bury-cur-win-if-boring
+                    (not (equal cur-buf-win win)))
+                  (delete-window win))))))))
+
+(defun vmacs-bury-boring-windows ()
+  (when (active-minibuffer-window)
+    (select-window (active-minibuffer-window))
+    (minibuffer-keyboard-quit))
+  (when (equal last-command 'keyboard-quit)
+    (bury-boring-windows)))
+
+(advice-add 'keyboard-quit :before #'vmacs-bury-boring-windows)
