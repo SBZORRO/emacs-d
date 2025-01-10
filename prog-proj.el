@@ -13,36 +13,37 @@
 (define-derived-mode vue-mode web-mode "Vue")
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 
-(use-package eglot
-  :ensure
-  :hook
-  ;;  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
-  (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
-  ((c-ts-mode c++-mode c-mode cc-mode) . eglot-ensure)
-  ((vue-mode) . eglot-ensure)
-  :custom
-  (eglot-send-changes-idle-time 0.1)
-  :config
-  ;;  (fset #'jsonrpc--log-event #'ignore)
-  ;;  (setq eglot-report-progress nil)
-  (add-to-list 'eglot-server-programs
-    '((c-ts-mode c++-mode c-mode cc-mode)
-       "clangd"
-       "-j=2"
-       "--malloc-trim"
-       "--background-index"
-       "--clang-tidy"
-       "--completion-style=bundled"
-       "--pch-storage=disk"
-       "--header-insertion=iwyu"
-       "--header-insertion-decorators"
-       "--query-driver=/usr/bin/**"))
-  (add-to-list 'eglot-server-programs
-    `(vue-mode . ("vue-language-server" "--stdio"
-                   :initializationOptions ,(vue-eglot-init-options))))
-  (add-to-list 'eglot-server-programs
-    `((python-mode python-ts-mode) . ("pylsp")))
-  )
+;; (use-package eglot
+;;   :ensure
+;;   :hook
+;;   ;;  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
+;;   (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
+;;   ((c-ts-mode c++-ts-mode c++-mode c-mode cc-mode) . eglot-ensure)
+;;   ((vue-mode) . eglot-ensure)
+;;   :custom
+;;   (eglot-send-changes-idle-time 0.1)
+;;   :config
+;;   ;; (fset #'jsonrpc--log-event #'ignore)
+;;   ;; (setq eglot-report-perogress nil)
+;;   ;; (eglot-events-buffer-size 0)
+;;   (add-to-list 'eglot-server-programs
+;;     '((c-ts-mode c++-ts-mode c++-mode c-mode cc-mode)
+;;        "clangd"
+;;        "-j=2"
+;;        "--malloc-trim"
+;;        "--pch-storage=memory"
+;;        "--background-index"
+;;        "--clang-tidy"
+;;        "--completion-style=detailed"
+;;        "--header-insertion=iwyu"
+;;        "--header-insertion-decorators"
+;;        "--query-driver=/usr/bin/**"))
+;;   (add-to-list 'eglot-server-programs
+;;     `(vue-mode . ("vue-language-server" "--stdio"
+;;                    :initializationOptions ,(vue-eglot-init-options))))
+;;   (add-to-list 'eglot-server-programs
+;;     `((python-mode python-ts-mode) . ("pylsp")))
+;;   )
 
 (use-package markdown-mode
   :ensure t

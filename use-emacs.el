@@ -40,30 +40,29 @@
   (backup-directory-alist '(("." . "~/.local/share/emacs/backups")))
   (delete-old-versions t)
   (directory-abbrev-alist
-   '(("\\`/org" . "~/org")))
+    '(("\\`/org" . "~/org")))
   (large-file-warning-threshold nil)
   (save-abbrevs 'silently)
-  ;; (trash-directory "~/.Trash")
   (version-control t)
   (major-mode-remap-alist
-   '(
-     (bash-mode . bash-ts-mode)
-     (c-mode . c-ts-mode)
-     (c++-mode . c++-ts-mode)
-     (cpp-mode . cpp-ts-mode)
-     (elisp-mode . elisp-ts-mode)
-     (html-mode . html-ts-mode)
-     (javascript-mode . javascript-ts-mode)
-     (make-mode . cmake-ts-mode)
-     (markdown-mode . markdown-ts-mode)
-     (rust-mode . rust-ts-mode)
-     (markdown-mode . markdown-ts-mode)
-     (yaml-mode . yaml-ts-mode)
-     (js2-mode . js-ts-mode)
-     (typescript-mode . typescript-ts-mode)
-     (json-mode . json-ts-mode)
-     (css-mode . css-ts-mode)
-     (python-mode . python-ts-mode)))
+    '(
+       (bash-mode . bash-ts-mode)
+       (c-mode . c-ts-mode)
+       (c++-mode . c++-ts-mode)
+       (cpp-mode . cpp-ts-mode)
+       (elisp-mode . elisp-ts-mode)
+       (html-mode . html-ts-mode)
+       (javascript-mode . javascript-ts-mode)
+       (make-mode . cmake-ts-mode)
+       (markdown-mode . markdown-ts-mode)
+       (rust-mode . rust-ts-mode)
+       (markdown-mode . markdown-ts-mode)
+       (yaml-mode . yaml-ts-mode)
+       (js2-mode . js-ts-mode)
+       (typescript-mode . typescript-ts-mode)
+       (json-mode . json-ts-mode)
+       (css-mode . css-ts-mode)
+       (python-mode . python-ts-mode)))
 
   ;; simple.el
   (backward-delete-char-untabify-method 'untabify)
@@ -112,14 +111,14 @@
   ;; minibuffer.el
   (completion-cycle-threshold 1)                  ; TAB cycles candidates
   (completions-detailed t)                        ; Show annotations
-  (completion-styles '(basic initials substring)) ; Different styles to match input to candidates
+  ;; (completion-styles '(basic initials substring)) ; Different styles to match input to candidates
   (completion-auto-help 'always)                  ; Open completion always; `lazy' another option
-  (completions-max-height 20)                     ; This is arbitrary
-  (completions-detailed t)
-  (completions-format 'one-column)
+  (completions-max-height 10)                     ; This is arbitrary
+  ;; (completions-format 'horizontal)
   (completions-group t)
 
   ;; icomplete.el
+  (icomplete-mode t)
   ;; (icomplete-delay-completions-threshold 4000)
   ;; (icomplete-vertical-mode t)
 
@@ -130,13 +129,13 @@
   (delete-selection-mode t)
 
   ;; indent.el
-  ;; (setopt tab-always-indent 'complete)                   ; When I hit TAB, try to complete, otherwise, indent
+  (tab-always-indent 'complete)                   ; When I hit TAB, try to complete, otherwise, indent
 
   ;; emacs source code
   (source-directory
-   (concat (file-name-parent-directory load-file-name) "emacs")) ; C
+    (concat (file-name-parent-directory load-file-name) "emacs")) ; C
   (find-function-C-source-directory
-   (concat (file-name-parent-directory load-file-name) "emacs/src")) ; find-func.el
+    (concat (file-name-parent-directory load-file-name) "emacs/src")) ; find-func.el
 
   ;; gdb-mi.el
   (gdb-many-windows t)
@@ -153,32 +152,32 @@
 
   ;; treesit.el
   (setopt treesit-language-source-alist
-          '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-            (cmake "https://github.com/uyha/tree-sitter-cmake")
-            (c "https://github.com/tree-sitter/tree-sitter-c")
-            (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-            (css "https://github.com/tree-sitter/tree-sitter-css")
-            (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-            (html "https://github.com/tree-sitter/tree-sitter-html")
-            (java "https://github.com/tree-sitter/tree-sitter-java")
-            (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-            (json "https://github.com/tree-sitter/tree-sitter-json")
-            (make "https://github.com/alemuller/tree-sitter-make")
-            (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-            (python "https://github.com/tree-sitter/tree-sitter-python")
-            (rust "https://github.com/tree-sitter/tree-sitter-rust")
-            (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-            (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-            (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-            (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+       (cmake "https://github.com/uyha/tree-sitter-cmake")
+       (c "https://github.com/tree-sitter/tree-sitter-c")
+       (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+       (css "https://github.com/tree-sitter/tree-sitter-css")
+       (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+       (html "https://github.com/tree-sitter/tree-sitter-html")
+       (java "https://github.com/tree-sitter/tree-sitter-java")
+       (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+       (json "https://github.com/tree-sitter/tree-sitter-json")
+       (make "https://github.com/alemuller/tree-sitter-make")
+       (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+       (python "https://github.com/tree-sitter/tree-sitter-python")
+       (rust "https://github.com/tree-sitter/tree-sitter-rust")
+       (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+       (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+       (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+       (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
 
-            ;; (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-            ;; (go "https://github.com/tree-sitter/tree-sitter-go")
-            ;; (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-            ;; (julia "https://github.com/tree-sitter/tree-sitter-julia")
-            ;; (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-            ;; (scala "https://github.com/tree-sitter/tree-sitter-scala")
-            ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
-            ))
+       ;; (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+       ;; (go "https://github.com/tree-sitter/tree-sitter-go")
+       ;; (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+       ;; (julia "https://github.com/tree-sitter/tree-sitter-julia")
+       ;; (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+       ;; (scala "https://github.com/tree-sitter/tree-sitter-scala")
+       ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
+       ))
   )
 

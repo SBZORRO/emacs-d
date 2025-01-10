@@ -4,6 +4,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(keymap-global-set "M-c" 'compile)
 ;; (key-translate "C-v" "<control-v>")
 (keymap-global-set "M-<DEL>" 'my-backward-kill-same-syntax)
 (keymap-global-set "M-d" 'my-forward-kill-same-syntax)
