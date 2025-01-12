@@ -98,7 +98,15 @@
   (show-paren-delay 0)
 
   ;; window.el
-  (switch-to-buffer-preserve-window-point t)
+  ;;   (same-window-buffer-names
+  ;;  '("*eshell*"
+  ;;    "*shell*"
+  ;;    "*mail*"
+  ;;    "*inferior-lisp*"
+  ;;    "*ielm*"
+  ;;    "*scheme*"))
+  ;; (switch-to-buffer-preserve-window-point t)
+  ;; (display-buffer-alist '((".*" display-buffer-pop-up-frame)))
 
   ;; warnings.el
   (warning-minimum-log-level :error)
