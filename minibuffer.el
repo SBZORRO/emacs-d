@@ -1,16 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;;   Motion aids
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package avy
-  :ensure t
-  :demand t
-  :bind (("C-c j" . avy-goto-line)
-          ("s-j"   . avy-goto-char-timer)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
 ;;;   Power-ups: Embark and Consult
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -153,82 +142,3 @@
 
 ;;   ;; Enable recursive minibuffers
 ;;   (setq enable-recursive-minibuffers t))
-
-(use-package corfu
-  :ensure t
-  ;; Optional customizations
-  :custom
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
-  ;; (corfu-separator ?\s)          ;; Orderless field separator
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-
-  ;; Enable Corfu only for certain modes.
-  ;; :hook ((prog-mode . corfu-mode)
-  ;;        (shell-mode . corfu-mode)
-  ;;        (eshell-mode . corfu-mode))
-
-  ;; Recommended: Enable Corfu globally.
-  ;; This is recommended since Dabbrev can be used globally (M-/).
-  ;; See also `corfu-excluded-modes'.
-  :init
-  (global-corfu-mode)
-  ;; :bind
-  ;; (:map corfu-map
-  ;;       ("SPC" . corfu-insert-separator)
-  ;;       ("C-n" . corfu-next)
-  ;;       ("C-p" . corfu-previous)))
-  )
-
-;; Part of corfu
-(use-package corfu-popupinfo
-  :after corfu
-  :hook (corfu-mode . corfu-popupinfo-mode)
-  :custom
-  (corfu-popupinfo-delay '(0.25 . 0.1))
-  (corfu-popupinfo-hide nil)
-  :config
-  (corfu-popupinfo-mode))
-
-;; Make corfu popup come up in terminal overlay
-(use-package corfu-terminal
-  :if (not (display-graphic-p))
-  :ensure t
-  :config
-  (corfu-terminal-mode))
-
-;; use the `orderless' completion style.
-(use-package orderless
-  :ensure t
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-    completion-category-defaults nil
-    completion-category-overrides '((file (styles partial-completion)))))
-
-;; Fancy completion-at-point functions; there's too much in the cape package to
-;; configure here; dive in when you're comfortable!
-(use-package cape
-  :ensure t
-  :init
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;   Misc. editing enhancements
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Modify search results en masse
-(use-package wgrep
-  :ensure t
-  :config
-  (setq wgrep-auto-save-buffer t))

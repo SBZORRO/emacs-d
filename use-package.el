@@ -28,15 +28,6 @@
   (setq save-abbrevs 'silently)
   (setq-default abbrev-mode t))
 
-;; Use Dabbrev with Corfu!
-(use-package dabbrev
-  ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-          ("C-M-/" . dabbrev-expand))
-  ;; Other useful Dabbrev configurations.
-  :custom
-  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
-
 ;; which-key: shows a popup of available keybindings when typing a long key
 ;; sequence (e.g. C-x ...)
 (use-package which-key

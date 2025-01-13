@@ -23,7 +23,7 @@
   (scroll-margin 3)
   (scroll-conservatively 101)
   (scroll-preserve-screen-position t)
-  (completion-ignore-case 1)
+  (completion-ignore-case t)
 
   ;; startup.el
   ;; (auto-save-list-file-prefix (user-data "auto-save-list/.saves-"))
@@ -85,6 +85,16 @@
   ;; display-line-numbers.el
   (global-display-line-numbers-mode t)
 
+  ;; Hide commands in M-x which do not apply to the current mode.  Corfu
+  ;; commands are hidden, since they are not used via M-x. This setting is
+  ;; useful beyond Corfu.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+
+  ;; text-mode.el
+  ;; Emacs 30 and newer: Disable Ispell completion function.
+  ;; Try `cape-dict' as an alternative.
+  (text-mode-ispell-word-completion nil)
+  
   ;; bytecomp.el
   (byte-compile-verbose nil)
 
@@ -137,6 +147,8 @@
   (delete-selection-mode t)
 
   ;; indent.el
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
   (tab-always-indent 'complete)                   ; When I hit TAB, try to complete, otherwise, indent
 
   ;; emacs source code
