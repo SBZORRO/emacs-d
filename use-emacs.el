@@ -115,9 +115,23 @@
   ;;    "*inferior-lisp*"
   ;;    "*ielm*"
   ;;    "*scheme*"))
-  ;; (switch-to-buffer-preserve-window-point t)
-  ;; (display-buffer-alist '((".*" display-buffer-pop-up-frame)))
+  (switch-to-buffer-preserve-window-point t)
+  (display-buffer-alist
+    '(("^\\*.*\\*"
+        (display-buffer-reuse-window
+          display-buffer-in-side-window)
 
+        (window-height . 12)
+        (side . bottom)
+        (window-parameters
+          (select . t)
+          (quit . t)
+          (popup . t)
+          (mode-line-format . none)
+          (no-other-window . t)
+          )
+        )))
+  
   ;; warnings.el
   (warning-minimum-log-level :error)
 
