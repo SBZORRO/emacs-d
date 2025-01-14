@@ -1,8 +1,9 @@
 (use-package corfu
+  :ensure t
   ;; Optional customizations
-  ;; :custom
-  ;; (corfu-auto t)          ;; Enable auto completion
-  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  :custom
+  (corfu-auto t)          ;; Enable auto completion
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
   ;; (corfu-preview-current nil)    ;; Disable current candidate preview
@@ -22,6 +23,7 @@
 
 ;; Use Dabbrev with Corfu!
 (use-package dabbrev
+  :ensure t
   ;; Swap M-/ and C-M-/
   :bind (("M-/" . dabbrev-completion)
           ("C-M-/" . dabbrev-expand))
@@ -34,6 +36,7 @@
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
+  :ensure t
   :custom
   ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
   ;; (orderless-component-separator #'orderless-escapable-split-on-space)
