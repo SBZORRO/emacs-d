@@ -116,19 +116,20 @@
   ;;    "*ielm*"
   ;;    "*scheme*"))
   (switch-to-buffer-preserve-window-point t)
-  ;; (display-buffer-alist
-  ;;   '(("^\\*.*\\*"
-  ;;       (display-buffer-reuse-window
-  ;;         display-buffer-in-side-window)
-  ;;       (side . bottom)
-  ;;       (window-parameters
-  ;;         (select . t)
-  ;;         (quit . t)
-  ;;         (popup . t)
-  ;;         (mode-line-format . none)
-  ;;         (no-other-window . t)
-  ;;         )
-  ;;       )))
+  (display-buffer-alist
+    '(("^\\*.*\\*"
+        (display-buffer-reuse-mode-window
+          display-buffer-below-selected)
+        (side . bottom)
+        (window-height . 0.3)
+        ;; (window-parameters
+        ;;   (select . t)
+        ;;   (quit . t)
+        ;;   (popup . t)
+        ;;   (mode-line-format . none)
+        ;;   (no-other-window . t)
+        ;;   )
+        )))
   
   ;; warnings.el
   (warning-minimum-log-level :error)

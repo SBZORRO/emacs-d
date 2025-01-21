@@ -4,6 +4,7 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(keymap-global-set "C-x 1" 'delete-window-counterclockwise)
 (keymap-global-set "M-c" 'compile)
 ;; (key-translate "C-v" "<control-v>")
 (keymap-global-set "M-<DEL>" 'my-backward-kill-same-syntax)
@@ -12,6 +13,15 @@
 (keymap-global-set "C-o" 'new-next-line)
 (keymap-global-set "C-a" 'my-go-ahead)
 (keymap-global-set "C-M-@" 'my-mark-sexp)
+
+(defun delete-window-counterclockwise()
+  (interactive)
+  (if (eq (delete-other-windows-vertically) nil)
+    (progn
+      (other-window 1)
+      (if (eq (delete-other-windows-vertically) nil)
+        (delete-window)
+        (other-window 1)))))
 
 (defun my-go-ahead ()
 	(interactive)
