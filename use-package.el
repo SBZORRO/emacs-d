@@ -58,9 +58,9 @@
   (whitespace-silent t t)
   (whitespace-style
     '(face
-       ;; indentation
-       indentation::space
-       indentation::tab
+       indentation
+       ;; indentation::space
+       ;; indentation::tab
        tabs
        ;; spaces
        space-after-tab
