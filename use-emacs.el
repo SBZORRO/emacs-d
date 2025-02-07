@@ -78,7 +78,7 @@
   (kill-whole-line t)
   (mark-ring-max 5000)
   (mode-require-final-newline t)
-  (completion-auto-select 'second-tab)            ; Much more eager
+  (completion-auto-select 'second-tab)
   
   ;; display-fill-column-indicator.el
   (global-display-fill-column-indicator-mode t)
@@ -140,18 +140,30 @@
   (frame-background-mode 'dark)
 
   ;; minibuffer.el
-  (completion-cycle-threshold 1)                  ; TAB cycles candidates
-  (completions-detailed t)                        ; Show annotations
-  ;; (completion-styles '(basic initials substring)) ; Different styles to match input to candidates
-  (completion-auto-help 'always)                  ; Open completion always; `lazy' another option
-  (completions-max-height 10)                     ; This is arbitrary
+  (completion-auto-help nil)
+  ;; (completion-cycle-threshold t)
+  (completions-detailed t)
+  ;; (completion-styles '(basic initials substring))
+  ;; (completions-max-height 10)
   ;; (completions-format 'horizontal)
   (completions-group t)
 
   ;; icomplete.el
   (icomplete-mode t)
-  ;; (icomplete-delay-completions-threshold 4000)
   ;; (icomplete-vertical-mode t)
+  (icomplete-delay-completions-threshold 0)
+  (icomplete-compute-delay 0)
+  (icomplete-show-matches-on-no-input t)
+  (icomplete-with-completion-tables t)
+  (icomplete-in-buffer nil)
+  (icomplete-max-delay-chars 0)
+  (icomplete-scroll t)
+  (icomplete-hide-common-prefix t)
+  (icomplete-matches-format nil)
+  ;; (bind-key "TAB" #'icomplete-force-complete icomplete-minibuffer-map)
+  ;; (bind-key "RET" #'icomplete-force-complete-and-exit icomplete-minibuffer-map)
+  ;; (advice-add 'completion-at-point
+  ;;             :after #'minibuffer-hide-completions)
 
   ;; winner.el
   (winner-mode t)
