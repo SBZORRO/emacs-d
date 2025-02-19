@@ -21,3 +21,5 @@
 ;; (add-to-list 'load-path (concat (file-name-directory load-file-name) "extra"))
 ;; (load-file (expand-file-name "extras/researcher.el" user-emacs-directory))
 (load-file (expand-file-name "defunk.el" (file-name-directory load-file-name)))
+
+(load-file custom-file)
