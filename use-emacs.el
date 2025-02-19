@@ -81,7 +81,7 @@
   (mark-ring-max 5000)
   (mode-require-final-newline t)
   (completion-auto-select 'second-tab)
-  
+
   ;; display-fill-column-indicator.el
   (global-display-fill-column-indicator-mode t)
   ;; display-line-numbers.el
@@ -96,7 +96,7 @@
   ;; Emacs 30 and newer: Disable Ispell completion function.
   ;; Try `cape-dict' as an alternative.
   (text-mode-ispell-word-completion nil)
-  
+
   ;; bytecomp.el
   (byte-compile-verbose nil)
 
@@ -132,7 +132,7 @@
         ;;   (no-other-window . t)
         ;;   )
         )))
-  
+
   ;; warnings.el
   (warning-minimum-log-level :error)
 

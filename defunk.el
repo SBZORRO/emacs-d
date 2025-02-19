@@ -15,6 +15,7 @@
 (keymap-global-set "C-M-@" 'my-mark-sexp)
 (keymap-global-set "M-p" 'my-prev-line-recenter)
 (keymap-global-set "M-n" 'my-next-line-recenter)
+(keymap-global-set "C-x f" 'indent-buffer)
 
 (defun delete-window-counterclockwise()
   (interactive)
@@ -57,6 +58,7 @@
 (defun indent-buffer ()
   "Indent the currently visited buffer."
   (interactive)
+  (whitespace-cleanup)
   (indent-region (point-min) (point-max)))
 
 (defun my-backward-kill-same-syntax (arg)

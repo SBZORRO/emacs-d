@@ -64,7 +64,8 @@
     `((python-mode python-ts-mode) . ("pylsp")))
 
   :bind
-  ("C-x f" . eglot-format)
+  (:map eglot-mode-map
+    ("C-x f" . eglot-format))
   )
 
 (use-package markdown-mode
