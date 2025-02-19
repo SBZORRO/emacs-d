@@ -34,17 +34,6 @@
 ;;   (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
 ;;   (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
 
-;; Optionally use the `orderless' completion style.
-(use-package orderless
-  :ensure t
-  :custom
-  ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
-  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
-
-
 ;; Part of corfu
 (use-package corfu-popupinfo
   :after corfu

@@ -15,7 +15,7 @@
 (load-file (expand-file-name "use-emacs.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-package.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-corfu.el" (file-name-directory load-file-name)))
-;; (load-file (expand-file-name "minibuffer.el" (file-name-directory load-file-name)))
+(load-file (expand-file-name "minibuffer.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "prog-proj.el" (file-name-directory load-file-name)))
 ;; (load-file (expand-file-name "helm.el" (file-name-directory load-file-name)))
 ;; (add-to-list 'load-path (concat (file-name-directory load-file-name) "extra"))
