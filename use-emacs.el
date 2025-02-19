@@ -12,7 +12,6 @@
   (undo-limit 800000)
   (user-full-name "SBZORRO")
   (visible-bell t)
-
   (menu-bar-mode nil)
   (tool-bar-mode nil)
   (fill-column 78)
@@ -32,12 +31,15 @@
   (inhibit-splash-screen t)
   (initial-buffer-choice t)
   (initial-major-mode 'fundamental-mode)
-  (initial-scratch-message "")
+  ;; (initial-scratch-message "")
   (user-mail-address "sbzorro@gmail.com")
+
+  ;; cus-edit.el
+  (custom-file "~/.emacs")
 
   ;; files.el
   (auto-save-file-name-transforms '((".*" "~/.local/share/emacs/autosaves/" t)))
-  (backup-directory-alist '(("." . "~/.local/share/emacs/backups")))
+  (backup-directory-alist '(("." . "~/.local/share/emacs/backups/")))
   (delete-old-versions t)
   (directory-abbrev-alist
     '(("\\`/org" . "~/org")))
@@ -150,7 +152,7 @@
 
   ;; icomplete.el
   (icomplete-mode t)
-  ;; (icomplete-vertical-mode t)
+  (icomplete-vertical-mode t)
   (icomplete-delay-completions-threshold 0)
   (icomplete-compute-delay 0)
   (icomplete-show-matches-on-no-input t)

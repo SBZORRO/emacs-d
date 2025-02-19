@@ -39,6 +39,25 @@
        "--header-insertion-decorators"
        "--query-driver=/usr/bin/**"))
   (add-to-list 'eglot-server-programs
+    '((java-mode java-ts-mode)
+       "java"
+       "-Declipse.application=org.eclipse.jdt.ls.core.id1"
+       "-Dosgi.bundles.defaultStartLevel=4"
+       "-Declipse.product=org.eclipse.jdt.ls.core.product"
+       "-Dlog.level=ALL"
+       "-Xmx1G"
+       "--add-modules=ALL-SYSTEM"
+       "--add-opens"
+       "java.base/java.util=ALL-UNNAMED"
+       "--add-opens"
+       "java.base/java.lang=ALL-UNNAMED"
+       "-jar"
+       "/home/SBZORRO/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar"
+       "-configuration"
+       "/home/SBZORRO/jdtls/config_linux"
+       "-data"
+       "/home/SBZORRO/jdtls-ws"))
+  (add-to-list 'eglot-server-programs
     `(vue-mode . ("vue-language-server" "--stdio"
                    :initializationOptions ,(vue-eglot-init-options))))
   (add-to-list 'eglot-server-programs

@@ -73,9 +73,9 @@
   (interactive "P\np")
   (if (and
         (not (memq (char-after) paren-list))
+        (not (memq (char-before) paren-list))
         (not (use-region-p)))
-    (forward-same-syntax (- 1))
-    )
+    (forward-same-syntax (- 1)))
   (mark-sexp arg allow-extend))
 
 (defun my-prev-line-recenter ()
