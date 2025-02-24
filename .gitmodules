@@ -11,3 +11,6 @@
 [submodule "site-lisp/yasnippet-snippets"]
 	path = site-lisp/yasnippet-snippets
 	url = git@github.com:AndreaCrotti/yasnippet-snippets.git
+[submodule "site-lisp/sideframe"]
+	path = site-lisp/sideframe
+	url = git@github.com:rougier/sideframe.git
