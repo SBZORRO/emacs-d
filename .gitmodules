@@ -2,3 +2,12 @@
 	path = emacs
 	url = git://git.sv.gnu.org/emacs.git
 	branch = master
+[submodule "site-lisp/org-roam"]
+	path = site-lisp/org-roam
+	url = git@github.com:org-roam/org-roam.git
+[submodule "site-lisp/sly"]
+	path = site-lisp/sly
+	url = git@github.com:joaotavora/sly.git
+[submodule "site-lisp/yasnippet-snippets"]
+	path = site-lisp/yasnippet-snippets
+	url = git@github.com:AndreaCrotti/yasnippet-snippets.git

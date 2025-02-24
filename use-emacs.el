@@ -133,6 +133,9 @@
         ;;   )
         )))
 
+  ;; help.el
+  ;; (help-window-keep-selected t)
+
   ;; warnings.el
   (warning-minimum-log-level :error)
 
