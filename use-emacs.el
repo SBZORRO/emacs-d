@@ -72,6 +72,7 @@
   (mail-user-agent 'gnus-user-agent)
   (next-line-add-newlines nil)
   (save-interprogram-paste-before-kill t)
+  (blink-matching-paren-highlight-offscreen t)
 
   (column-number-mode t)
   (line-number-mode t)
@@ -108,6 +109,7 @@
 
   ;; paren.el
   (show-paren-delay 0)
+  (show-paren-context-when-offscreen t)
 
   ;; window.el
   ;;   (same-window-buffer-names
