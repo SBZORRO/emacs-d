@@ -14,3 +14,6 @@
 [submodule "site-lisp/sideframe"]
 	path = site-lisp/sideframe
 	url = git@github.com:rougier/sideframe.git
+[submodule "site-lisp/oboe.el"]
+	path = site-lisp/oboe.el
+	url = git@github.com:gynamics/oboe.el.git
