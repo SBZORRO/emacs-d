@@ -14,6 +14,8 @@
   ;; :hook ((prog-mode . corfu-mode)
   ;;        (shell-mode . corfu-mode)
   ;;        (eshell-mode . corfu-mode))
+  :bind
+  (("C-TAB" . #'corfu-expand))
 
   ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
   ;; be used globally (M-/).  See also the customization variable
@@ -44,8 +46,19 @@
   :config
   (corfu-popupinfo-mode))
 
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :ensure t
+  :custom
+  ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
 ;; Add extensions
 (use-package cape
+  :ensure t
   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
   ;; Press C-c p ? to for help.
   :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
