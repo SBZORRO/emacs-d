@@ -1,6 +1,7 @@
 (require 'package)
 
 ;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'load-path (expand-file-name "site-lisp/vertico/" (file-name-directory load-file-name)))
 
 (package-initialize)
 
@@ -14,9 +15,9 @@
 
 (load-file (expand-file-name "use-emacs.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-package.el" (file-name-directory load-file-name)))
+(load-file (expand-file-name "use-vertico.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-corfu.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-consult.el" (file-name-directory load-file-name)))
-(load-file (expand-file-name "use-vertico.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "prog-proj.el" (file-name-directory load-file-name)))
 ;; (load-file (expand-file-name "helm.el" (file-name-directory load-file-name)))
 ;; (add-to-list 'load-path (concat (file-name-directory load-file-name) "extra"))

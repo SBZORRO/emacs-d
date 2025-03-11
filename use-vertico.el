@@ -1,9 +1,9 @@
 ;; Enable vertico
 (use-package vertico-mode
   :ensure t
-  :bind
-  (:map vertico-map
-    ("TAB" . #'minibuffer-complete))
+  ;; :bind
+  ;; (:map vertico-map
+  ;;   ("TAB" . #'minibuffer-complete))
   :init
   (vertico-mode))
 

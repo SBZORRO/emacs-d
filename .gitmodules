@@ -17,18 +17,24 @@
 [submodule "site-lisp/oboe.el"]
 	path = site-lisp/oboe.el
 	url = git@github.com:gynamics/oboe.el.git
-[submodule "site-lisp/minad/vertico"]
-	path = site-lisp/minad/vertico
+[submodule "site-lisp/vertico"]
+	path = site-lisp/vertico
 	url = git@github.com:minad/vertico.git
-[submodule "site-lisp/minad/marginalia"]
-	path = site-lisp/minad/marginalia
+[submodule "site-lisp/marginalia"]
+	path = site-lisp/marginalia
 	url = git@github.com:minad/marginalia.git
-[submodule "site-lisp/minad/consult"]
-	path = site-lisp/minad/consult
+[submodule "site-lisp/consult"]
+	path = site-lisp/consult
 	url = git@github.com:minad/consult.git
-[submodule "site-lisp/minad/corfu"]
-	path = site-lisp/minad/corfu
+[submodule "site-lisp/corfu"]
+	path = site-lisp/corfu
 	url = git@github.com:minad/corfu.git
-[submodule "site-lisp/minad/cape"]
-	path = site-lisp/minad/cape
+[submodule "site-lisp/cape"]
+	path = site-lisp/cape
 	url = git@github.com:minad/cape.git
+[submodule "site-lisp/mini-popup"]
+	path = site-lisp/mini-popup
+	url = git@github.com:minad/mini-popup.git
+[submodule "site-lisp/yasnippet"]
+	path = site-lisp/yasnippet
+	url = git@github.com:joaotavora/yasnippet.git

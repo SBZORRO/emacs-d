@@ -307,3 +307,15 @@
   (hl-line ((t (:background "grey11"))))
   :config
   (global-hl-line-mode +1))
+
+;;; Persist history
+(use-package savehist
+  :init
+  (savehist-mode))
+
+(use-package eldoc
+  :diminish
+  :hook (prog-mode . eldoc-mode)
+  :custom
+  (eldoc-echo-area-use-multiline-p 3)
+  (eldoc-echo-area-display-truncation-message nil))
