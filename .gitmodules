@@ -17,3 +17,18 @@
 [submodule "site-lisp/oboe.el"]
 	path = site-lisp/oboe.el
 	url = git@github.com:gynamics/oboe.el.git
+[submodule "site-lisp/minad/vertico"]
+	path = site-lisp/minad/vertico
+	url = git@github.com:minad/vertico.git
+[submodule "site-lisp/minad/marginalia"]
+	path = site-lisp/minad/marginalia
+	url = git@github.com:minad/marginalia.git
+[submodule "site-lisp/minad/consult"]
+	path = site-lisp/minad/consult
+	url = git@github.com:minad/consult.git
+[submodule "site-lisp/minad/corfu"]
+	path = site-lisp/minad/corfu
+	url = git@github.com:minad/corfu.git
+[submodule "site-lisp/minad/cape"]
+	path = site-lisp/minad/cape
+	url = git@github.com:minad/cape.git
