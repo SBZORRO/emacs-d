@@ -316,25 +316,37 @@
   "Create a floating text area like Office using a child frame."
   (let* ((frame
            (make-frame
-             (append
-               alist
-               `(
-                  (parent-frame . ,(selected-frame))
-                  (width . 50)
-                  (height . 10)
-                  (minibuffer . nil)
-                  (undecorated . t)
-                  (no-accept-focus . nil)
-                  (border-width . 2)
-                  (internal-border-width . 10)
-                  ;; (top . ,(line-number-at-pos))
-                  ;; (left . ,(current-column))
-                  ))
+             ;; (append
+             ;;   alist
+             `((parent-frame . ,(selected-frame))
+                (width . 10)
+                (height . 10)
+                (minibuffer . nil)
+                (undecorated . t)
+                (no-accept-focus . nil)
+                (border-width . 2)
+                (internal-border-width . 10)
+                ;; (top . ,(with-selected-window (car (window-list))
+                ;;           (line-number-at-pos (window-point (car (window-list)) ))
+                ;;           ))
+                ;; (left . ,(current-column))
+                )
+             ;; )
              )))
     ;; (setq my-text-box-frame frame)
+    (print (with-selected-window (car (window-list))
+             (line-number-at-pos (window-point (car (window-list)) ))
+             ))
+    (set-frame-parameter frame 'top (with-selected-window (car (window-list))
+                                      (line-number-at-pos (window-point (car (window-list)) ))
+                                      ))
+    ;; (message  (window-point (car )))
     (select-frame-set-input-focus frame)
     (set-window-buffer (frame-root-window frame) buffer)
     ))
+
+(global-set-key (kbd "C-c t") 'eldoc)
+
 ;; window.el
 ;;   (same-window-buffer-names
 ;;  '("*eshell*"
@@ -345,17 +357,17 @@
 ;;    "*scheme*"))
 
 
-(display-buffer-alist
-  '(("^\\*.*\\*"
-      (display-buffer-reuse-mode-window
-        display-buffer-below-selected)
-      (side . bottom)
-      (window-height . 0.3)
-      ;; (window-parameters
-      ;;   (select . t)
-      ;;   (quit . t)
-      ;;   (popup . t)
-      ;;   (mode-line-format . none)
-      ;;   (no-other-window . t)
-      ;;   )
-      )))
+;; (display-buffer-alist
+;;   '(("^\\*.*\\*"
+;;       (display-buffer-reuse-mode-window
+;;         display-buffer-below-selected)
+;;       (side . bottom)
+;;       (window-height . 0.3)
+;;       ;; (window-parameters
+;;       ;;   (select . t)
+;;       ;;   (quit . t)
+;;       ;;   (popup . t)
+;;       ;;   (mode-line-format . none)
+;;       ;;   (no-other-window . t)
+;;       ;;   )
+;;       )))
