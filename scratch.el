@@ -77,3 +77,10 @@
 ;;   (select-frame-set-input-focus frame)
 ;;   (set-window-buffer (frame-root-window frame) buf)
 ;;   )
+;; (with-current-buffer buf
+;;   (erase-buffer)
+;;   (insert "Type here... (C-g to close)")
+;;   (local-set-key (kbd "C-g")
+;;     (lambda ()
+;;       (interactive)
+;;       (delete-frame frame))))
