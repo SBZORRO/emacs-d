@@ -117,6 +117,8 @@
   ;; warnings.el
   (warning-minimum-log-level :error)
 
+  ;; compile.el
+  (compilation-scroll-output t)
   ;; frame.el
   (window-divider-default-bottom-width 1)
   (window-divider-default-places 'bottom-only)
