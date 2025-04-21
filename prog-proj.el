@@ -40,7 +40,7 @@
        "--query-driver=/usr/bin/**"))
   (add-to-list 'eglot-server-programs
     '((java-mode java-ts-mode)
-       "java"
+       "/home/SBZORRO/jdk-22.0.2+9/bin/java"
        "-Declipse.application=org.eclipse.jdt.ls.core.id1"
        "-Dosgi.bundles.defaultStartLevel=4"
        "-Declipse.product=org.eclipse.jdt.ls.core.product"
@@ -52,7 +52,7 @@
        "--add-opens"
        "java.base/java.lang=ALL-UNNAMED"
        "-jar"
-       "/home/SBZORRO/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar"
+       "/home/SBZORRO/jdtls/plugins/org.eclipse.equinox.launcher_1.7.0.v20250331-1702.jar"
        "-configuration"
        "/home/SBZORRO/jdtls/config_linux"
        "-data"

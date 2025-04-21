@@ -84,3 +84,75 @@
 ;;     (lambda ()
 ;;       (interactive)
 ;;       (delete-frame frame))))
+
+
+;; (use-package window
+;;   :custom
+;;   (switch-to-buffer-preserve-window-point t)
+;;   (display-buffer-alist
+;;     `(("^\\*.*\\*"
+;;         (my-create-text-area)
+;;         ;; (window-parameters
+;;         ;;   (select . t)
+;;         ;;   (quit . t)
+;;         ;;   (popup . t)
+;;         ;;   (mode-line-format . none)
+;;         ;;   (no-other-window . t)
+;;         ;;   )
+;;         )))
+;;   )
+
+;; (defun my-create-text-area ()
+;;   "Create a floating text area like Office using a child frame."
+;;   (interactive)
+;;   (let* ((frame
+;;            (make-frame
+;;              ;; (append
+;;              ;;   alist
+;;              `((parent-frame . ,(selected-frame))
+;;                 (width . 50)
+;;                 (height . 10)
+;;                 (minibuffer . nil)
+;;                 (undecorated . t)
+;;                 (no-accept-focus . nil)
+;;                 (border-width . 2)
+;;                 (internal-border-width . 10)
+;;                 (top . ,(cdr (nth 2 (posn-at-point))))
+;;                 (left . ,(car (nth 2 (posn-at-point))))
+;;                 )
+;;              ;; )
+;;              )))
+;;     (select-frame-set-input-focus frame)
+;;     (local-set-key (kbd "C-g")
+;;       (lambda ()
+;;         (interactive)
+;;         (delete-frame frame)))
+;;     ;; (setq my-text-box-frame frame)
+;;     ;; (print (with-selected-window (car (window-list))
+;;     ;;          (line-number-at-pos (window-point (car (window-list)) ))
+;;     ;;          ))
+;;     ;; (print (posn-at-point nil (car (window-list))))
+;;     ;; (print (posn-at-point))
+;;     ;; (set-frame-parameter frame 'top
+;;     ;;   (cdr (nth 2 (posn-at-point nil (car (window-list))))))
+;;     ;; (set-frame-parameter frame 'top (with-selected-window (car (window-list))
+;;     ;;                                   (line-number-at-pos (window-point (car (window-list)) ))
+;;     ;;                                   ))
+;;     ;; (message  (window-point (car )))
+;;     ;; (set-window-buffer (frame-root-window frame) buffer)
+;;     ))
+
+(global-set-key (kbd "C-c t") 'eldoc)
+(line-number-at-pos)
+(count-screen-lines)
+(window-start)
+
+
+;; window.el
+;;   (same-window-buffer-names
+;;  '("*eshell*"
+;;    "*shell*"
+;;    "*mail*"
+;;    "*inferior-lisp*"
+;;    "*ielm*"
+;;    "*scheme*"))
