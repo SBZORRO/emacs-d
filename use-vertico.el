@@ -1,5 +1,5 @@
 ;; Enable vertico
-(use-package vertico-mode
+(use-package vertico
   :ensure t
   ;; :bind
   ;; (:map vertico-map
