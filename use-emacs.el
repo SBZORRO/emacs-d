@@ -55,6 +55,7 @@
        (elisp-mode . elisp-ts-mode)
        (html-mode . html-ts-mode)
        (javascript-mode . javascript-ts-mode)
+       (java-mode . java-ts-mode)
        (make-mode . cmake-ts-mode)
        (markdown-mode . markdown-ts-mode)
        (rust-mode . rust-ts-mode)
@@ -119,6 +120,8 @@
 
   ;; compile.el
   (compilation-scroll-output t)
+  (compile-command "")
+
   ;; frame.el
   (window-divider-default-bottom-width 1)
   (window-divider-default-places 'bottom-only)

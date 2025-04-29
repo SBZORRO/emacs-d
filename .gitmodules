@@ -38,3 +38,6 @@
 [submodule "site-lisp/yasnippet"]
 	path = site-lisp/yasnippet
 	url = git@github.com:joaotavora/yasnippet.git
+[submodule "site-lisp/eglot-java"]
+	path = site-lisp/eglot-java
+	url = git@github.com:yveszoundi/eglot-java.git
