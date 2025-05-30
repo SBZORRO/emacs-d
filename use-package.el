@@ -15,8 +15,7 @@
   :custom
   ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
   ;; (orderless-component-separator #'orderless-escapable-split-on-space)
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
+  (completion-styles '(orderless))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package yasnippet

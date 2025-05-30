@@ -38,3 +38,6 @@
 [submodule "site-lisp/yasnippet"]
 	path = site-lisp/yasnippet
 	url = git@github.com:joaotavora/yasnippet.git
+[submodule "site-lisp/treemacs"]
+	path = site-lisp/treemacs
+	url = git@github.com:Alexander-Miller/treemacs.git
