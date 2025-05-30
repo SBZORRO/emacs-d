@@ -41,3 +41,6 @@
 [submodule "site-lisp/treemacs"]
 	path = site-lisp/treemacs
 	url = git@github.com:Alexander-Miller/treemacs.git
+[submodule "site-lisp/eglot-java"]
+	path = site-lisp/eglot-java
+	url = git@github.com:yveszoundi/eglot-java.git

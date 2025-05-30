@@ -1,13 +1,12 @@
 (require 'package)
 
-;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;; (add-to-list 'load-path (expand-file-name "site-lisp/vertico/" (file-name-directory load-file-name)))
-;; (add-to-list 'load-path (expand-file-name "site-lisp/yasnippet/" (file-name-directory load-file-name)))
+(dolist
+  (item (file-expand-wildcards
+          (expand-file-name "site-lisp/*"
+            (file-name-directory load-file-name))))
+  (add-to-list 'load-path item))
 
 (package-initialize)
-
-;; (require 'vertico)
-;; (require 'yasnippet)
 
 ;; (package-refresh-contents)
 
