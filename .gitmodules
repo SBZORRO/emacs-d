@@ -44,3 +44,6 @@
 [submodule "site-lisp/eglot-java"]
 	path = site-lisp/eglot-java
 	url = git@github.com:yveszoundi/eglot-java.git
+[submodule "site-lisp/uniline"]
+	path = site-lisp/uniline
+	url = git@github.com:tbanel/uniline.git
