@@ -16,6 +16,8 @@
 (keymap-global-set "M-p" 'my-prev-line-recenter)
 (keymap-global-set "M-n" 'my-next-line-recenter)
 (keymap-global-set "C-x f" 'indent-buffer)
+(keymap-global-set "C-x <" 'scroll-left-3)
+(keymap-global-set "C-x >" 'scroll-right-3)
 
 (defun delete-window-counterclockwise()
   (interactive)
@@ -107,3 +109,9 @@
     (setq clipboard (substring clipboard 0 -1)) ; Remove newline added by Powershell
     (insert clipboard)))
 
+(defun scroll-left-3 (&optional arg set-minimum)
+  (interactive "^P\np")
+  (scroll-left 3))
+(defun scroll-right-3 (&optional arg set-minimum)
+  (interactive "^P\np")
+  (scroll-right 3))
