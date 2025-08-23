@@ -23,6 +23,7 @@
 (load-file (expand-file-name "use-consult.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-dape.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "prog-proj.el" (file-name-directory load-file-name)))
+(load-file (expand-file-name "use-eglot.el" (file-name-directory load-file-name)))
 ;; (load-file (expand-file-name "helm.el" (file-name-directory load-file-name)))
 ;; (add-to-list 'load-path (concat (file-name-directory load-file-name) "extra"))
 ;; (load-file (expand-file-name "extras/researcher.el" user-emacs-directory))
