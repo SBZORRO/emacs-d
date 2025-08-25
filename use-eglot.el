@@ -23,20 +23,20 @@
        "--header-insertion=iwyu"
        "--header-insertion-decorators"
        "--query-driver=/usr/bin/**"))
-  (add-to-list 'eglot-server-programs
-    '((java-mode java-ts-mode)
-       "/home/sbzorro/jdk-21.0.5+11/bin/java "
-       "-Declipse.application=org.eclipse.jdt.ls.core.id1 "
-       "-Dosgi.bundles.defaultStartLevel=4 "
-       "-Declipse.product=org.eclipse.jdt.ls.core.product "
-       "-Dlog.level=ALL "
-       "-Xmx1G "
-       "--add-modules=ALL-SYSTEM "
-       "--add-opens java.base/java.util=ALL-UNNAMED "
-       "--add-opens java.base/java.lang=ALL-UNNAMED "
-       "-jar /home/sbzorro/jdtls/plugins/org.eclipse.equinox.launcher_1.7.0.v20250519-0528.jar "
-       "-configuration /home/sbzorro/jdtls/config_linux "
-       "-data /home/sbzorro/jdtls-ws/ "))
+  ;; (add-to-list 'eglot-server-programs
+  ;;   '((java-mode java-ts-mode)
+  ;;      "java"
+  ;;      "-Declipse.application=org.eclipse.jdt.ls.core.id1"
+  ;;      "-Dosgi.bundles.defaultStartLevel=4"
+  ;;      "-Declipse.product=org.eclipse.jdt.ls.core.product"
+  ;;      "-Dlog.level=ALL"
+  ;;      ;; "-Xmx1G "
+  ;;      "--add-modules=ALL-SYSTEM"
+  ;;      "--add-opens" "java.base/java.util=ALL-UNNAMED"
+  ;;      "--add-opens" "java.base/java.lang=ALL-UNNAMED"
+  ;;      "-jar" "/home/sbzorro/jdtls/plugins/org.eclipse.equinox.launcher_1.7.0.v20250519-0528.jar"
+  ;;      "-configuration" "/home/sbzorro/jdtls/config_linux"
+  ;;      "-data" "/home/sbzorro/jdtls-ws"))
   (add-to-list 'eglot-server-programs
     `(vue-mode . ("vue-language-server" "--stdio"
                    :initializationOptions ,(vue-eglot-init-options))))
@@ -67,10 +67,10 @@
 ;;      (:contentProvider (:preferred "fernflower"))))
 
 ;; site-lisp/eglot-java/
-;; (use-package eglot-java
-;;   :ensure nil
-;;   :hook (java-ts-mode . eglot-java-mode)
-;;   )
+(use-package eglot-java
+  :ensure nil
+  :hook (java-ts-mode . eglot-java-mode)
+  )
 
 ;; Vue-mode setup
 (define-derived-mode vue-mode web-mode "Vue")
