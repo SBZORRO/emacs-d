@@ -47,3 +47,6 @@
 [submodule "site-lisp/uniline"]
 	path = site-lisp/uniline
 	url = git@github.com:tbanel/uniline.git
+[submodule "site-lisp/app-launcher"]
+	path = site-lisp/app-launcher
+	url = git@github.com:SebastienWae/app-launcher.git
