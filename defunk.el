@@ -115,3 +115,11 @@
 (defun scroll-right-3 (&optional arg set-minimum)
   (interactive "^P\np")
   (scroll-right 3))
+
+(defun numbers-to-lines (beg end)
+  "num seq to lines"
+  (interactive "r")
+  (save-excursion
+    (let ((text (buffer-substring beg end)))
+      (delete-region beg end)
+      (insert (replace-regexp-in-string "\\s-+" "\n" text)))))
