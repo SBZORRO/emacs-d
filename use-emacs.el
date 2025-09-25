@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package emacs
   ;; :bind* ("<C-return>" . other-window)
   :custom

@@ -47,3 +47,7 @@
   ;; :config
   ;; (yas-load-directory (emacs-path "snippets"))
   )
+
+(use-package gnuplot
+  :ensure t
+  :mode ("\\.gp\\'" . gnuplot-mode))

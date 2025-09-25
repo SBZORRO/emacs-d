@@ -42,7 +42,11 @@
                    :initializationOptions ,(vue-eglot-init-options))))
   (add-to-list 'eglot-server-programs
     `((python-mode python-ts-mode) . ("pylsp")))
-
+  ;; (add-to-list 'eglot-server-programs
+  ;;   '((java-ts-mode) .
+  ;;      ("jdtls"
+  ;;        :initializationOptions
+  ;;        (:bundles ["/home/sbzorro/.m2/repository/com/microsoft/java/com.microsoft.java.debug.plugin/0.53.2/com.microsoft.java.debug.plugin-0.53.2.jar"]))))
   :bind
   (:map eglot-mode-map
     ("C-x f" . eglot-format))

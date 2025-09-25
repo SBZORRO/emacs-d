@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   keybinding/self defined function
@@ -73,13 +75,19 @@
 
 
 (defvar paren-list '(40 123 91))        ; ( { [
+(defvar space-list '(?\s ?\t))
 (defun my-mark-sexp (&optional arg allow-extend)
   (interactive "P\np")
-  (if (and
-        (not (memq (char-after) paren-list))
-        (not (memq (char-before) paren-list))
-        (not (use-region-p)))
-    (forward-same-syntax (- 1)))
+  (cond
+    ((and
+       (not (memq (char-after) paren-list))
+       (not (memq (char-before) paren-list))
+       (not (memq (char-after) space-list))
+       (not (use-region-p)))
+      (forward-same-syntax (- 1)))
+    ((memq (char-after) space-list)
+      (forward-same-syntax 1))
+    )
   (mark-sexp arg allow-extend))
 
 (defun my-prev-line-recenter ()
