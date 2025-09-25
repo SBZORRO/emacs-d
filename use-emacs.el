@@ -186,36 +186,17 @@
   (add-hook 'text-mode-hook 'visual-line-mode)
   (add-hook 'prog-mode-hook 'hs-minor-mode)
 
-  ;; treesit.el
-  (setopt treesit-language-source-alist
-    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-       (cmake "https://github.com/uyha/tree-sitter-cmake")
-       (c "https://github.com/tree-sitter/tree-sitter-c")
-       (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-       (css "https://github.com/tree-sitter/tree-sitter-css")
-       (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-       (html "https://github.com/tree-sitter/tree-sitter-html")
-       (java "https://github.com/tree-sitter/tree-sitter-java")
-       (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-       (json "https://github.com/tree-sitter/tree-sitter-json")
-       (make "https://github.com/alemuller/tree-sitter-make")
-       (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-       (python "https://github.com/tree-sitter/tree-sitter-python")
-       (rust "https://github.com/tree-sitter/tree-sitter-rust")
-       (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-       (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-       (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-       (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-
-       ;; (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-       ;; (go "https://github.com/tree-sitter/tree-sitter-go")
-       ;; (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-       ;; (julia "https://github.com/tree-sitter/tree-sitter-julia")
-       ;; (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-       ;; (scala "https://github.com/tree-sitter/tree-sitter-scala")
-       ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
-       ))
-  )
+  ;; hyprland wl-clipboard
+  (setq interprogram-cut-function
+    (lambda (text)
+      (let* ((process-connection-type nil)
+              (proc (start-process "wl-copy" nil "wl-copy" "-n")))
+        (process-send-string proc text)
+        (process-send-eof proc))))
+  (setq interprogram-paste-function
+    (lambda ()
+      (shell-command-to-string "wl-paste -n")))
+  ) ;; end use-package emacs
 
 ;;
 ;;; build-in packages
@@ -323,4 +304,33 @@
         )))
   )
 
+(use-package treesit
+  :config
+  (setopt treesit-language-source-alist
+    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+       (cmake "https://github.com/uyha/tree-sitter-cmake")
+       (c "https://github.com/tree-sitter/tree-sitter-c")
+       (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+       (css "https://github.com/tree-sitter/tree-sitter-css")
+       (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+       (html "https://github.com/tree-sitter/tree-sitter-html")
+       (java "https://github.com/tree-sitter/tree-sitter-java")
+       (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+       (json "https://github.com/tree-sitter/tree-sitter-json")
+       (make "https://github.com/alemuller/tree-sitter-make")
+       (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+       (python "https://github.com/tree-sitter/tree-sitter-python")
+       (rust "https://github.com/tree-sitter/tree-sitter-rust")
+       (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+       (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+       (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+       (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
 
+       ;; (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+       ;; (go "https://github.com/tree-sitter/tree-sitter-go")
+       ;; (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+       ;; (julia "https://github.com/tree-sitter/tree-sitter-julia")
+       ;; (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+       ;; (scala "https://github.com/tree-sitter/tree-sitter-scala")
+       ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
+       )))
