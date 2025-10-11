@@ -1,6 +1,7 @@
 ;; Enable vertico
 (use-package vertico
   :ensure t
+  :load-path "site-lisp"
   ;; :bind
   ;; (:map vertico-map
   ;;   ("TAB" . #'minibuffer-complete))
@@ -15,5 +16,6 @@
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
   :ensure t
+  :load-path "site-lisp"
   :init
   (marginalia-mode))

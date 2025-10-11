@@ -17,9 +17,12 @@
 
 (require 'use-package)
 (setq use-package-verbose t)
+(use-package diminish
+  :ensure t)
 
 (load-file (expand-file-name "use-emacs.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-package.el" (file-name-directory load-file-name)))
+(load-file (expand-file-name "use-app.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-vertico.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-corfu.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-consult.el" (file-name-directory load-file-name)))

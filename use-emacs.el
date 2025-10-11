@@ -224,6 +224,7 @@
   (setq dired-dwim-target t))
 
 (use-package abbrev
+  :diminish
   :config
   (setq save-abbrevs 'silently)
   (setq-default abbrev-mode t))
@@ -231,10 +232,12 @@
 ;; which-key: shows a popup of available keybindings when typing a long key
 ;; sequence (e.g. C-x ...)
 (use-package which-key
+  :diminish
   :config
   (which-key-mode +1))
 
 (use-package whitespace
+  :diminish
   :custom
   (whitespace-line-column 78)
   (whitespace-style
@@ -334,3 +337,10 @@
        ;; (scala "https://github.com/tree-sitter/tree-sitter-scala")
        ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
        )))
+
+(use-package hideshow
+  :diminish 'hs-minor-mode)
+(use-package isearch
+  :diminish)
+(use-package autorevert
+  :diminish 'auto-revert-mode)

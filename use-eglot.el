@@ -73,6 +73,7 @@
 ;; site-lisp/eglot-java/
 (use-package eglot-java
   :ensure nil
+  :load-path "site-lisp"
   :hook (java-ts-mode . eglot-java-mode)
   )
 
