@@ -19,7 +19,7 @@
                      (width . 80)
                      (height . 11)))
       (unwind-protect
-        (app-launcher-list-apps)
+        (app-launcher-run-app)
         (delete-frame))
       ))
 
