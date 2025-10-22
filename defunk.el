@@ -83,6 +83,7 @@
        (not (memq (char-after) paren-list))
        (not (memq (char-before) paren-list))
        (not (memq (char-after) space-list))
+       (not (memq (char-before) space-list))
        (not (use-region-p)))
       (forward-same-syntax (- 1)))
     ((memq (char-after) space-list)
