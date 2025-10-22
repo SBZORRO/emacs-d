@@ -56,3 +56,6 @@
 [submodule "site-lisp/doom-modeline"]
 	path = site-lisp/doom-modeline
 	url = git@github.com:seagle0128/doom-modeline.git
+[submodule "site-lisp/tempel"]
+	path = site-lisp/tempel
+	url = git@github.com:minad/tempel.git
