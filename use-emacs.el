@@ -338,6 +338,8 @@
        ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
        )))
 
+(add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-ts-mode))
+
 (use-package hideshow
   :diminish 'hs-minor-mode)
 (use-package isearch

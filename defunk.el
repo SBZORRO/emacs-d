@@ -74,8 +74,8 @@
   (kill-region (point) (progn (forward-same-syntax arg) (point))))
 
 
-(defvar paren-list '(40 41 123 125 91 93))        ; () {} []
-(defvar space-list '(?\s ?\t))
+(defvar paren-list '(34 40 41 123 125 91 93)) ; " () {} []
+(defvar space-list '(?\s ?\t ?\n ?\r ?\f))
 (defun my-mark-sexp (&optional arg allow-extend)
   (interactive "P\np")
   (cond
