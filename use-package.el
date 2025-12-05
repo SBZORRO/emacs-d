@@ -78,3 +78,13 @@
 ;;   (add-hook 'messages-buffer-mode-hook #'nano-modeline-message-mode)
 ;;   (add-hook 'org-capture-mode-hook     #'nano-modeline-org-capture-mode)
 ;;   (add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode))
+
+;; (use-package reader
+;;   :vc t
+;;   :load-path  "site-lisp/emacs-reader/"
+;;   )
+
+(use-package reader
+  :vc (
+        :url "https://codeberg.org/divyaranjan/emacs-reader"
+        :make "all"))

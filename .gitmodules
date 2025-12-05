@@ -59,3 +59,9 @@
 [submodule "site-lisp/tempel"]
 	path = site-lisp/tempel
 	url = git@github.com:minad/tempel.git
+[submodule "site-lisp/emacs-reader"]
+	path = site-lisp/emacs-reader
+	url = https://codeberg.org/divyaranjan/emacs-reader.git
+[submodule "site-lisp/dape"]
+	path = site-lisp/dape
+	url = git@github.com:svaante/dape.git

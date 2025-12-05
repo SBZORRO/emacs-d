@@ -36,9 +36,25 @@
 
   ;; Projectile users
   ;; (setq dape-cwd-function 'projectile-project-root)
+
+  (with-eval-after-load 'dape
+    (add-to-list
+      'dape-configs
+      '(gdb-sudo
+         modes (c-mode c-ts-mode c++-mode c++-ts-mode hare-mode hare-ts-mode)
+         command-cwd dape-command-cwd
+         command "sudo"
+         command-args ("gdb" "--interpreter=dap")
+         :request "launch"
+         :program "a.out"
+         :args []
+         :stopAtBeginningOfMainSubprogram nil))
+    )
   )
 
 ;; Enable repeat mode for more ergonomic `dape' use
 (use-package repeat
   :config
   (repeat-mode))
+
+

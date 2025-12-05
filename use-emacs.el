@@ -346,3 +346,8 @@
   :diminish)
 (use-package autorevert
   :diminish 'auto-revert-mode)
+
+(use-package package-vc
+  :custom
+  (package-vc-allow-build-commands t))
+
