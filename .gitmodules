@@ -65,3 +65,6 @@
 [submodule "site-lisp/dape"]
 	path = site-lisp/dape
 	url = git@github.com:svaante/dape.git
+[submodule "site-lisp/xdg-launcher"]
+	path = site-lisp/xdg-launcher
+	url = git@github.com:emacs-exwm/xdg-launcher.git
