@@ -85,6 +85,9 @@
 ;;   )
 
 (use-package reader
-  :vc (
-        :url "https://codeberg.org/divyaranjan/emacs-reader"
+  :vc (:url "https://codeberg.org/divyaranjan/emacs-reader"
         :make "all"))
+
+(use-package xdg-launcher
+  :load-path (lambda () (expand-file-name "site-lisp/xdg-launcher" (file-name-directory load-file-name))))
+

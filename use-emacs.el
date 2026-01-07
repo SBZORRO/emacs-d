@@ -7,11 +7,10 @@
   (auto-hscroll-mode 'current-line)
   (auto-save-interval 64)
   (auto-save-timeout 2)
-  (history-delete-duplicates t)
-  (history-length 200)
+  (history-length 2000)
   (load-prefer-newer t)
   (message-log-max 16384)
-  (undo-limit 800000)
+  (undo-limit 1000000000)
   (user-full-name "SBZORRO")
   (visible-bell t)
   (menu-bar-mode nil)
@@ -291,8 +290,10 @@
 (use-package window
   :custom
   (switch-to-buffer-preserve-window-point t)
+  (window-sides-vertical t)
   (display-buffer-alist
-    `(("^\\*.*\\*"
+    `(("\\*\\(Help\\|compilation\\)\\*"
+        ;; "^\\*.*\\*"
         (display-buffer-reuse-mode-window
           display-buffer-below-selected)
         (side . bottom)

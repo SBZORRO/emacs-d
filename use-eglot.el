@@ -7,6 +7,7 @@
   ((vue-mode) . eglot-ensure)
   :custom
   (eglot-send-changes-idle-time 0.1)
+  (eglot-extend-to-xref t)
   :config
   ;; (fset #'jsonrpc--log-event #'ignore)
   ;; (setq eglot-report-perogress nil)
@@ -14,6 +15,7 @@
   (add-to-list 'eglot-server-programs
     '((c-ts-mode c++-ts-mode c++-mode c-mode cc-mode)
        "clangd"
+       "--log=error"
        "-j=2"
        "--malloc-trim"
        "--pch-storage=memory"
