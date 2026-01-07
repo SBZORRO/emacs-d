@@ -1,5 +1,4 @@
 (use-package org
-  :ensure nil
   :mode ("\\.org\\'" . org-mode)
   :hook ((org-mode . visual-line-mode)
           (org-mode . my/org-prettify-symbols))
@@ -273,7 +272,6 @@ Optional for Org-mode file: `LINK'."
 
 
 (use-package org-modern
-  :ensure t
   :hook (after-init . (lambda ()
                         (setq org-modern-hide-stars 'leading)
                         (global-org-modern-mode t)))
@@ -307,7 +305,6 @@ Optional for Org-mode file: `LINK'."
   )
 
 (use-package org-agenda
-  :ensure nil
   :hook (org-agenda-finalize . org-agenda-to-appt)
   :bind (("\e\e a" . org-agenda)
           :map org-agenda-mode-map
@@ -482,7 +479,6 @@ Optional for Org-mode file: `LINK'."
   )
 
 (use-package org-capture
-  :ensure nil
   :bind ("\e\e c" . (lambda () (interactive) (org-capture)))
   :hook ((org-capture-mode . (lambda ()
                                (setq-local org-complete-tags-always-offer-all-agenda-tags t)))
@@ -515,7 +511,6 @@ Optional for Org-mode file: `LINK'."
   )
 
 (use-package denote
-  :ensure t
   :hook (dired-mode . denote-dired-mode-in-directories)
   :bind (("C-c d n" . denote)
           ("C-c d d" . denote-date)

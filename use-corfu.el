@@ -1,6 +1,10 @@
+(dolist
+  (item (file-expand-wildcards (expand-file-name "site-lisp/corfu/*" (file-name-directory load-file-name))))
+  (add-to-list 'load-path item))
+
 (use-package corfu
-  :ensure t
-  :load-path "corfu"
+  :load-path ("corfu" "corfu/extensions")
+  :demand t
   ;; Optional customizations
   :custom
   (corfu-auto t)          ;; Enable auto completion
@@ -21,8 +25,16 @@
   ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
   ;; be used globally (M-/).  See also the customization variable
   ;; `global-corfu-modes' to exclude certain modes.
-  :init
+  :config
   (global-corfu-mode))
+
+;; Part of corfu
+(use-package corfu-popupinfo
+  :after corfu
+  :hook (corfu-mode . corfu-popupinfo-mode)
+  :custom
+  (corfu-popupinfo-delay '(0.25 . 0.1))
+  (corfu-popupinfo-hide nil))
 
 ;; Use Dabbrev with Corfu!
 ;; (use-package dabbrev
@@ -37,19 +49,8 @@
 ;;   (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
 ;;   (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
 
-;; Part of corfu
-(use-package corfu-popupinfo
-  :after corfu
-  :hook (corfu-mode . corfu-popupinfo-mode)
-  :custom
-  (corfu-popupinfo-delay '(0.25 . 0.1))
-  (corfu-popupinfo-hide nil)
-  :config
-  (corfu-popupinfo-mode))
-
 ;; Add extensions
 (use-package cape
-  :ensure t
   :load-path "cape"
   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
   ;; Press C-c p ? to for help.

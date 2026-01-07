@@ -1,5 +1,4 @@
 (use-package helm
-  :ensure t
   :init
 
   (setq
@@ -66,7 +65,6 @@
   :config (helm-mode 1))
 
 (use-package helm-projectile
-  :ensure t
   :init
   (helm-projectile-on)
   (setq projectile-completion-system 'helm)

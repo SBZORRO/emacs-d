@@ -1,19 +1,5 @@
 ;;; init.el --- Minimal Java + Eglot config -*- lexical-binding: t; -*-
 
-;; 包管理 (如果你还没用 use-package)
-(require 'package)
-(setq package-archives
-      '(("melpa" . "https://melpa.org/packages/")
-        ("gnu"   . "https://elpa.gnu.org/packages/")))
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
-
 ;; ---- Eglot ----
 (use-package eglot
   :hook (java-mode . eglot-ensure)
@@ -38,7 +24,6 @@
 
 ;; ---- 语法高亮/语义增强 ----
 (use-package treesit
-  :ensure nil
   :when (treesit-available-p)
   :config
   (add-to-list 'major-mode-remap-alist '(java-mode . java-ts-mode)))

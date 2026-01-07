@@ -1,11 +1,11 @@
 ;; Enable vertico
 (use-package vertico
-  :ensure t
   :load-path "vertico"
+  :demand t
   ;; :bind
   ;; (:map vertico-map
   ;;   ("TAB" . #'minibuffer-complete))
-  :init
+  :config
   (vertico-mode))
 
 ;; (use-package vertico-directory
@@ -15,7 +15,7 @@
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
-  :ensure t
   :load-path "marginalia"
-  :init
+  :demand t
+  :config
   (marginalia-mode))

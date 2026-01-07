@@ -95,3 +95,6 @@
 [submodule "site-lisp/gtags-mode"]
 	path = site-lisp/gtags-mode
 	url = git@github.com:Ergus/gtags-mode.git
+[submodule "site-lisp/magit"]
+	path = site-lisp/magit
+	url = git@github.com:magit/magit.git

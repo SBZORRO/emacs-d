@@ -12,9 +12,8 @@
 
 (require 'use-package)
 (setq use-package-verbose t)
-
+(setq use-package-always-ensure nil)
 (use-package diminish
-  :ensure t
   :load-path "diminish.el")
 
 (load-file (expand-file-name "use-emacs.el" (file-name-directory load-file-name)))

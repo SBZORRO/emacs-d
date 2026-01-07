@@ -1,5 +1,4 @@
 (use-package dape
-  :ensure t
   :load-path "dape"
   :preface
   ;; By default dape shares the same keybinding prefix as `gud'

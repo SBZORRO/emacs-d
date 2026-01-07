@@ -1,5 +1,4 @@
 (use-package web-mode
-  :ensure t
   :load-path "web-mode"
   :mode
   (("\\.html?\\'" . web-mode)
@@ -11,7 +10,6 @@
   (web-mode-code-indent-offset 2))
 
 (use-package markdown-mode
-  :ensure t
   :load-path "markdown-mode"
   :mode
   (("\\.md\\'" . gfm-mode)
@@ -20,16 +18,13 @@
   (setq markdown-fontify-code-blocks-natively t))
 
 (use-package magit
-  :ensure t
   :load-path "magit")
 
 (use-package gtags-mode
-  :ensure t
   :load-path "gtags-mode"
   )
 
 (use-package ggtags
-  :ensure t
   :load-path "ggtags")
 ;; (dolist (map (list ggtags-mode-map dired-mode-map))
 ;;   (define-key map (kbd "C-c g s") 'ggtags-find-other-symbol)

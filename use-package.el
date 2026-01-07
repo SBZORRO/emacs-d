@@ -1,10 +1,8 @@
 (use-package rainbow-delimiters
-  :ensure t
   :load-path "rainbow-delimiters"
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package modus-themes
-  :ensure t
   :load-path "modus-themes"
   :config
   (load-theme 'modus-vivendi-tinted))
@@ -17,7 +15,6 @@
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
-  :ensure t
   :load-path "orderless"
   :custom
   ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
@@ -26,7 +23,6 @@
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package yasnippet
-  :ensure t
   :load-path "yasnippet"
   :demand t
   :diminish yas-minor-mode
@@ -57,7 +53,6 @@
   )
 
 (use-package gnuplot
-  :ensure t
   :load-path "gnuplot"
   :mode ("\\.gp\\'" . gnuplot-mode))
 
@@ -88,9 +83,9 @@
 ;;   :load-path  "site-lisp/emacs-reader/"
 ;;   )
 
-(use-package reader
-  :vc (:url "https://codeberg.org/divyaranjan/emacs-reader"
-        :make "all"))
+;; (use-package reader
+;;   :vc (:url "https://codeberg.org/divyaranjan/emacs-reader"
+;;         :make "all"))
 
 (use-package xdg-launcher
   :load-path "xdg-launcher")
