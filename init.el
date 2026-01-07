@@ -2,23 +2,20 @@
 
 (require 'package)
 
-(dolist
-  (item (file-expand-wildcards
-          (expand-file-name "site-lisp/*"
-            (file-name-directory load-file-name))))
-  (add-to-list 'load-path item))
-
 (package-initialize)
 
-;; (package-refresh-contents)
+(unless (package-installed-p 'use-package) (package-install 'use-package))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+(dolist
+  (item (file-expand-wildcards (expand-file-name "site-lisp/*" (file-name-directory load-file-name))))
+  (add-to-list 'load-path item))
 
 (require 'use-package)
 (setq use-package-verbose t)
+
 (use-package diminish
-  :ensure t)
+  :ensure t
+  :load-path "diminish.el")
 
 (load-file (expand-file-name "use-emacs.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-package.el" (file-name-directory load-file-name)))

@@ -1,9 +1,11 @@
 (use-package rainbow-delimiters
   :ensure t
+  :load-path "rainbow-delimiters"
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package modus-themes
   :ensure t
+  :load-path "modus-themes"
   :config
   (load-theme 'modus-vivendi-tinted))
 
@@ -16,6 +18,7 @@
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
   :ensure t
+  :load-path "orderless"
   :custom
   ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
   ;; (orderless-component-separator #'orderless-escapable-split-on-space)
@@ -24,7 +27,7 @@
 
 (use-package yasnippet
   :ensure t
-  :load-path "site-lisp"
+  :load-path "yasnippet"
   :demand t
   :diminish yas-minor-mode
   :commands yas-minor-mode-on
@@ -55,6 +58,7 @@
 
 (use-package gnuplot
   :ensure t
+  :load-path "gnuplot"
   :mode ("\\.gp\\'" . gnuplot-mode))
 
 ;; (use-package nano-modeline
@@ -89,5 +93,5 @@
         :make "all"))
 
 (use-package xdg-launcher
-  :load-path (lambda () (expand-file-name "site-lisp/xdg-launcher" (file-name-directory load-file-name))))
+  :load-path "xdg-launcher")
 

@@ -1,5 +1,6 @@
 (use-package dape
   :ensure t
+  :load-path "dape"
   :preface
   ;; By default dape shares the same keybinding prefix as `gud'
   ;; If you do not want to use any prefix, set it to nil.
@@ -48,10 +49,3 @@
          :stopAtBeginningOfMainSubprogram nil))
     )
   )
-
-;; Enable repeat mode for more ergonomic `dape' use
-(use-package repeat
-  :config
-  (repeat-mode))
-
-

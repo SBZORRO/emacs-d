@@ -1,6 +1,6 @@
 (use-package corfu
   :ensure t
-  :load-path "site-lisp"
+  :load-path "corfu"
   ;; Optional customizations
   :custom
   (corfu-auto t)          ;; Enable auto completion
@@ -50,7 +50,7 @@
 ;; Add extensions
 (use-package cape
   :ensure t
-  :load-path "site-lisp"
+  :load-path "cape"
   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
   ;; Press C-c p ? to for help.
   :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+

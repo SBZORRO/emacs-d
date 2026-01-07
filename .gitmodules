@@ -68,3 +68,30 @@
 [submodule "site-lisp/xdg-launcher"]
 	path = site-lisp/xdg-launcher
 	url = git@github.com:emacs-exwm/xdg-launcher.git
+[submodule "site-lisp/diminish.el"]
+	path = site-lisp/diminish.el
+	url = git@github.com:myrjola/diminish.el.git
+[submodule "site-lisp/rainbow-delimiters"]
+	path = site-lisp/rainbow-delimiters
+	url = git@github.com:Fanael/rainbow-delimiters.git
+[submodule "site-lisp/modus-themes"]
+	path = site-lisp/modus-themes
+	url = https://github.com/protesilaos/modus-themes
+[submodule "site-lisp/orderless"]
+	path = site-lisp/orderless
+	url = https://github.com/oantolin/orderless
+[submodule "site-lisp/gnuplot"]
+	path = site-lisp/gnuplot
+	url = https://github.com/emacs-gnuplot/gnuplot
+[submodule "site-lisp/web-mode"]
+	path = site-lisp/web-mode
+	url = git@github.com:fxbois/web-mode.git
+[submodule "site-lisp/markdown-mode"]
+	path = site-lisp/markdown-mode
+	url = git@github.com:jrblevin/markdown-mode.git
+[submodule "site-lisp/ggtags"]
+	path = site-lisp/ggtags
+	url = git@github.com:leoliu/ggtags.git
+[submodule "site-lisp/gtags-mode"]
+	path = site-lisp/gtags-mode
+	url = git@github.com:Ergus/gtags-mode.git

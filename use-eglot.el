@@ -1,5 +1,4 @@
 (use-package eglot
-  :ensure t
   :hook
   ;;  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
   (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
@@ -75,7 +74,7 @@
 ;; site-lisp/eglot-java/
 (use-package eglot-java
   :ensure nil
-  :load-path "site-lisp"
+  :load-path "eglot-java"
   :hook (java-ts-mode . eglot-java-mode)
   )
 

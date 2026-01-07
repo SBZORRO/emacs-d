@@ -1,7 +1,7 @@
 ;; Example configuration for Consult
 (use-package consult
   :ensure t
-  :load-path "site-lisp"
+  :load-path "consult"
   ;; Replace bindings. Lazily loaded by `use-package'.
   :bind (;; C-c bindings in `mode-specific-map'
           ("C-c M-x" . consult-mode-command)

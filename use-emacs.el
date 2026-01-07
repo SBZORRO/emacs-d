@@ -352,3 +352,6 @@
   :custom
   (package-vc-allow-build-commands t))
 
+(use-package repeat
+  :config
+  (repeat-mode))

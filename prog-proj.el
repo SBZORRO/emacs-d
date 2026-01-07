@@ -1,5 +1,6 @@
 (use-package web-mode
   :ensure t
+  :load-path "web-mode"
   :mode
   (("\\.html?\\'" . web-mode)
     ("\\.erb\\'" . web-mode)
@@ -11,21 +12,25 @@
 
 (use-package markdown-mode
   :ensure t
+  :load-path "markdown-mode"
   :mode
   (("\\.md\\'" . gfm-mode)
     ("\\.markdown\\'" . gfm-mode))
   :config
   (setq markdown-fontify-code-blocks-natively t))
 
-(use-package geiser-guile
-  :ensure t
-  :init
-  (add-hook 'scheme-mode-hook 'geiser-mode))
-
 (use-package magit
-  :ensure t)
+  :ensure t
+  :load-path "magit")
 
-(use-package ggtags :ensure t)
+(use-package gtags-mode
+  :ensure t
+  :load-path "gtags-mode"
+  )
+
+(use-package ggtags
+  :ensure t
+  :load-path "ggtags")
 ;; (dolist (map (list ggtags-mode-map dired-mode-map))
 ;;   (define-key map (kbd "C-c g s") 'ggtags-find-other-symbol)
 ;;   (define-key map (kbd "C-c g h") 'ggtags-view-tag-history)
