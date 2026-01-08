@@ -79,7 +79,7 @@
 	url = git@github.com:protesilaos/modus-themes.git
 [submodule "site-lisp/orderless"]
 	path = site-lisp/orderless
-	url = https://github.com/oantolin/orderless
+	url = git@github.com:oantolin/orderless.git
 [submodule "site-lisp/gnuplot"]
 	path = site-lisp/gnuplot
 	url = git@github.com:emacs-gnuplot/gnuplot.git
