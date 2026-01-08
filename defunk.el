@@ -132,3 +132,17 @@
     (let ((text (buffer-substring beg end)))
       (delete-region beg end)
       (insert (replace-regexp-in-string "\\s-+" "\n" text)))))
+
+;; hyprland wl-clipboard
+(defun wl-set ()
+  (interactive)
+  (setq interprogram-cut-function
+    (lambda (text)
+      (let* ((process-connection-type nil)
+              (proc (start-process "wl-copy" nil "wl-copy" "-n")))
+        (process-send-string proc text)
+        (process-send-eof proc))))
+  (setq interprogram-paste-function
+    (lambda ()
+      (shell-command-to-string "wl-paste -n")))
+  )

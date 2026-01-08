@@ -185,17 +185,6 @@
   ;; Nice line wrapping when working with text
   (add-hook 'text-mode-hook 'visual-line-mode)
   (add-hook 'prog-mode-hook 'hs-minor-mode)
-
-  ;; hyprland wl-clipboard
-  (setq interprogram-cut-function
-    (lambda (text)
-      (let* ((process-connection-type nil)
-              (proc (start-process "wl-copy" nil "wl-copy" "-n")))
-        (process-send-string proc text)
-        (process-send-eof proc))))
-  (setq interprogram-paste-function
-    (lambda ()
-      (shell-command-to-string "wl-paste -n")))
   ) ;; end use-package emacs
 
 ;;
