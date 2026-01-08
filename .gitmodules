@@ -82,7 +82,7 @@
 	url = https://github.com/oantolin/orderless
 [submodule "site-lisp/gnuplot"]
 	path = site-lisp/gnuplot
-	url = https://github.com/emacs-gnuplot/gnuplot
+	url = git@github.com:emacs-gnuplot/gnuplot.git
 [submodule "site-lisp/web-mode"]
 	path = site-lisp/web-mode
 	url = git@github.com:fxbois/web-mode.git
