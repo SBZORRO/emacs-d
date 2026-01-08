@@ -83,7 +83,8 @@
 (use-package gnuplot
   :load-path "gnuplot"
   :mode ("\\.gp\\'" . gnuplot-mode))
-
+(use-package magit
+  :load-path "magit/lisp")
 ;;
 ;; 3rd
 ;;

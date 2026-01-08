@@ -178,9 +178,6 @@
   :config
   (setq markdown-fontify-code-blocks-natively t))
 
-(use-package magit
-  :load-path "magit/lisp")
-
 (use-package gtags-mode
   :load-path "gtags-mode"
   )
@@ -199,34 +196,4 @@
 ;;   (define-key map (kbd "M-,") 'pop-tag-mark)
 ;;   (define-key map (kbd "C-c <") 'ggtags-prev-mark)
 ;;   (define-key map (kbd "C-c >") 'ggtags-next-mark))
-
-;; (use-package projectile
-;;   :ensure t
-;;   :init
-;;   ;;  (setq projectile-project-search-path '("~/git-repo/" "~/svn-repo/"))
-;;   (setq projectile-enable-caching t)
-;;   :config
-;;   (projectile-mode +1))
-
-;; (use-package company
-;;   :ensure t
-;;   :config
-;;   (setq company-idle-delay 0.5)
-;;   (setq company-show-numbers t)
-;;   (setq company-tooltip-limit 10)
-;;   (setq company-minimum-prefix-length 1)
-;;   (setq company-tooltip-align-annotations t)
-;;   ;; invert the navigation direction if the the completion popup-isearch-match
-;;   ;; is displayed on top (happens near the bottom of windows)
-;;   (setq company-tooltip-flip-when-above t)
-;;   (global-company-mode))
-
-;; (use-package company-posframe
-;;   :ensure t
-;;   :config (company-posframe-mode t))
-
-;; ;; company-c-headers
-;; (use-package company-c-headers
-;;   :init
-;;   (add-to-list 'company-backends 'company-c-headers))
 
