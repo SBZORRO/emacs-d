@@ -76,7 +76,7 @@
 	url = git@github.com:Fanael/rainbow-delimiters.git
 [submodule "site-lisp/modus-themes"]
 	path = site-lisp/modus-themes
-	url = https://github.com/protesilaos/modus-themes
+	url = git@github.com:protesilaos/modus-themes.git
 [submodule "site-lisp/orderless"]
 	path = site-lisp/orderless
 	url = https://github.com/oantolin/orderless
