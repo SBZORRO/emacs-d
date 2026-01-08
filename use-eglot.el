@@ -107,3 +107,126 @@
            :documentColor t))
        :vue (:hybridMode :json-false)
        )))
+
+(use-package dape
+  :load-path "dape"
+  :preface
+  ;; By default dape shares the same keybinding prefix as `gud'
+  ;; If you do not want to use any prefix, set it to nil.
+  ;; (setq dape-key-prefix "\C-x\C-a")
+
+  :hook
+  ;; Save breakpoints on quit
+  (kill-emacs . dape-breakpoint-save)
+  ;; Load breakpoints on startup
+  (after-init . dape-breakpoint-load)
+
+  :custom
+  ;; Turn on global bindings for setting breakpoints with mouse
+  ;; (dape-breakpoint-global-mode +1)
+
+  ;; Info buffers to the right
+  (dape-buffer-window-arrangement 'right)
+  ;; Info buffers like gud (gdb-mi)
+  ;; (dape-buffer-window-arrangement 'gud)
+  ;; (dape-info-hide-mode-line nil)
+
+  ;; Projectile users
+  ;; (dape-cwd-function #'projectile-project-root)
+
+  :config
+  ;; Pulse source line (performance hit)
+  ;; (add-hook 'dape-display-source-hook #'pulse-momentary-highlight-one-line)
+
+  ;; Save buffers on startup, useful for interpreted languages
+  ;; (add-hook 'dape-start-hook (lambda () (save-some-buffers t t)))
+
+  ;; Kill compile buffer on build success
+  ;; (add-hook 'dape-compile-hook #'kill-buffer)
+
+  (with-eval-after-load 'dape
+    (add-to-list
+      'dape-configs
+      '(gdb-sudo
+         modes (c-mode c-ts-mode c++-mode c++-ts-mode hare-mode hare-ts-mode)
+         command-cwd dape-command-cwd
+         command "sudo"
+         command-args ("gdb" "--interpreter=dap")
+         :request "launch"
+         :program "a.out"
+         :args []
+         :stopAtBeginningOfMainSubprogram nil))
+    )
+  )
+
+(use-package web-mode
+  :load-path "web-mode"
+  :mode
+  (("\\.html?\\'" . web-mode)
+    ("\\.erb\\'" . web-mode)
+    ("\\.hbs\\'" . web-mode))
+  :custom
+  (web-mode-markup-indent-offset 2)
+  (web-mode-css-indent-offset 2)
+  (web-mode-code-indent-offset 2))
+
+(use-package markdown-mode
+  :load-path "markdown-mode"
+  :mode
+  (("\\.md\\'" . gfm-mode)
+    ("\\.markdown\\'" . gfm-mode))
+  :config
+  (setq markdown-fontify-code-blocks-natively t))
+
+(use-package magit
+  :load-path "magit/lisp")
+
+(use-package gtags-mode
+  :load-path "gtags-mode"
+  )
+
+(use-package ggtags
+  :load-path "ggtags")
+;; (dolist (map (list ggtags-mode-map dired-mode-map))
+;;   (define-key map (kbd "C-c g s") 'ggtags-find-other-symbol)
+;;   (define-key map (kbd "C-c g h") 'ggtags-view-tag-history)
+;;   (define-key map (kbd "C-c g r") 'ggtags-find-reference)
+;;   (define-key map (kbd "C-c g f") 'ggtags-find-file)
+;;   (define-key map (kbd "C-c g c") 'ggtags-create-tags)
+;;   (define-key map (kbd "C-c g u") 'ggtags-update-tags)
+;;   (define-key map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+;;   (define-key map (kbd "M-.") 'ggtags-find-tag-dwim)
+;;   (define-key map (kbd "M-,") 'pop-tag-mark)
+;;   (define-key map (kbd "C-c <") 'ggtags-prev-mark)
+;;   (define-key map (kbd "C-c >") 'ggtags-next-mark))
+
+;; (use-package projectile
+;;   :ensure t
+;;   :init
+;;   ;;  (setq projectile-project-search-path '("~/git-repo/" "~/svn-repo/"))
+;;   (setq projectile-enable-caching t)
+;;   :config
+;;   (projectile-mode +1))
+
+;; (use-package company
+;;   :ensure t
+;;   :config
+;;   (setq company-idle-delay 0.5)
+;;   (setq company-show-numbers t)
+;;   (setq company-tooltip-limit 10)
+;;   (setq company-minimum-prefix-length 1)
+;;   (setq company-tooltip-align-annotations t)
+;;   ;; invert the navigation direction if the the completion popup-isearch-match
+;;   ;; is displayed on top (happens near the bottom of windows)
+;;   (setq company-tooltip-flip-when-above t)
+;;   (global-company-mode))
+
+;; (use-package company-posframe
+;;   :ensure t
+;;   :config (company-posframe-mode t))
+
+;; ;; company-c-headers
+;; (use-package company-c-headers
+;;   :init
+;;   (add-to-list 'company-backends 'company-c-headers))
+

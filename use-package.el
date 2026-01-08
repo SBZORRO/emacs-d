@@ -1,17 +1,7 @@
-(use-package rainbow-delimiters
-  :load-path "rainbow-delimiters"
-  :hook (prog-mode . rainbow-delimiters-mode))
-
 (use-package modus-themes
   :load-path "modus-themes"
   :config
   (load-theme 'modus-vivendi-tinted))
-
-;; (use-package solarized-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'solarized-light)
-;;   (set-face-foreground 'font-lock-comment-delimiter-face "red"))
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -43,18 +33,24 @@
   :hook (prog-mode . yas-minor-mode-on)
   :custom
   (yas-prompt-functions '(yas-completing-prompt yas-no-prompt))
-  (yas-snippet-dirs '("~/git-repo/emacs-d/site-lisp/yasnippet-snippets/snippets/"))
+  ;; (yas-snippet-dirs '("~/git-repo/emacs-d/site-lisp/yasnippet-snippets/snippets/"))
   (yas-triggers-in-field t)
   (yas-wrap-around-region t)
   ;; :custom-face
   ;; (yas-field-highlight-face ((t (:background "#e4edfc"))))
   ;; :config
   ;; (yas-load-directory (emacs-path "snippets"))
+  :config
+  (yas-global-mode 1)
   )
 
-(use-package gnuplot
-  :load-path "gnuplot"
-  :mode ("\\.gp\\'" . gnuplot-mode))
+(use-package yasnippet-snippets
+  ;; Point to the directory that contains the "snippets/" folder
+  :load-path "yasnippet-snippets"
+  :after yasnippet
+  :config
+  ;; Reload snippet tables after updating dirs
+  (yas-reload-all))
 
 ;; (use-package nano-modeline
 ;;   :init
@@ -78,6 +74,19 @@
 ;;   (add-hook 'org-capture-mode-hook     #'nano-modeline-org-capture-mode)
 ;;   (add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode))
 
+;;
+;; nongnu
+;;
+(use-package rainbow-delimiters
+  :load-path "rainbow-delimiters"
+  :hook (prog-mode . rainbow-delimiters-mode))
+(use-package gnuplot
+  :load-path "gnuplot"
+  :mode ("\\.gp\\'" . gnuplot-mode))
+
+;;
+;; 3rd
+;;
 ;; (use-package reader
 ;;   :vc t
 ;;   :load-path  "site-lisp/emacs-reader/"
@@ -89,4 +98,3 @@
 
 (use-package xdg-launcher
   :load-path "xdg-launcher")
-
