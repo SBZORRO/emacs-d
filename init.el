@@ -2,19 +2,10 @@
 
 (require 'package)
 
-(package-initialize)
-
-(unless (package-installed-p 'use-package) (package-install 'use-package))
-
-(dolist
-  (item (file-expand-wildcards (expand-file-name "site-lisp/*" (file-name-directory load-file-name))))
-  (add-to-list 'load-path item))
-(dolist
-  (item (file-expand-wildcards (expand-file-name "site-lisp/corfu/*" (file-name-directory load-file-name))))
-  (add-to-list 'load-path item))
-(dolist
-  (item (file-expand-wildcards (expand-file-name "site-lisp/magit/*" (file-name-directory load-file-name))))
-  (add-to-list 'load-path item))
+(dolist (item (file-expand-wildcards (expand-file-name "site-lisp/*" (file-name-directory load-file-name)))) (add-to-list 'load-path item))
+(add-to-list 'load-path (expand-file-name "site-lisp/corfu/" (file-name-directory load-file-name)))
+(add-to-list 'load-path (expand-file-name "site-lisp/corfu/extensions/" (file-name-directory load-file-name)))
+(add-to-list 'load-path (expand-file-name "site-lisp/magit/lisp/" (file-name-directory load-file-name)))
 
 (require 'use-package)
 (setq use-package-verbose t)

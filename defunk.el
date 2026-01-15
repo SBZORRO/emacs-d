@@ -24,16 +24,16 @@
 (defun delete-window-counterclockwise()
   (interactive)
   (if (eq (delete-other-windows-vertically) nil)
-    (progn
-      (other-window 1)
-      (if (eq (delete-other-windows-vertically) nil)
-        (delete-window)
-        (other-window 1)))))
+      (progn
+        (other-window 1)
+        (if (eq (delete-other-windows-vertically) nil)
+            (delete-window)
+          (other-window 1)))))
 
 (defun my-go-ahead ()
   (interactive)
   (if (= (line-beginning-position) (point))
-    (beginning-of-line-text)
+      (beginning-of-line-text)
     (beginning-of-line)))
 
 (defun new-previous-line ()
@@ -52,10 +52,10 @@
   (interactive)
   (let (beg end)
     (if (and mark-active (> (point) (mark)))
-      (exchange-point-and-mark))
+        (exchange-point-and-mark))
     (setq beg (line-beginning-position))
     (if mark-active
-      (exchange-point-and-mark))
+        (exchange-point-and-mark))
     (setq end (line-end-position))
     (cons beg end)))
 
@@ -79,16 +79,16 @@
 (defun my-mark-sexp (&optional arg allow-extend)
   (interactive "P\np")
   (cond
-    ((and
-       (not (memq (char-after) paren-list))
-       (not (memq (char-before) paren-list))
-       (not (memq (char-after) space-list))
-       (not (memq (char-before) space-list))
-       (not (use-region-p)))
-      (forward-same-syntax (- 1)))
-    ((memq (char-after) space-list)
-      (forward-same-syntax 1))
-    )
+   ((and
+     (not (memq (char-after) paren-list))
+     (not (memq (char-before) paren-list))
+     (not (memq (char-after) space-list))
+     (not (memq (char-before) space-list))
+     (not (use-region-p)))
+    (forward-same-syntax (- 1)))
+   ((memq (char-after) space-list)
+    (forward-same-syntax 1))
+   )
   (mark-sexp arg allow-extend))
 
 (defun my-prev-line-recenter ()
@@ -113,7 +113,7 @@
 (defun wsl-paste ()
   (interactive)
   (let ((clipboard
-          (shell-command-to-string "powershell.exe -command 'Get-Clipboard' 2> /dev/null")))
+         (shell-command-to-string "powershell.exe -command 'Get-Clipboard' 2> /dev/null")))
     (setq clipboard (replace-regexp-in-string "\r" "" clipboard)) ; Remove Windows ^M characters
     (setq clipboard (substring clipboard 0 -1)) ; Remove newline added by Powershell
     (insert clipboard)))
@@ -137,12 +137,12 @@
 (defun wl-set ()
   (interactive)
   (setq interprogram-cut-function
-    (lambda (text)
-      (let* ((process-connection-type nil)
-              (proc (start-process "wl-copy" nil "wl-copy" "-n")))
-        (process-send-string proc text)
-        (process-send-eof proc))))
+        (lambda (text)
+          (let* ((process-connection-type nil)
+                 (proc (start-process "wl-copy" nil "wl-copy" "-n")))
+            (process-send-string proc text)
+            (process-send-eof proc))))
   (setq interprogram-paste-function
-    (lambda ()
-      (shell-command-to-string "wl-paste -n")))
+        (lambda ()
+          (shell-command-to-string "wl-paste -n")))
   )

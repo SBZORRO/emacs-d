@@ -25,18 +25,18 @@
     "Run app launcher in a temporary minibuffer-only frame, then delete both frames."
     (interactive)
     (let ((client-frame (selected-frame))   ; emacsclient -c 创建的（你现在是隐藏的）
-           launcher-frame)
+          launcher-frame)
       (setq launcher-frame
-        (make-frame '((name . "emacs-run-launcher")
-                       (minibuffer . only)
-                       (fullscreen . nil)
-                       (undecorated . t)
-                       (internal-border-width . 10)
-                       (width . 80)
-                       (height . 11))))
+            (make-frame '((name . "emacs-run-launcher")
+                          (minibuffer . only)
+                          (fullscreen . nil)
+                          (undecorated . t)
+                          (internal-border-width . 10)
+                          (width . 80)
+                          (height . 11))))
       (select-frame-set-input-focus launcher-frame)
       (unwind-protect
-        (app-launcher-run-app)
+          (app-launcher-run-app)
         (keyboard-quit)(keyboard-quit)
         (when (frame-live-p launcher-frame) (delete-frame launcher-frame t))
         (when (frame-live-p client-frame)   (delete-frame client-frame t)))))

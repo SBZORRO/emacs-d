@@ -17,14 +17,20 @@
   (menu-bar-mode nil)
   (tool-bar-mode nil)
   (fill-column 78)
-  (enable-recursive-minibuffers t)
   (display-line-numbers-width 3)
   (truncate-lines nil)
   (tab-width 2)
   (scroll-margin 3)
   (scroll-conservatively 101)
   (scroll-preserve-screen-position t)
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
   (completion-ignore-case t)
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
 
   ;; startup.el
   ;; (auto-save-list-file-prefix (user-data "auto-save-list/.saves-"))
@@ -44,31 +50,31 @@
   (backup-directory-alist '(("." . "~/.local/share/emacs/backups/")))
   (delete-old-versions t)
   (directory-abbrev-alist
-    '(("\\`/org" . "~/org")))
+   '(("\\`/org" . "~/org")))
   (large-file-warning-threshold nil)
   (save-abbrevs 'silently)
   (version-control t)
   (major-mode-remap-alist
-    '(
-       (bash-mode . bash-ts-mode)
-       (c-mode . c-ts-mode)
-       (c++-mode . c++-ts-mode)
-       (cpp-mode . cpp-ts-mode)
-       (elisp-mode . elisp-ts-mode)
-       (java-mode . java-ts-mode)
-       (make-mode . cmake-ts-mode)
-       (markdown-mode . markdown-ts-mode)
-       (rust-mode . rust-ts-mode)
-       (markdown-mode . markdown-ts-mode)
-       (yaml-mode . yaml-ts-mode)
-       (html-mode . html-ts-mode)
-       (javascript-mode . javascript-ts-mode)
-       (js2-mode . js-ts-mode)
-       (js-mode . js-ts-mode)
-       (typescript-mode . typescript-ts-mode)
-       (json-mode . json-ts-mode)
-       (css-mode . css-ts-mode)
-       (python-mode . python-ts-mode)))
+   '(
+     (bash-mode . bash-ts-mode)
+     (c-mode . c-ts-mode)
+     (c++-mode . c++-ts-mode)
+     (cpp-mode . cpp-ts-mode)
+     (elisp-mode . elisp-ts-mode)
+     (java-mode . java-ts-mode)
+     (make-mode . cmake-ts-mode)
+     (markdown-mode . markdown-ts-mode)
+     (rust-mode . rust-ts-mode)
+     (markdown-mode . markdown-ts-mode)
+     (yaml-mode . yaml-ts-mode)
+     (html-mode . html-ts-mode)
+     (javascript-mode . javascript-ts-mode)
+     (js2-mode . js-ts-mode)
+     (js-mode . js-ts-mode)
+     (typescript-mode . typescript-ts-mode)
+     (json-mode . json-ts-mode)
+     (css-mode . css-ts-mode)
+     (python-mode . python-ts-mode)))
 
   ;; simple.el
   (backward-delete-char-untabify-method 'untabify)
@@ -114,6 +120,11 @@
   ;; paren.el
   (show-paren-delay 0)
   (show-paren-context-when-offscreen t)
+
+  ;; mouse.el
+  ;; Enable context menu. `vertico-multiform-mode' adds a menu in the minibuffer
+  ;; to switch display modes.
+  (context-menu-mode t)
 
   ;; help.el
   ;; (help-window-keep-selected t)
@@ -169,9 +180,9 @@
 
   ;; emacs source code
   (source-directory
-    (concat (file-name-parent-directory load-file-name) "emacs")) ; C
+   (concat (file-name-parent-directory load-file-name) "emacs")) ; C
   (find-function-C-source-directory
-    (concat (file-name-parent-directory load-file-name) "emacs/src")) ; find-func.el
+   (concat (file-name-parent-directory load-file-name) "emacs/src")) ; find-func.el
 
   ;; gdb-mi.el
   (gdb-many-windows t)
@@ -190,10 +201,6 @@
 ;;
 ;;; build-in packages
 ;;
-(use-package lisp-mode
-  :config
-  (setopt lisp-indent-offset 2))
-
 (use-package windmove
   :config
   ;; use shift + arrow keys to switch between visible buffers
@@ -230,21 +237,21 @@
   :custom
   (whitespace-line-column 78)
   (whitespace-style
-    '(face
-       indentation
-       ;; indentation::space
-       ;; indentation::tab
-       tabs
-       ;; spaces
-       space-after-tab
-       space-befer-tab
-       trailing
-       lines-tail
-       newline
-       ;; tab-mark
-       ;; newline-mark
-       ;; space-mark
-       ))
+   '(face
+     indentation
+     ;; indentation::space
+     ;; indentation::tab
+     tabs
+     ;; spaces
+     space-after-tab
+     space-befer-tab
+     trailing
+     lines-tail
+     newline
+     ;; tab-mark
+     ;; newline-mark
+     ;; space-mark
+     ))
   :custom-face
   (whitespace-indentation ((t (:background "grey11"))))
   :config
@@ -282,52 +289,52 @@
   (switch-to-buffer-preserve-window-point t)
   (window-sides-vertical t)
   (display-buffer-alist
-    `(("\\*\\(Help\\|compilation\\)\\*"
-        ;; "^\\*.*\\*"
-        (display-buffer-reuse-mode-window
-          display-buffer-below-selected)
-        (side . bottom)
-        (window-height . 0.3)
-        ;; (window-parameters
-        ;;   (select . t)
-        ;;   (quit . t)
-        ;;   (popup . t)
-        ;;   (mode-line-format . none)
-        ;;   (no-other-window . t)
-        ;;   )
-        )))
+   `(("\\*\\(Help\\|compilation\\)\\*"
+      ;; "^\\*.*\\*"
+      (display-buffer-reuse-mode-window
+       display-buffer-below-selected)
+      (side . bottom)
+      (window-height . 0.3)
+      ;; (window-parameters
+      ;;   (select . t)
+      ;;   (quit . t)
+      ;;   (popup . t)
+      ;;   (mode-line-format . none)
+      ;;   (no-other-window . t)
+      ;;   )
+      )))
   )
 
 (use-package treesit
   :config
   (setopt treesit-language-source-alist
-    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-       (cmake "https://github.com/uyha/tree-sitter-cmake")
-       (c "https://github.com/tree-sitter/tree-sitter-c")
-       (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-       (css "https://github.com/tree-sitter/tree-sitter-css")
-       (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-       (html "https://github.com/tree-sitter/tree-sitter-html")
-       (java "https://github.com/tree-sitter/tree-sitter-java")
-       (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-       (json "https://github.com/tree-sitter/tree-sitter-json")
-       (make "https://github.com/alemuller/tree-sitter-make")
-       (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-       (python "https://github.com/tree-sitter/tree-sitter-python")
-       (rust "https://github.com/tree-sitter/tree-sitter-rust")
-       (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-       (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-       (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-       (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+          '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+            (cmake "https://github.com/uyha/tree-sitter-cmake")
+            (c "https://github.com/tree-sitter/tree-sitter-c")
+            (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+            (css "https://github.com/tree-sitter/tree-sitter-css")
+            (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+            (html "https://github.com/tree-sitter/tree-sitter-html")
+            (java "https://github.com/tree-sitter/tree-sitter-java")
+            (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+            (json "https://github.com/tree-sitter/tree-sitter-json")
+            (make "https://github.com/alemuller/tree-sitter-make")
+            (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+            (python "https://github.com/tree-sitter/tree-sitter-python")
+            (rust "https://github.com/tree-sitter/tree-sitter-rust")
+            (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+            (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+            (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+            (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
 
-       ;; (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-       ;; (go "https://github.com/tree-sitter/tree-sitter-go")
-       ;; (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-       ;; (julia "https://github.com/tree-sitter/tree-sitter-julia")
-       ;; (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-       ;; (scala "https://github.com/tree-sitter/tree-sitter-scala")
-       ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
-       )))
+            ;; (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+            ;; (go "https://github.com/tree-sitter/tree-sitter-go")
+            ;; (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+            ;; (julia "https://github.com/tree-sitter/tree-sitter-julia")
+            ;; (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+            ;; (scala "https://github.com/tree-sitter/tree-sitter-scala")
+            ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
+            )))
 
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-ts-mode))
 

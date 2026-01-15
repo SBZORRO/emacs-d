@@ -12,18 +12,18 @@
   ;; (setq eglot-report-perogress nil)
   ;; (eglot-events-buffer-size 0)
   (add-to-list 'eglot-server-programs
-    '((c-ts-mode c++-ts-mode c++-mode c-mode cc-mode)
-       "clangd"
-       "--log=error"
-       "-j=2"
-       "--malloc-trim"
-       "--pch-storage=memory"
-       "--background-index"
-       "--clang-tidy"
-       "--completion-style=detailed"
-       "--header-insertion=iwyu"
-       "--header-insertion-decorators"
-       "--query-driver=/usr/bin/**"))
+               '((c-ts-mode c++-ts-mode c++-mode c-mode cc-mode)
+                 "clangd"
+                 "--log=error"
+                 "-j=2"
+                 "--malloc-trim"
+                 "--pch-storage=memory"
+                 "--background-index"
+                 "--clang-tidy"
+                 "--completion-style=detailed"
+                 "--header-insertion=iwyu"
+                 "--header-insertion-decorators"
+                 "--query-driver=/usr/bin/**"))
   ;; (add-to-list 'eglot-server-programs
   ;;   '((java-mode java-ts-mode)
   ;;      "java"
@@ -39,10 +39,10 @@
   ;;      "-configuration" "/home/sbzorro/jdtls/config_linux"
   ;;      "-data" "/home/sbzorro/jdtls-ws"))
   (add-to-list 'eglot-server-programs
-    `(vue-mode . ("vue-language-server" "--stdio"
-                   :initializationOptions ,(vue-eglot-init-options))))
+               `(vue-mode . ("vue-language-server" "--stdio"
+                             :initializationOptions ,(vue-eglot-init-options))))
   (add-to-list 'eglot-server-programs
-    `((python-mode python-ts-mode) . ("pylsp")))
+               `((python-mode python-ts-mode) . ("pylsp")))
   ;; (add-to-list 'eglot-server-programs
   ;;   '((java-ts-mode) .
   ;;      ("jdtls"
@@ -50,7 +50,7 @@
   ;;        (:bundles ["/home/sbzorro/.m2/repository/com/microsoft/java/com.microsoft.java.debug.plugin/0.53.2/com.microsoft.java.debug.plugin-0.53.2.jar"]))))
   :bind
   (:map eglot-mode-map
-    ("C-x f" . eglot-format))
+        ("C-x f" . eglot-format))
   )
 
 
@@ -83,30 +83,30 @@
 
 (defun vue-eglot-init-options ()
   (let ((tsdk-path
-          (expand-file-name
-            "lib"
-            (string-trim
-              (shell-command-to-string
-                "npm list --global --parseable typescript | head -n1"))
-            )))
+         (expand-file-name
+          "lib"
+          (string-trim
+           (shell-command-to-string
+            "npm list --global --parseable typescript | head -n1"))
+          )))
     `(:typescript
-       (:tsdk ,tsdk-path
-         :languageFeatures
-         (:completion
-           (:defaultTagNameCase "both"
-             :defaultAttrNameCase "kebabCase"
-             :getDocumentNameCasesRequest nil
-             :getDocumentSelectionRequest nil)
-           :diagnostics
-           (:getDocumentVersionRequest nil))
-         :documentFeatures
-         (:documentFormatting
-           (:defaultPrintWidth 100
-             :getDocumentPrintWidthRequest nil)
-           :documentSymbol t
-           :documentColor t))
-       :vue (:hybridMode :json-false)
-       )))
+      (:tsdk ,tsdk-path
+             :languageFeatures
+             (:completion
+              (:defaultTagNameCase "both"
+                                   :defaultAttrNameCase "kebabCase"
+                                   :getDocumentNameCasesRequest nil
+                                   :getDocumentSelectionRequest nil)
+              :diagnostics
+              (:getDocumentVersionRequest nil))
+             :documentFeatures
+             (:documentFormatting
+              (:defaultPrintWidth 100
+                                  :getDocumentPrintWidthRequest nil)
+              :documentSymbol t
+              :documentColor t))
+      :vue (:hybridMode :json-false)
+      )))
 
 (use-package dape
   :load-path "dape"
@@ -146,16 +146,16 @@
 
   (with-eval-after-load 'dape
     (add-to-list
-      'dape-configs
-      '(gdb-sudo
-         modes (c-mode c-ts-mode c++-mode c++-ts-mode hare-mode hare-ts-mode)
-         command-cwd dape-command-cwd
-         command "sudo"
-         command-args ("gdb" "--interpreter=dap")
-         :request "launch"
-         :program "a.out"
-         :args []
-         :stopAtBeginningOfMainSubprogram nil))
+     'dape-configs
+     '(gdb-sudo
+       modes (c-mode c-ts-mode c++-mode c++-ts-mode hare-mode hare-ts-mode)
+       command-cwd dape-command-cwd
+       command "sudo"
+       command-args ("gdb" "--interpreter=dap")
+       :request "launch"
+       :program "a.out"
+       :args []
+       :stopAtBeginningOfMainSubprogram nil))
     )
   )
 
@@ -163,8 +163,8 @@
   :load-path "web-mode"
   :mode
   (("\\.html?\\'" . web-mode)
-    ("\\.erb\\'" . web-mode)
-    ("\\.hbs\\'" . web-mode))
+   ("\\.erb\\'" . web-mode)
+   ("\\.hbs\\'" . web-mode))
   :custom
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
@@ -174,7 +174,7 @@
   :load-path "markdown-mode"
   :mode
   (("\\.md\\'" . gfm-mode)
-    ("\\.markdown\\'" . gfm-mode))
+   ("\\.markdown\\'" . gfm-mode))
   :config
   (setq markdown-fontify-code-blocks-natively t))
 
