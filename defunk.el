@@ -144,5 +144,10 @@
             (process-send-eof proc))))
   (setq interprogram-paste-function
         (lambda ()
-          (shell-command-to-string "wl-paste -n")))
-  )
+          (shell-command-to-string "wl-paste -n"))))
+
+;; Compile ansi color
+(require 'ansi-color)
+(defun my/compilation-ansi-color ()
+  (ansi-color-apply-on-region compilation-filter-start (point)))
+(add-hook 'compilation-filter-hook #'my/compilation-ansi-color)

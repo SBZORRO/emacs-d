@@ -15,7 +15,6 @@
   (user-full-name "SBZORRO")
   (visible-bell t)
   (menu-bar-mode nil)
-  (tool-bar-mode nil)
   (fill-column 78)
   (display-line-numbers-width 3)
   (truncate-lines nil)
@@ -55,8 +54,7 @@
   (save-abbrevs 'silently)
   (version-control t)
   (major-mode-remap-alist
-   '(
-     (bash-mode . bash-ts-mode)
+   '((bash-mode . bash-ts-mode)
      (c-mode . c-ts-mode)
      (c++-mode . c++-ts-mode)
      (cpp-mode . cpp-ts-mode)
@@ -145,10 +143,12 @@
   (completion-auto-help nil)
   ;; (completion-cycle-threshold t)
   (completions-detailed t)
-  ;; (completion-styles '(basic initials substring))
   ;; (completions-max-height 10)
   ;; (completions-format 'horizontal)
   ;; (completions-group t)
+  ;; (completion-category-overrides '((file (styles partial-completion))))
+  ;; (completion-category-defaults nil) ;; Disable defaults, use our settings
+  ;; (completion-pcm-leading-wildcard t) ;; Emacs 31: partial-completion behaves like substring
 
   ;; icomplete.el
   ;; (icomplete-mode t)
@@ -201,6 +201,10 @@
 ;;
 ;;; build-in packages
 ;;
+(use-package lisp-mode
+  :config
+  (setopt lisp-indent-offset nil))
+
 (use-package windmove
   :config
   ;; use shift + arrow keys to switch between visible buffers

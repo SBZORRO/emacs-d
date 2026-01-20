@@ -1,17 +1,40 @@
 ;; Enable vertico
+(add-to-list 'load-path (expand-file-name "site-lisp/vertico/extensions" (file-name-directory load-file-name)))
 (use-package vertico
-  :load-path "vertico"
+  :load-path ("vertico" "vertico/extensions")
   :demand t
-  ;; :bind
-  ;; (:map vertico-map
-  ;;   ("TAB" . #'minibuffer-complete))
+  :bind
+  ;; (:map vertico-map ("TAB" . #'minibuffer-complete))
   :config
   (vertico-mode))
 
+(use-package vertico-sort
+  :load-path "vertico/extensions"
+  :after vertico
+  :demand t
+  :custom
+  (vertico-sort-function #'vertico-sort-history-length-alpha))
+
 ;; (use-package vertico-directory
+;;   :load-path "vertico/extensions"
 ;;   :after vertico
+;;   :demand t
 ;;   :bind (:map vertico-map
-;;           ("M-DEL" . vertico-directory-delete-word)))
+;;               ("M-DEL" . vertico-directory-delete-word)))
+
+(use-package vertico-multiform
+  :load-path "vertico/extensions"
+  :after (vertico vertico-sort)
+  :demand t
+  :init
+  :custom
+  (vertico-multiform-categories
+   '((file (vertico-sort-function . vertico-sort-directories-first))
+     (symbol (vertico-sort-function . vertico-sort-alpha))
+     (command (vertico-sort-function . vertico-sort-history-alpha))))
+  :config
+  (vertico-multiform-mode)
+  )
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
@@ -20,25 +43,41 @@
   :config
   (marginalia-mode))
 
+(add-to-list 'load-path (expand-file-name "site-lisp/corfu/extensions" (file-name-directory load-file-name)))
 (use-package corfu
   :load-path ("corfu" "corfu/extensions")
   :demand t
   ;; Optional customizations
   :custom
-  (corfu-auto t)          ;; Enable auto completion
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  (corfu-auto t)                   ;; Enable auto completion
+  (corfu-cycle t)                  ;; Enable cycling for `corfu-next/previous'
+  (corfu-quit-at-boundary nil)       ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)     ;; Never quit, even if there is no match
+  (corfu-quit-no-match 'separator) ;; Don't quit if there is `corfu-separator' inserted
+  (corfu-on-exact-match nil)       ;; Configure handling of exact matches
+  ;; (corfu-preview-current nil)   ;; Disable current candidate preview
+  (corfu-preview-current 'insert)  ;; Preview first candidate. Insert on input if only one
+  ;; (corfu-preselect 'prompt)     ;; Preselect the prompt
+  (corfu-preselect-first t)        ;; Preselect first candidate?
+  (corfu-auto-prefix 1)
+  (corfu-auto-delay 0.02)
+  ;; `nil' means to ignore `corfu-separator' behavior, that is, use the older
+  ;; `corfu-quit-at-boundary' = nil behavior. Set this to separator if using
+  ;; `corfu-auto' = `t' workflow (in that case, make sure you also set up
+  ;; `corfu-separator' and a keybind for `corfu-insert-separator', which my
+  ;; configuration already has pre-prepared). Necessary for manual corfu usage with
+  ;; orderless, otherwise first component is ignored, unless `corfu-separator'
+  ;; is inserted.
+  (corfu-separator ?\s)            ; Use space
 
   ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
   ;; :hook ((prog-mode . corfu-mode)
   ;;        (shell-mode . corfu-mode)
   ;;        (eshell-mode . corfu-mode))
   :bind
-  (("C-TAB" . #'corfu-expand))
+  ;; (("C-TAB" . #'corfu-expand)
+  ;; Configure SPC for separator insertion
+  (:map corfu-map ("SPC" . corfu-insert-separator))
 
   ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
   ;; be used globally (M-/).  See also the customization variable
@@ -87,13 +126,14 @@
   (add-hook 'completion-at-point-functions #'cape-dabbrev)
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  ;; (add-hook 'completion-at-point-functions #'cape-history)
+  (add-hook 'completion-at-point-functions #'cape-history)
   ;; ...
   )
 
-;; Example configuration for Consult
+;; example configuration for Consult
 (use-package consult
   :load-path "consult"
+  :demand t
   ;; Replace bindings. Lazily loaded by `use-package'.
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c M-x" . consult-mode-command)
@@ -169,7 +209,6 @@
   ;; Configure other variables and modes in the :config section,
   ;; after lazily loading the package.
   :config
-
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
   ;; (setq consult-preview-key 'any)
@@ -177,12 +216,12 @@
   ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
   ;; For some commands and buffer sources it is useful to configure the
   ;; :preview-key on a per-command basis using the `consult-customize' macro.
+
+  (require 'consult-xref)
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep consult-man
    consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
    ;; :preview-key "M-."
    :preview-key '(:debounce 0.4 any))
 
@@ -197,7 +236,8 @@
 
 (use-package consult-xref
   :load-path "consult"
-  :after xref
+  :after (xref consult)
+  :demand t
   :init
   :custom
   (xref-show-xrefs-function #'consult-xref)

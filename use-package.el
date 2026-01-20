@@ -3,7 +3,6 @@
   :config
   (load-theme 'modus-vivendi-tinted))
 
-;; Optionally use the `orderless' completion style.
 (use-package orderless
   :load-path "orderless"
   :custom
@@ -86,8 +85,9 @@
 (use-package gnuplot
   :load-path "gnuplot"
   :mode ("\\.gp\\'" . gnuplot-mode))
-(use-package magit
-  :load-path "magit/lisp")
+;; (use-package magit
+;;   :load-path "magit/lisp")
+
 ;;
 ;; 3rd
 ;;
