@@ -293,7 +293,7 @@
   (switch-to-buffer-preserve-window-point t)
   (window-sides-vertical t)
   (display-buffer-alist
-   `(("\\*\\(Help\\|compilation\\)\\*"
+   `(("\\*\\(Help\\|compilation\\|eldoc\\)\\*"
       ;; "^\\*.*\\*"
       (display-buffer-reuse-mode-window
        display-buffer-below-selected)
