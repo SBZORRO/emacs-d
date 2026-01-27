@@ -1,48 +1,11 @@
+;; FreeBSD nox
+"--disable-build-details --localstatedir=/var --without-gconf --without-libsystemd --without-selinux --with-sound=no --with-x-toolkit=no --without-cairo --without-dbus --without-gconf --without-gif --without-gsettings --without-imagemagick --without-jpeg --without-lcms2 --without-libotf --without-m17n-flt --without-pgtk --without-png --without-rsvg --without-tiff --without-toolkit-scroll-bars --without-webp --without-x --without-xim --without-xpm --without-xwidgets --enable-acl --without-cairo --without-dbus --without-gif --with-gnutls --without-gsettings --without-harfbuzz --without-jpeg --with-file-notification=kqueue --without-lcms2 --without-m17n-flt --without-imagemagick --with-mailutils --with-modules --with-native-compilation=aot --without-libotf --without-pgtk --without-png --without-toolkit-scroll-bars --with-sqlite3 --without-rsvg --with-threads --without-tiff --with-tree-sitter --without-webp --without-xft --without-xim --with-xml2 --without-xpm --without-xwidgets --with-x-toolkit=no --prefix=/usr/local --mandir=/usr/local/share/man --disable-silent-rules --infodir=/usr/local/share/emacs/info/ --build=amd64-portbld-freebsd15.0 'CFLAGS=-O2 -pipe  -fstack-protector-strong -Wl,-rpath=/usr/local/lib/gcc13 -isystem /usr/local/include -fno-strict-aliasing ' 'CPPFLAGS=-isystem /usr/local/include' 'LDFLAGS= -Wl,-rpath=/usr/local/lib/gcc13 -L/usr/local/lib/gcc13 -L/usr/local/lib '"
+
+;; aur pgtk
 "--prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --mandir=/usr/share/man --with-gameuser=:games --with-modules --without-libotf --without-m17n-flt --without-gconf --without-gsettings --enable-link-time-optimization --with-native-compilation --with-pgtk --with-mps=yes --without-xaw3d --with-sound=alsa --without-compress-install '--program-transform-name=s/\\([ec]tags\\)/\\1.emacs/' 'CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection         -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -fuse-ld=mold -I/usr/include -fuse-ld=mold -I/usr/include -g -ffile-prefix-map=/home/sbzorro/git-repo/aur-repo/emacs-pgtk-igc-git/src=/usr/src/debug/emacs-pgtk-igc-git -flto=auto' 'CPPFLAGS= -I/usr/include -I/usr/include' 'LDFLAGS=-Wl,-O1 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now          -Wl,-z,pack-relative-relocs -L/usr/lib -L/usr/lib -flto=auto'"
 
+;; arch nox
 "--without-x --without-sound --sysconfdir=/etc --prefix=/usr --libexecdir=/usr/lib --localstatedir=/var --disable-build-details --with-cairo --with-harfbuzz --with-libsystemd --with-modules --with-native-compilation=aot --with-tree-sitter 'CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection         -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -g -ffile-prefix-map=/build/emacs/src=/usr/src/debug/emacs -flto=auto' 'LDFLAGS=-Wl,-O1 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now          -Wl,-z,pack-relative-relocs -flto=auto'"
 
-
-./configure
---with-native-compilation
---with-tree-sitter
---with-gnutls
---with-cairo
---with-harfbuzz
---with-libsystemd
---with-modules
---without-mailutils
---without-pop
---without-x
---without-sound
---sysconfdir=/etc
---prefix=/usr
---libexecdir=/usr/lib
---localstatedir=/var
---disable-build-details
-
-'CFLAGS=
--march=x86-64
--mtune=generic
--O2
--pipe
--fno-plt
--fexceptions
--Wp,-D_FORTIFY_SOURCE=3
--Wformat
--Werror=format-security
--fstack-clash-protection
--fcf-protection
--fno-omit-frame-pointer
--mno-omit-leaf-frame-pointer
--g
--ffile-prefix-map=/build/emacs/src=/usr/src/debug/emacs
--flto=auto'
-
-'LDFLAGS=-Wl,-O1
--Wl,--sort-common
--Wl,--as-needed
--Wl,-z,relro
--Wl,-z,now
--Wl,-z,pack-relative-relocs
--flto=auto'
+;; weed nox
+./configure --disable-build-details --with-tree-sitter --without-pop --with-mailutils --with-native-compilation --without-hesiod --with-gameuser=:games --with-kerberos --with-kerberos5 --with-file-notification=inotify --with-modules --enable-autodepend --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --datadir=/usr/share --localstatedir=/var --sharedstatedir=/var/lib --libexecdir=/usr/libexec --with-file-notification=yes --libdir=/usr/lib64 --enable-locallisppath=/usr/share/emacs/30.1/site-lisp:/usr/share/emacs/site-lisp --with-gpm --without-x --without-xim --without-sound --without-xpm --without-jpeg --without-tiff --without-gif --without-png --without-rsvg --without-dbus --without-xft --without-libotf --without-m17n-flt --without-harfbuzz --build=x86_64-suse-linux --with-dumping=pdumper 'CFLAGS=-O2 -Wall -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fstack-protector-strong -funwind-tables -fasynchronous-unwind-tables -fstack-clash-protection -Werror=return-type -flto=auto -g -D_GNU_SOURCE -DGDK_DISABLE_DEPRECATION_WARNINGS -DGLIB_DISABLE_DEPRECATION_WARNINGS -pipe -Wno-pointer-sign -Wno-unused-variable -Wno-unused-label -fno-optimize-sibling-calls -DPDMP_BASE='\''"emacs-nox"'\''' 'LDFLAGS=-Wl,-O2 -Wl,--copy-dt-needed-entries'
