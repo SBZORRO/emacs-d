@@ -72,10 +72,9 @@
 ;;      (:contentProvider (:preferred "fernflower"))))
 
 ;; site-lisp/eglot-java/
-(use-package eglot-java
-  :load-path "eglot-java"
-  :hook (java-ts-mode . eglot-java-mode)
-  )
+;; (use-package eglot-java
+;;   :hook (java-ts-mode . eglot-java-mode)
+;;   )
 
 ;; Vue-mode setup
 (define-derived-mode vue-mode web-mode "Vue")
@@ -109,7 +108,6 @@
       )))
 
 (use-package dape
-  :load-path "dape"
   :preface
   ;; By default dape shares the same keybinding prefix as `gud'
   ;; If you do not want to use any prefix, set it to nil.
@@ -160,7 +158,6 @@
   )
 
 (use-package web-mode
-  :load-path "web-mode"
   :mode
   (("\\.html?\\'" . web-mode)
    ("\\.erb\\'" . web-mode)
@@ -171,19 +168,15 @@
   (web-mode-code-indent-offset 2))
 
 (use-package markdown-mode
-  :load-path "markdown-mode"
   :mode
   (("\\.md\\'" . gfm-mode)
    ("\\.markdown\\'" . gfm-mode))
   :config
   (setq markdown-fontify-code-blocks-natively t))
 
-(use-package gtags-mode
-  :load-path "gtags-mode"
-  )
+(use-package gtags-mode)
 
-(use-package ggtags
-  :load-path "ggtags")
+(use-package ggtags)
 ;; (dolist (map (list ggtags-mode-map dired-mode-map))
 ;;   (define-key map (kbd "C-c g s") 'ggtags-find-other-symbol)
 ;;   (define-key map (kbd "C-c g h") 'ggtags-view-tag-history)

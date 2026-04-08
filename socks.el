@@ -1,6 +1,6 @@
-;; (setq socks-noproxy '("127.0.0.1"))
-(setq url-gateway-method 'socks)
-(setq socks-server '("Default server" "127.0.0.1" 1337 5))
+;; SOCKS5 for Emacs URL/HTTP stack (package.el, url.el, etc.)
+(require 'socks)
 
-;; (setq url-gateway-local-host-regexp
-;;   (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'"))
+(setq url-gateway-method 'socks
+      ;; ("NAME" "HOST" PORT SOCKS-VERSION)
+      socks-server '("default" "127.0.0.1" 1337 5))

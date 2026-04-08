@@ -1,10 +1,8 @@
 (use-package modus-themes
-  :load-path "modus-themes"
   :config
   (load-theme 'modus-vivendi-tinted))
 
 (use-package orderless
-  :load-path "orderless"
   :custom
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
@@ -15,7 +13,6 @@
   (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
 
 (use-package yasnippet
-  :load-path "yasnippet"
   :demand t
   :diminish yas-minor-mode
   :commands yas-minor-mode-on
@@ -48,7 +45,6 @@
 
 (use-package yasnippet-snippets
   ;; Point to the directory that contains the "snippets/" folder
-  :load-path "yasnippet-snippets"
   :after yasnippet
   :config
   ;; Reload snippet tables after updating dirs
@@ -80,10 +76,8 @@
 ;; nongnu
 ;;
 (use-package rainbow-delimiters
-  :load-path "rainbow-delimiters"
   :hook (prog-mode . rainbow-delimiters-mode))
 (use-package gnuplot
-  :load-path "gnuplot"
   :mode ("\\.gp\\'" . gnuplot-mode))
 ;; (use-package magit
 ;;   :load-path "magit/lisp")
@@ -91,14 +85,4 @@
 ;;
 ;; 3rd
 ;;
-;; (use-package reader
-;;   :vc t
-;;   :load-path  "site-lisp/emacs-reader/"
-;;   )
-
-;; (use-package reader
-;;   :vc (:url "https://codeberg.org/divyaranjan/emacs-reader"
-;;         :make "all"))
-
-(use-package xdg-launcher
-  :load-path "xdg-launcher")
+(use-package xdg-launcher)

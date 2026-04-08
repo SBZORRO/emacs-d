@@ -1,7 +1,6 @@
 ;; Enable vertico
 (add-to-list 'load-path (expand-file-name "site-lisp/vertico/extensions" (file-name-directory load-file-name)))
 (use-package vertico
-  :load-path ("vertico" "vertico/extensions")
   :demand t
   :bind
   ;; (:map vertico-map ("TAB" . #'minibuffer-complete))
@@ -9,21 +8,18 @@
   (vertico-mode))
 
 (use-package vertico-sort
-  :load-path "vertico/extensions"
   :after vertico
   :demand t
   :custom
   (vertico-sort-function #'vertico-sort-history-length-alpha))
 
 ;; (use-package vertico-directory
-;;   :load-path "vertico/extensions"
 ;;   :after vertico
 ;;   :demand t
 ;;   :bind (:map vertico-map
 ;;               ("M-DEL" . vertico-directory-delete-word)))
 
 (use-package vertico-multiform
-  :load-path "vertico/extensions"
   :after (vertico vertico-sort)
   :demand t
   :init
@@ -38,23 +34,21 @@
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
-  :load-path "marginalia"
   :demand t
   :config
   (marginalia-mode))
 
 (add-to-list 'load-path (expand-file-name "site-lisp/corfu/extensions" (file-name-directory load-file-name)))
 (use-package corfu
-  :load-path ("corfu" "corfu/extensions")
   :demand t
   ;; Optional customizations
   :custom
   (corfu-auto t)                   ;; Enable auto completion
   (corfu-cycle t)                  ;; Enable cycling for `corfu-next/previous'
-  (corfu-quit-at-boundary nil)       ;; Never quit at completion boundary
+  ;; (corfu-quit-at-boundary nil)     ;; Never quit at completion boundary
   ;; (corfu-quit-no-match nil)     ;; Never quit, even if there is no match
-  (corfu-quit-no-match 'separator) ;; Don't quit if there is `corfu-separator' inserted
-  (corfu-on-exact-match nil)       ;; Configure handling of exact matches
+  ;; (corfu-quit-no-match 'separator) ;; Don't quit if there is `corfu-separator' inserted
+  ;; (corfu-on-exact-match nil)       ;; Configure handling of exact matches
   ;; (corfu-preview-current nil)   ;; Disable current candidate preview
   (corfu-preview-current 'insert)  ;; Preview first candidate. Insert on input if only one
   ;; (corfu-preselect 'prompt)     ;; Preselect the prompt
@@ -77,7 +71,7 @@
   :bind
   ;; (("C-TAB" . #'corfu-expand)
   ;; Configure SPC for separator insertion
-  (:map corfu-map ("SPC" . corfu-insert-separator))
+  ;; (:map corfu-map ("SPC" . corfu-insert-separator))
 
   ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
   ;; be used globally (M-/).  See also the customization variable
@@ -108,7 +102,6 @@
 
 ;; Add extensions
 (use-package cape
-  :load-path "cape"
   :demand t
   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
   ;; Press C-c p ? to for help.
@@ -132,7 +125,6 @@
 
 ;; example configuration for Consult
 (use-package consult
-  :load-path "consult"
   :demand t
   ;; Replace bindings. Lazily loaded by `use-package'.
   :bind (;; C-c bindings in `mode-specific-map'
@@ -235,7 +227,6 @@
   )
 
 (use-package consult-xref
-  :load-path "consult"
   :after (xref consult)
   :demand t
   :init

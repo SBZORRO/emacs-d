@@ -8,8 +8,7 @@
 (require 'use-package)
 (setq use-package-verbose t)
 (setq use-package-always-ensure nil)
-(use-package diminish
-  :load-path "diminish.el")
+(use-package diminish)
 
 (load-file (expand-file-name "use-emacs.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-package.el" (file-name-directory load-file-name)))
@@ -18,4 +17,4 @@
 (load-file (expand-file-name "use-eglot.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "defunk.el" (file-name-directory load-file-name)))
 
-(load-file custom-file)
+;; (load-file custom-file)

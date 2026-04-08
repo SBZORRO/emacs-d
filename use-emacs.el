@@ -323,14 +323,15 @@
             (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
             (json "https://github.com/tree-sitter/tree-sitter-json")
             (make "https://github.com/alemuller/tree-sitter-make")
-            (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+            (markdown "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src")
+            (markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src")
             (python "https://github.com/tree-sitter/tree-sitter-python")
             (rust "https://github.com/tree-sitter/tree-sitter-rust")
             (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
             (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
             (yaml "https://github.com/ikatyang/tree-sitter-yaml")
             (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-
+            (perl "https://github.com/tree-sitter-perl/tree-sitter-perl.git")
             ;; (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
             ;; (go "https://github.com/tree-sitter/tree-sitter-go")
             ;; (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
@@ -347,7 +348,9 @@
 (use-package isearch
   :diminish)
 (use-package autorevert
-  :diminish 'auto-revert-mode)
+  :diminish 'auto-revert-mode
+  :init
+  (global-auto-revert-mode))
 
 (use-package package-vc
   :custom
