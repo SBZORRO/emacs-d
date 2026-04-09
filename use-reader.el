@@ -25,8 +25,8 @@
 
 ;; You can also try using =package-vc-install-from-checkout=, [[https://codeberg.org/attachments/2555c252-0977-484e-b369-38b18a321a48][this video]] demonstrates how to do that.
 
-(use-package reader
-  )
+(use-package reader-autoloads
+  :demand t)
 
 ;; (setq package-vc-allow-build-commands t)
 ;; (use-package reader
