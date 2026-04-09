@@ -15,6 +15,7 @@
   (user-full-name "SBZORRO")
   (visible-bell t)
   (menu-bar-mode nil)
+  (tool-bar-mode nil)
   (fill-column 78)
   (display-line-numbers-width 3)
   (truncate-lines nil)
