@@ -148,6 +148,15 @@
 
 ;; Compile ansi color
 (require 'ansi-color)
-(defun my/compilation-ansi-color ()
+(defun my-ansi-color-apply-on-region (beg end)
+  "Apply ANSI color escape sequences in the active region."
+  (interactive "r")
+  (when (and (called-interactively-p 'interactive)
+             (not (use-region-p)))
+    (user-error "Select a region first"))
+  (ansi-color-apply-on-region beg end)
+  (deactivate-mark))
+
+(defun my-compilation-ansi-color ()
   (ansi-color-apply-on-region compilation-filter-start (point)))
-(add-hook 'compilation-filter-hook #'my/compilation-ansi-color)
+(add-hook 'compilation-filter-hook #'my-compilation-ansi-color)
