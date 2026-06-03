@@ -110,3 +110,6 @@
 [submodule "site-lisp/shell-maker"]
 	path = site-lisp/shell-maker
 	url = git@github.com:xenodium/shell-maker.git
+[submodule "site-lisp/popper"]
+	path = site-lisp/popper
+	url = git@github.com:karthink/popper.git
