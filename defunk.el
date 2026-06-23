@@ -20,6 +20,7 @@
 (keymap-global-set "C-x f" 'indent-buffer)
 (keymap-global-set "C-x <" 'scroll-left-3)
 (keymap-global-set "C-x >" 'scroll-right-3)
+(keymap-global-set "C-c o" 'my-move-buffer-to-other-window)
 
 (defun delete-window-counterclockwise()
   (interactive)
@@ -160,3 +161,12 @@
 (defun my-compilation-ansi-color ()
   (ansi-color-apply-on-region compilation-filter-start (point)))
 (add-hook 'compilation-filter-hook #'my-compilation-ansi-color)
+
+(defun my-move-buffer-to-other-window ()
+  "Move current buffer to the next window."
+  (interactive)
+  (let ((buf (current-buffer))
+        (win (selected-window))
+        (other (next-window)))
+    (set-window-buffer other buf)
+    (switch-to-prev-buffer win)))
