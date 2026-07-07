@@ -1,5 +1,11 @@
 ;;; -*- lexical-binding: t; -*-
 
+(add-to-list 'term-file-aliases '("xterm-ghostty" . "xterm"))
+
+(when (and (not window-system)
+           (equal (getenv "TERM") "xterm-ghostty"))
+  (xterm-mouse-mode 1))
+
 (use-package emacs
   ;; :bind* ("<C-return>" . other-window)
   :custom
