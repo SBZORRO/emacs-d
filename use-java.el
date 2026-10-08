@@ -1,6 +1,8 @@
-;;; init.el --- Minimal Java + Eglot config -*- lexical-binding: t; -*-
+;;; use-java.el --- Minimal Java + Eglot config -*- lexical-binding: t; -*-
 
 (require 'eglot)
+
+(defconst eglot-java-filename-build-maven "pom.xml" "Maven build file name.")
 
 (defcustom eglot-jdtls-java-home
   (expand-file-name ".." (file-name-directory (file-chase-links (executable-find "javac"))))
@@ -118,7 +120,7 @@
     (kill-buffer buf)
     (message "first:%s" first)
     (message "meta:%s" meta)
-    (equal meta first)))
+    (equal (string-trim meta) (string-trim first))))
 
 (defun eglot-jdtls--upgrade-lsp-server ()
   "Upgrade the LSP server installation in a given directory.
@@ -144,10 +146,20 @@ DESTINATION-DIR is the directory where the LSP server will be installed."
   (unless (file-exists-p (expand-file-name eglot-jdtls-install-dir))
     (eglot-jdtls--install-lsp-server))
   (add-to-list 'eglot-server-programs
-               `((java-mode java-ts-mode) . ,eglot-jdtls-server-program))
+               `((java-mode java-ts-mode)
+                 eglot-java-eclipse-jdt
+                 ,@eglot-jdtls-server-program))
   (eglot-ensure))
 
 
+
+(defun eglot-java--find-server ()
+  "Find the LSP server of type eglot-java-eclipse-jdt for the
+current project. In the strange event that there are multiple,
+return the first one."
+  (when-let* ((project (project-current))
+              (servers (gethash project eglot--servers-by-project)))
+    (cl-find-if #'eglot-java-eclipse-jdt-p servers)))
 
 (defun eglot-java--jdt-uri-handler (_operation &rest args)
   "Support Eclipse jdtls `jdt://' uri scheme."
@@ -155,11 +167,10 @@ DESTINATION-DIR is the directory where the LSP server will be installed."
          (cache-dir (expand-file-name ".eglot-java" (project-root (project-current t))))
          (source-file
           (expand-file-name
-           (eglot-java--make-path
-            cache-dir
-            (save-match-data
-              (when (string-match "jdt://contents/\\(.*?\\)/\\(.*\\)\.class\\?" uri)
-                (format "%s.java" (replace-regexp-in-string "/" "." (match-string 2 uri) t t))))))))
+           (save-match-data
+             (when (string-match "jdt://contents/\\(.*?\\)/\\(.*\\)\.class\\?" uri)
+               (format "%s.java" (replace-regexp-in-string "/" "." (match-string 2 uri) t t))))
+           cache-dir)))
     (unless (file-readable-p source-file)
       (let ((content (jsonrpc-request (eglot-java--find-server) :java/classFileContents (list :uri uri)))
             (metadata-file (format "%s.%s.metadata"
@@ -171,6 +182,9 @@ DESTINATION-DIR is the directory where the LSP server will be installed."
     source-file))
 
 (add-to-list 'file-name-handler-alist '("\\`jdt://" . eglot-java--jdt-uri-handler))
+
+(defclass eglot-java-eclipse-jdt (eglot-lsp-server) ()
+  :documentation "Eclipse's Java Development Tools Language Server.")
 
 (cl-defmethod eglot-initialization-options ((server eglot-java-eclipse-jdt))
   "Passes through required jdt initialization options."
@@ -195,12 +209,7 @@ DESTINATION-DIR is the directory where the LSP server will be installed."
                               :java (:home ,eglot-jdtls-java-home)
                               :import ()))
                (ignore (eglot--warn "JAVA_HOME environment is not set"))))))
-    (if eglot-java-user-init-opts-fn
-        (if (fboundp eglot-java-user-init-opts-fn)
-            (let ((user-opts (funcall eglot-java-user-init-opts-fn server eglot-java-eclipse-jdt)))
-              (eglot-java--plist-merge settings-plist user-opts))
-          (warn (format "The LSP settings initialization function is not bound! %s!" eglot-java-user-init-opts-fn)))
-      settings-plist)))
+    settings-plist))
 
 ;;;###autoload
 (define-minor-mode eglot-jdtls-mode
