@@ -1,118 +1,157 @@
 [submodule "emacs"]
 	path = emacs
+	ignore = all
 	url = git://git.savannah.gnu.org/emacs.git
 	branch = master
 [submodule "site-lisp/org-roam"]
 	path = site-lisp/org-roam
+	ignore = all
 	url = git@github.com:org-roam/org-roam.git
 [submodule "site-lisp/sly"]
 	path = site-lisp/sly
+	ignore = all
 	url = git@github.com:joaotavora/sly.git
 [submodule "site-lisp/yasnippet-snippets"]
 	path = site-lisp/yasnippet-snippets
+	ignore = all
 	url = git@github.com:AndreaCrotti/yasnippet-snippets.git
 [submodule "site-lisp/sideframe"]
 	path = site-lisp/sideframe
+	ignore = all
 	url = git@github.com:rougier/sideframe.git
 [submodule "site-lisp/oboe.el"]
 	path = site-lisp/oboe.el
+	ignore = all
 	url = git@github.com:gynamics/oboe.el.git
 [submodule "site-lisp/vertico"]
 	path = site-lisp/vertico
+	ignore = all
 	url = git@github.com:minad/vertico.git
 [submodule "site-lisp/marginalia"]
 	path = site-lisp/marginalia
+	ignore = all
 	url = git@github.com:minad/marginalia.git
 [submodule "site-lisp/consult"]
 	path = site-lisp/consult
+	ignore = all
 	url = git@github.com:minad/consult.git
 [submodule "site-lisp/corfu"]
 	path = site-lisp/corfu
+	ignore = all
 	url = git@github.com:minad/corfu.git
 [submodule "site-lisp/cape"]
 	path = site-lisp/cape
+	ignore = all
 	url = git@github.com:minad/cape.git
 [submodule "site-lisp/mini-popup"]
 	path = site-lisp/mini-popup
+	ignore = all
 	url = git@github.com:minad/mini-popup.git
 [submodule "site-lisp/yasnippet"]
 	path = site-lisp/yasnippet
+	ignore = all
 	url = git@github.com:joaotavora/yasnippet.git
 [submodule "site-lisp/treemacs"]
 	path = site-lisp/treemacs
+	ignore = all
 	url = git@github.com:Alexander-Miller/treemacs.git
 [submodule "site-lisp/eglot-java"]
 	path = site-lisp/eglot-java
+	ignore = all
 	url = git@github.com:yveszoundi/eglot-java.git
 [submodule "site-lisp/uniline"]
 	path = site-lisp/uniline
+	ignore = all
 	url = git@github.com:tbanel/uniline.git
 [submodule "site-lisp/app-launcher"]
 	path = site-lisp/app-launcher
+	ignore = all
 	url = git@github.com:SebastienWae/app-launcher.git
 [submodule "site-lisp/nano-modeline"]
 	path = site-lisp/nano-modeline
+	ignore = all
 	url = git@github.com:rougier/nano-modeline.git
 [submodule "site-lisp/doom-modeline"]
 	path = site-lisp/doom-modeline
+	ignore = all
 	url = git@github.com:seagle0128/doom-modeline.git
 [submodule "site-lisp/tempel"]
 	path = site-lisp/tempel
+	ignore = all
 	url = git@github.com:minad/tempel.git
 [submodule "site-lisp/emacs-reader"]
 	path = site-lisp/emacs-reader
+	ignore = all
 	url = ssh://git@codeberg.org/MonadicSheep/emacs-reader.git
 [submodule "site-lisp/dape"]
 	path = site-lisp/dape
+	ignore = all
 	url = git@github.com:svaante/dape.git
 [submodule "site-lisp/xdg-launcher"]
 	path = site-lisp/xdg-launcher
+	ignore = all
 	url = git@github.com:emacs-exwm/xdg-launcher.git
 [submodule "site-lisp/diminish.el"]
 	path = site-lisp/diminish.el
+	ignore = all
 	url = git@github.com:myrjola/diminish.el.git
 [submodule "site-lisp/rainbow-delimiters"]
 	path = site-lisp/rainbow-delimiters
+	ignore = all
 	url = git@github.com:Fanael/rainbow-delimiters.git
 [submodule "site-lisp/modus-themes"]
 	path = site-lisp/modus-themes
+	ignore = all
 	url = git@github.com:protesilaos/modus-themes.git
 [submodule "site-lisp/orderless"]
 	path = site-lisp/orderless
+	ignore = all
 	url = git@github.com:oantolin/orderless.git
 [submodule "site-lisp/gnuplot"]
 	path = site-lisp/gnuplot
+	ignore = all
 	url = git@github.com:emacs-gnuplot/gnuplot.git
 [submodule "site-lisp/web-mode"]
 	path = site-lisp/web-mode
+	ignore = all
 	url = git@github.com:fxbois/web-mode.git
 [submodule "site-lisp/markdown-mode"]
 	path = site-lisp/markdown-mode
+	ignore = all
 	url = git@github.com:jrblevin/markdown-mode.git
 [submodule "site-lisp/ggtags"]
 	path = site-lisp/ggtags
+	ignore = all
 	url = git@github.com:leoliu/ggtags.git
 [submodule "site-lisp/gtags-mode"]
 	path = site-lisp/gtags-mode
+	ignore = all
 	url = git@github.com:Ergus/gtags-mode.git
 [submodule "site-lisp/magit"]
 	path = site-lisp/magit
+	ignore = all
 	url = git@github.com:magit/magit.git
 [submodule "site-lisp/geiser"]
 	path = site-lisp/geiser
+	ignore = all
 	url = git@github.com:onixie/geiser.git
 [submodule "site-lisp/agent-shell"]
 	path = site-lisp/agent-shell
+	ignore = all
 	url = git@github.com:xenodium/agent-shell.git
 [submodule "site-lisp/acp.el"]
 	path = site-lisp/acp.el
+	ignore = all
 	url = git@github.com:xenodium/acp.el.git
 [submodule "site-lisp/shell-maker"]
 	path = site-lisp/shell-maker
+	ignore = all
 	url = git@github.com:xenodium/shell-maker.git
 [submodule "site-lisp/popper"]
 	path = site-lisp/popper
+	ignore = all
 	url = git@github.com:karthink/popper.git
 [submodule "site-lisp/ace-window"]
 	path = site-lisp/ace-window
+	ignore = all
 	url = git@github.com:abo-abo/ace-window.git
