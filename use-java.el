@@ -233,14 +233,10 @@ return the first one."
                    (mapcar
                     #'file-name-directory
                     (append
-                     (file-expand-wildcards (concat root "/*" eglot-java-filename-build-maven))
+                     (file-expand-wildcards (concat root "/*/" eglot-java-filename-build-maven))
                      (file-expand-wildcards (concat root "/.project")))))))
                :test #'string=)]
-           ,@(if-let ()
-                 `(:settings (
-                              :java (:home ,eglot-jdtls-java-home)
-                              :import ()))
-               (ignore (eglot--warn "JAVA_HOME environment is not set"))))))
+           :settings (:java (:home ,eglot-jdtls-java-home)))))
     settings-plist))
 
 ;;;###autoload
