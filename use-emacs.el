@@ -266,6 +266,44 @@
   :config
   (custom-set-faces
    '(whitespace-indentation ((t (:background "grey11")))))
+  (defvar-local my-whitespace-indent-guide-overlays nil)
+  (defun my-whitespace-clear-indent-guide ()
+    "Remove the indentation guide from the current buffer."
+    (mapc #'delete-overlay my-whitespace-indent-guide-overlays)
+    (setq my-whitespace-indent-guide-overlays nil))
+  (defun my-whitespace-update-indent-guide ()
+    "Show pipes below the current opening parenthesis and its parent."
+    (my-whitespace-clear-indent-guide)
+    (when (and whitespace-mode
+               (not (save-excursion (back-to-indentation) (eolp))))
+      (save-excursion
+        (let ((starts (when (and (char-after)
+                                 (eq (char-syntax (char-after)) ?\()
+                                 (not (nth 8 (syntax-ppss))))
+                        (list (point)))))
+          (condition-case nil
+              (progn (backward-up-list) (push (point) starts))
+            (scan-error nil))
+          (dolist (start starts)
+            (goto-char start)
+            (condition-case nil
+                (let ((column (current-column)) (end (scan-sexps start 1)))
+                  (when end
+                    (forward-line 1)
+                    (while (< (point) (1- end))
+                      (move-to-column column)
+                      (when (and (= (current-column) column)
+                                 (eq (char-after) ?\s)
+                                 (save-excursion (skip-chars-backward " \t") (bolp)))
+                        (let ((overlay (make-overlay (point) (1+ (point)))))
+                          (overlay-put overlay 'display "|")
+                          (overlay-put overlay 'evaporate t)
+                          (push overlay my-whitespace-indent-guide-overlays)))
+                      (forward-line 1))))
+              (scan-error nil)))))))
+  (add-hook 'post-command-hook #'my-whitespace-update-indent-guide)
+  (add-hook 'whitespace-mode-hook #'my-whitespace-update-indent-guide)
+  (add-hook 'change-major-mode-hook #'my-whitespace-clear-indent-guide)
   (global-whitespace-mode 1))
 
 (use-package paren
