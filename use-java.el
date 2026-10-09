@@ -59,7 +59,7 @@
 
 (defcustom eglot-jdtls-data-dir
   (expand-file-name  "share/workspace" user-emacs-directory)
-  "Default workspace"
+  "Base directory for JDTLS workspaces, with one subdirectory per project."
   :type 'string
   :risky t
   :group 'eglot-jdtls)
@@ -68,6 +68,18 @@
   "Return full paths to Equinox launcher JARs in PLUGINS."
   (directory-files plugins t
                    "\\`org\\.eclipse\\.equinox\\.launcher_.*\\.jar\\'"))
+
+(defun eglot-jdtls--workspace-dir ()
+  "Return and create the current project's JDTLS workspace directory."
+  (let* ((root (directory-file-name
+                (file-truename
+                 (project-root (eglot--current-project)))))
+         (name (file-name-nondirectory root))
+         (workspace (expand-file-name
+                     (concat name "-" (md5 root))
+                     eglot-jdtls-data-dir)))
+    (make-directory workspace t)
+    workspace))
 
 (defun eglot-jdtls--contact (_interactive)
   "Build the JDTLS contact using the current installation's launcher."
@@ -90,7 +102,7 @@
       "--add-opens" "java.base/java.lang=ALL-UNNAMED"
       "-jar" ,jar
       "-configuration" ,eglot-jdtls-config-dir
-      "-data" ,eglot-jdtls-data-dir)))
+      "-data" ,(eglot-jdtls--workspace-dir))))
 
 (defun eglot-jdtls--download-file (source-url dest-location)
   "Download a file from a URL at SOURCE-URL and save it to file at DEST-LOCATION."
