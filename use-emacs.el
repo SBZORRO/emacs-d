@@ -263,9 +263,9 @@
      ;; newline-mark
      ;; space-mark
      ))
-  :custom-face
-  (whitespace-indentation ((t (:background "grey11"))))
   :config
+  (custom-set-faces
+   '(whitespace-indentation ((t (:background "grey11")))))
   (global-whitespace-mode 1))
 
 (use-package paren
