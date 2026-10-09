@@ -50,13 +50,6 @@
   :risky t
   :group 'eglot-jdtls)
 
-(defcustom eglot-jdtls-equinox-launcher-jar
-  (car (directory-files-recursively eglot-jdtls-install-dir  "^org.eclipse.equinox.launcher_.*.jar$" t))
-  "Recursively find eclipse equinox launcher jar form jdtls install dir"
-  :type 'string
-  :risky t
-  :group 'eglot-jdtls)
-
 (defcustom eglot-jdtls-config-dir
   (expand-file-name "config_linux" eglot-jdtls-install-dir)
   "Default to config_linux"
@@ -71,25 +64,33 @@
   :risky t
   :group 'eglot-jdtls)
 
-(defcustom eglot-jdtls-server-program
-  `(,eglot-jdtls-java-program
-    ;; "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
-    ;; "-Dlog.protocol=true"
-    "-Declipse.application=org.eclipse.jdt.ls.core.id1"
-    "-Dosgi.bundles.defaultStartLevel=4"
-    "-Declipse.product=org.eclipse.jdt.ls.core.product"
-    "-Dlog.level=ALL"
-    "-Xmx1G"
-    "--add-modules=ALL-SYSTEM"
-    "--add-opens" "java.base/java.util=ALL-UNNAMED"
-    "--add-opens" "java.base/java.lang=ALL-UNNAMED"
-    "-jar" ,eglot-jdtls-equinox-launcher-jar
-    "-configuration" ,eglot-jdtls-config-dir
-    "-data" ,eglot-jdtls-data-dir)
-  "Eclipse JDT JVM arguments."
-  :type '(repeat string)
-  :risky t
-  :group 'eglot-jdtls)
+(defun eglot-jdtls--launcher-jars (plugins)
+  "Return full paths to Equinox launcher JARs in PLUGINS."
+  (directory-files plugins t
+                   "\\`org\\.eclipse\\.equinox\\.launcher_.*\\.jar\\'"))
+
+(defun eglot-jdtls--contact (_interactive)
+  "Build the JDTLS contact using the current installation's launcher."
+  (let* ((plugins (expand-file-name "plugins" eglot-jdtls-install-dir))
+         (jar (when (file-directory-p plugins)
+                (car (eglot-jdtls--launcher-jars plugins)))))
+    (unless (and jar (file-readable-p jar))
+      (user-error "Cannot find a readable JDTLS launcher in %s" plugins))
+    `(eglot-java-eclipse-jdt
+      ,eglot-jdtls-java-program
+      ;; "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044"
+      ;; "-Dlog.protocol=true"
+      "-Declipse.application=org.eclipse.jdt.ls.core.id1"
+      "-Dosgi.bundles.defaultStartLevel=4"
+      "-Declipse.product=org.eclipse.jdt.ls.core.product"
+      "-Dlog.level=ALL"
+      "-Xmx1G"
+      "--add-modules=ALL-SYSTEM"
+      "--add-opens" "java.base/java.util=ALL-UNNAMED"
+      "--add-opens" "java.base/java.lang=ALL-UNNAMED"
+      "-jar" ,jar
+      "-configuration" ,eglot-jdtls-config-dir
+      "-data" ,eglot-jdtls-data-dir)))
 
 (defun eglot-jdtls--download-file (source-url dest-location)
   "Download a file from a URL at SOURCE-URL and save it to file at DEST-LOCATION."
@@ -156,9 +157,7 @@ DESTINATION-DIR is the directory where the LSP server will be installed."
   (let ((plugins (expand-file-name "plugins" eglot-jdtls-install-dir)))
     (unless (and (file-directory-p plugins)
                  (cl-some #'file-readable-p
-                          (directory-files
-                           plugins t
-                           "\\`org\\.eclipse\\.equinox\\.launcher_.*\\.jar\\'"))
+                          (eglot-jdtls--launcher-jars plugins))
                  (file-readable-p
                   (expand-file-name "config.ini" eglot-jdtls-config-dir)))
       (error "JDTLS installation is missing its launcher or config.ini")))
@@ -169,9 +168,7 @@ DESTINATION-DIR is the directory where the LSP server will be installed."
   (unless (file-exists-p (expand-file-name eglot-jdtls-install-dir))
     (eglot-jdtls--install-lsp-server))
   (add-to-list 'eglot-server-programs
-               `((java-mode java-ts-mode)
-                 eglot-java-eclipse-jdt
-                 ,@eglot-jdtls-server-program))
+               '((java-mode java-ts-mode) . eglot-jdtls--contact))
   (eglot-ensure))
 
 
