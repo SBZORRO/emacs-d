@@ -123,13 +123,24 @@
     (equal (string-trim meta) (string-trim first))))
 
 (defun eglot-jdtls--upgrade-lsp-server ()
-  "Upgrade the LSP server installation in a given directory.
-INSTALL-DIR is the directory where the LSP server will be upgraded."
+  "Back up JDTLS, upgrade, and restore on failure.
+Stop JDTLS before upgrading.  Keep the backup after a successful upgrade."
   (unless (eglot-jdtls--check-jdtls-ver)
-    (progn
-      (delete-directory eglot-jdtls-install-dir t)
-      (mkdir eglot-jdtls-install-dir t)
-      (eglot-jdtls--install-lsp-server))))
+    (let* ((install-dir (directory-file-name
+                         (expand-file-name eglot-jdtls-install-dir)))
+           (backup-dir (make-temp-name (concat install-dir ".backup-"))))
+      (rename-file install-dir backup-dir)
+      (condition-case err
+          (progn
+            (make-directory install-dir t)
+            (eglot-jdtls--install-lsp-server)
+            (message "JDTLS upgraded; backup kept at %s." backup-dir))
+        ((error quit)
+         (let ((inhibit-quit t))
+           (when (file-exists-p install-dir)
+             (delete-directory install-dir t))
+           (rename-file backup-dir install-dir))
+         (signal (car err) (cdr err)))))))
 
 (defun eglot-jdtls--install-lsp-server ()
   "Install the Eclipse JDT LSP server.
@@ -138,7 +149,19 @@ DESTINATION-DIR is the directory where the LSP server will be installed."
   (eglot-jdtls--download-file eglot-jdtls-dl-snapshots-url eglot-jdtls-dl-snapshots-filename)
   (eglot-jdtls--download-file eglot-jdtls-dl-metadata-url eglot-jdtls-dl-metadata-filename)
   (message "Extracting Eclipse JDT LSP archive, please wait...")
-  (call-process "tar" nil "*tar*" t "zxvf" eglot-jdtls-dl-snapshots-filename "-C" eglot-jdtls-install-dir)
+  (unless (eq 0 (call-process "tar" nil "*tar*" t "zxvf"
+                              eglot-jdtls-dl-snapshots-filename
+                              "-C" eglot-jdtls-install-dir))
+    (error "JDTLS extraction failed; see *tar* buffer"))
+  (let ((plugins (expand-file-name "plugins" eglot-jdtls-install-dir)))
+    (unless (and (file-directory-p plugins)
+                 (cl-some #'file-readable-p
+                          (directory-files
+                           plugins t
+                           "\\`org\\.eclipse\\.equinox\\.launcher_.*\\.jar\\'"))
+                 (file-readable-p
+                  (expand-file-name "config.ini" eglot-jdtls-config-dir)))
+      (error "JDTLS installation is missing its launcher or config.ini")))
   (message "Eclipse JDT LSP server installed in folder \n\"%s\"." eglot-jdtls-install-dir))
 
 (defun eglot-jdtls--ensure ()
