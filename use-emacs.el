@@ -255,7 +255,7 @@
      tabs
      ;; spaces
      space-after-tab
-     space-befer-tab
+     space-before-tab
      trailing
      lines-tail
      newline
