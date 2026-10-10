@@ -106,12 +106,9 @@
 
 (defun eglot-jdtls--download-file (source-url dest-location)
   "Download a file from a URL at SOURCE-URL and save it to file at DEST-LOCATION."
-  (let*
-      (
-       (dest-dir     (file-name-directory dest-location))
-       (dest-abspath (expand-file-name dest-location)))
-    (unless
-        (file-exists-p dest-dir)
+  (let* ((dest-dir     (file-name-directory dest-location))
+         (dest-abspath (expand-file-name dest-location)))
+    (unless (file-exists-p dest-dir)
       (make-directory dest-dir t))
     (message "Downloading %s\n to %s." source-url dest-abspath)
     (url-copy-file  source-url dest-abspath t)))
@@ -119,18 +116,16 @@
 (defun eglot-jdtls--check-jdtls-ver ()
   "Return non-nil if JDTLS is current; missing metadata means unknown."
   (when (file-readable-p eglot-jdtls-dl-metadata-filename)
-    (let* ((lines
-            (with-temp-buffer
-              (insert-file-contents eglot-jdtls-dl-metadata-filename)
-              (split-string (buffer-string) "\n" t)))
+    (let* ((lines (with-temp-buffer
+                    (insert-file-contents eglot-jdtls-dl-metadata-filename)
+                    (split-string (buffer-string) "\n" t)))
            (first (car lines))
            (buf (url-retrieve-synchronously eglot-jdtls-dl-metadata-url t t 10))
-           (meta
-            (with-current-buffer buf
-              (goto-char (point-min))
-              ;; Headers end at blank line
-              (re-search-forward "\r?\n\r?\n" nil 'noerror)
-              (buffer-substring-no-properties (point) (point-max)))))
+           (meta (with-current-buffer buf
+                   (goto-char (point-min))
+                   ;; Headers end at blank line
+                   (re-search-forward "\r?\n\r?\n" nil 'noerror)
+                   (buffer-substring-no-properties (point) (point-max)))))
       (kill-buffer buf)
       (message "first:%s" first)
       (message "meta:%s" meta)
@@ -194,6 +189,25 @@ return the first one."
               (servers (gethash project eglot--servers-by-project)))
     (cl-find-if #'eglot-java-eclipse-jdt-p servers)))
 
+;; (defun java-kit--jdt-uri-handler (operation &rest arguments)
+;;   "Handle file OPERATION with ARGUMENTS for JDTLS `jdt://' URIs."
+;;   (when (memq operation java-kit--jdt-uri-write-operations)
+;;     (signal 'file-error
+;;             (list "JDTLS class contents are read-only" (car arguments))))
+;;   (let ((local-arguments
+;;          (mapcar
+;;           (lambda (argument)
+;;             (if (and (stringp argument)
+;;                      (string-prefix-p "jdt://" argument))
+;;                 (java-kit--jdt-uri-local-file argument)
+;;               argument))
+;;           arguments))
+;;         (inhibit-file-name-handlers
+;;          (cons #'java-kit--jdt-uri-handler
+;;                (and (eq inhibit-file-name-operation operation)
+;;                     inhibit-file-name-handlers)))
+;;         (inhibit-file-name-operation operation))
+;;     (apply operation local-arguments)))
 (defun eglot-java--jdt-uri-handler (_operation &rest args)
   "Support Eclipse jdtls `jdt://' uri scheme."
   (let* ((uri (car args))
