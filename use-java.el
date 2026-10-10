@@ -116,24 +116,25 @@
     (message "Downloading %s\n to %s." source-url dest-abspath)
     (url-copy-file  source-url dest-abspath t)))
 
-(defun eglot-jdtls--check-jdtls-ver()
-  (let*
-      ((lines
-        (with-temp-buffer
-          (insert-file-contents (expand-file-name "latest.txt" eglot-jdtls-install-dir))
-          (split-string (buffer-string) "\n" t)))
-       (first (car lines))
-       (buf (url-retrieve-synchronously eglot-jdtls-dl-metadata-url t t 10))
-       (meta
-        (with-current-buffer buf
-          (goto-char (point-min))
-          ;; Headers end at blank line
-          (re-search-forward "\r?\n\r?\n" nil 'noerror)
-          (buffer-substring-no-properties (point) (point-max)))))
-    (kill-buffer buf)
-    (message "first:%s" first)
-    (message "meta:%s" meta)
-    (equal (string-trim meta) (string-trim first))))
+(defun eglot-jdtls--check-jdtls-ver ()
+  "Return non-nil if JDTLS is current; missing metadata means unknown."
+  (when (file-readable-p eglot-jdtls-dl-metadata-filename)
+    (let* ((lines
+            (with-temp-buffer
+              (insert-file-contents eglot-jdtls-dl-metadata-filename)
+              (split-string (buffer-string) "\n" t)))
+           (first (car lines))
+           (buf (url-retrieve-synchronously eglot-jdtls-dl-metadata-url t t 10))
+           (meta
+            (with-current-buffer buf
+              (goto-char (point-min))
+              ;; Headers end at blank line
+              (re-search-forward "\r?\n\r?\n" nil 'noerror)
+              (buffer-substring-no-properties (point) (point-max)))))
+      (kill-buffer buf)
+      (message "first:%s" first)
+      (message "meta:%s" meta)
+      (equal (string-trim meta) (string-trim first)))))
 
 (defun eglot-jdtls--upgrade-lsp-server ()
   "Back up JDTLS, upgrade, and restore on failure.
