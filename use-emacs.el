@@ -98,8 +98,6 @@
   (mode-require-final-newline t)
   (completion-auto-select 'second-tab)
 
-  ;; display-fill-column-indicator.el
-  (global-display-fill-column-indicator-mode t)
   ;; display-line-numbers.el
   (global-display-line-numbers-mode t)
 
@@ -266,44 +264,35 @@
   :config
   (custom-set-faces
    '(whitespace-indentation ((t (:background "grey11")))))
-  (defvar-local my-whitespace-indent-guide-overlays nil)
-  (defun my-whitespace-clear-indent-guide ()
-    "Remove the indentation guide from the current buffer."
-    (mapc #'delete-overlay my-whitespace-indent-guide-overlays)
-    (setq my-whitespace-indent-guide-overlays nil))
-  (defun my-whitespace-update-indent-guide ()
-    "Show pipes below the first visible character using indentation alone."
-    (my-whitespace-clear-indent-guide)
-    (when (and whitespace-mode
-               (not (save-excursion (back-to-indentation) (eolp))))
-      (save-excursion
-        (beginning-of-line)
-        (let ((starts (list (point))) (column (current-indentation)))
-          (when (> column 0)
-            (while (and (= (forward-line -1) 0)
-                        (or (looking-at-p "[ \t]*$")
-                            (>= (current-indentation) column))))
-            (when (and (not (looking-at-p "[ \t]*$"))
-                       (< (current-indentation) column))
-              (push (point) starts)))
-          (dolist (start starts)
-            (goto-char start)
-            (let ((column (current-indentation)))
+  (defvar-local my-whitespace-indent-overlays nil)
+  (defun my-whitespace-clear-indentation ()
+    "Remove indentation highlights."
+    (mapc #'delete-overlay my-whitespace-indent-overlays)
+    (setq my-whitespace-indent-overlays nil))
+  (defun my-whitespace-highlight-indentation ()
+    "Highlight leading spaces below the enclosing opening delimiter."
+    (my-whitespace-clear-indentation)
+    (save-excursion
+      (condition-case nil
+          (progn
+            (back-to-indentation)
+            (backward-up-list)
+            (let ((column (current-column))
+                  (end (1- (scan-sexps (point) 1))))
               (forward-line 1)
-              (while (and (not (eobp))
-                          (or (looking-at-p "[ \t]*$")
-                              (> (current-indentation) column)))
+              (while (< (point) end)
                 (move-to-column column)
                 (when (and (= (current-column) column)
-                           (eq (char-after) ?\s))
+                           (eq (char-after) ?\s)
+                           (save-excursion (skip-chars-backward " \t") (bolp)))
                   (let ((overlay (make-overlay (point) (1+ (point)))))
-                    (overlay-put overlay 'display "|")
-                    (overlay-put overlay 'evaporate t)
-                    (push overlay my-whitespace-indent-guide-overlays)))
-                (forward-line 1))))))))
-  (add-hook 'post-command-hook #'my-whitespace-update-indent-guide)
-  (add-hook 'whitespace-mode-hook #'my-whitespace-update-indent-guide)
-  (add-hook 'change-major-mode-hook #'my-whitespace-clear-indent-guide)
+                    (overlay-put overlay 'face 'highlight)
+                    (overlay-put overlay 'priority 1)
+                    (push overlay my-whitespace-indent-overlays)))
+                (forward-line 1))))
+        (scan-error nil))))
+  (add-hook 'post-command-hook #'my-whitespace-highlight-indentation)
+  (add-hook 'change-major-mode-hook #'my-whitespace-clear-indentation)
   (global-whitespace-mode 1))
 
 (use-package paren
