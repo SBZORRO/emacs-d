@@ -45,12 +45,12 @@
   :custom
   (corfu-auto t)                   ;; Enable auto completion
   (corfu-cycle t)                  ;; Enable cycling for `corfu-next/previous'
-  ;; (corfu-quit-at-boundary nil)     ;; Never quit at completion boundary
+  (corfu-quit-at-boundary t)        ;; End completion at word boundaries
   ;; (corfu-quit-no-match nil)     ;; Never quit, even if there is no match
   ;; (corfu-quit-no-match 'separator) ;; Don't quit if there is `corfu-separator' inserted
   ;; (corfu-on-exact-match nil)       ;; Configure handling of exact matches
   ;; (corfu-preview-current nil)   ;; Disable current candidate preview
-  (corfu-preview-current 'insert)  ;; Preview first candidate. Insert on input if only one
+  (corfu-preview-current t)        ;; Preview without accepting on further input
   ;; (corfu-preselect 'prompt)     ;; Preselect the prompt
   (corfu-preselect-first t)        ;; Preselect first candidate?
   (corfu-auto-prefix 1)

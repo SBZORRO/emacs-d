@@ -251,7 +251,12 @@ return the first one."
                      (file-expand-wildcards (concat root "/*/" eglot-java-filename-build-maven))
                      (file-expand-wildcards (concat root "/.project")))))))
                :test #'string=)]
-           :settings (:java (:home ,eglot-jdtls-java-home)))))
+           :settings
+           (:java (
+                   :home ,eglot-jdtls-java-home
+                   :format (:settings (
+                                       :url "/home/sbzorro/.emacs.d/share/mimi.xml"
+                                       :profile "mimi")))))))
     settings-plist))
 
 ;;;###autoload
