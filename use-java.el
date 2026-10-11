@@ -100,6 +100,7 @@
       "--add-modules=ALL-SYSTEM"
       "--add-opens" "java.base/java.util=ALL-UNNAMED"
       "--add-opens" "java.base/java.lang=ALL-UNNAMED"
+      "-javaagent:/home/sbzorro/.emacs.d/share/lombok-1.18.48.jar"
       "-jar" ,jar
       "-configuration" ,eglot-jdtls-config-dir
       "-data" ,(eglot-jdtls--workspace-dir))))
