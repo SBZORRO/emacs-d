@@ -97,10 +97,12 @@
       "-Declipse.product=org.eclipse.jdt.ls.core.product"
       "-Dlog.level=ALL"
       "-Xmx1G"
+      ;; Compatibility with legacy AspectJ JARs in this Java 8 project.
+      "-Djdk.util.zip.disableZip64ExtraFieldValidation=true"
       "--add-modules=ALL-SYSTEM"
       "--add-opens" "java.base/java.util=ALL-UNNAMED"
       "--add-opens" "java.base/java.lang=ALL-UNNAMED"
-      "-javaagent:/home/sbzorro/.emacs.d/share/lombok-1.18.48.jar"
+      "-javaagent:/home/sbzorro/.emacs.d/share/lombok.jar"
       "-jar" ,jar
       "-configuration" ,eglot-jdtls-config-dir
       "-data" ,(eglot-jdtls--workspace-dir))))
@@ -255,6 +257,8 @@ return the first one."
            :settings
            (:java (
                    :home ,eglot-jdtls-java-home
+                   ;; Resolve editor dependencies from the local Maven cache.
+                   :import (:maven (:offline (:enabled t)))
                    :format (:settings (
                                        :url "/home/sbzorro/.emacs.d/share/mimi.xml"
                                        :profile "mimi")))))))
