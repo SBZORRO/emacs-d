@@ -183,7 +183,26 @@ DESTINATION-DIR is the directory where the LSP server will be installed."
   (eglot-ensure))
 
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;    Handle navigation within JDTLS class sources
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; JDTLS uses jdt:// URIs for virtual Java documents, typically classes
+;; from dependency JARs or the JDK.  A typical URI has this structure:
+;;   jdt://contents/<jar>/<package>/<class>?<JDT-element-handle>
+;; The query contains the handle JDTLS uses to resolve the Java model
+;; element.  Treat the complete URI as opaque and send it back unchanged.
+;;
+;; This code requests text through java/classFileContents and caches it in
+;; a read-only .java file.  Its .metadata sidecar stores the original URI.
+;; Eglot uses the local path to open the source and associate its server,
+;; then uses the original URI for further navigation into parent classes
+;; and constructors.  MD5 only supplies a short, distinct cache filename.
+;;
+;; The request is documented in the JDTLS protocol extensions wiki:
+;; https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Language-Server-Protocol-Extensions
+;; The URI structure is defined by JDTUtils.toUri and resolveClassFile:
+;; https://github.com/eclipse-jdtls/eclipse.jdt.ls/blob/v1.50.0/org.eclipse.jdt.ls.core/src/org/eclipse/jdt/ls/core/internal/JDTUtils.java
+;;
 (defun eglot-java--find-server ()
   "Find the LSP server of type eglot-java-eclipse-jdt for the
 current project. In the strange event that there are multiple,
@@ -211,27 +230,140 @@ return the first one."
 ;;                     inhibit-file-name-handlers)))
 ;;         (inhibit-file-name-operation operation))
 ;;     (apply operation local-arguments)))
-(defun eglot-java--jdt-uri-handler (_operation &rest args)
-  "Support Eclipse jdtls `jdt://' uri scheme."
-  (let* ((uri (car args))
-         (cache-dir (expand-file-name ".eglot-java" (project-root (project-current t))))
-         (source-file
-          (expand-file-name
-           (save-match-data
-             (when (string-match "jdt://contents/\\(.*?\\)/\\(.*\\)\.class\\?" uri)
-               (format "%s.java" (replace-regexp-in-string "/" "." (match-string 2 uri) t t))))
-           cache-dir)))
-    (unless (file-readable-p source-file)
-      (let ((content (jsonrpc-request (eglot-java--find-server) :java/classFileContents (list :uri uri)))
-            (metadata-file (format "%s.%s.metadata"
-                                   (file-name-directory source-file)
-                                   (file-name-base source-file))))
-        (unless (file-directory-p cache-dir) (make-directory cache-dir t))
-        (with-temp-file source-file (insert content))
-        (with-temp-file metadata-file (insert uri))))
-    source-file))
+;; (defun eglot-java--jdt-uri-handler (_operation &rest args)
+;;   "Support Eclipse jdtls `jdt://' uri scheme."
+;;   (let* ((uri (car args))
+;;          (cache-dir (expand-file-name ".eglot-java" (project-root (project-current t))))
+;;          (source-file
+;;           (expand-file-name
+;;            (save-match-data
+;;              (when (string-match "jdt://contents/\\(.*?\\)/\\(.*\\)\.class\\?" uri)
+;;                (format "%s.java" (replace-regexp-in-string "/" "." (match-string 2 uri) t t))))
+;;            cache-dir)))
+;;     (unless (file-readable-p source-file)
+;;       (let ((content (jsonrpc-request (eglot-java--find-server) :java/classFileContents (list :uri uri)))
+;;             (metadata-file (format "%s.%s.metadata"
+;;                                    (file-name-directory source-file)
+;;                                    (file-name-base source-file))))
+;;         (unless (file-directory-p cache-dir) (make-directory cache-dir t))
+;;         (with-temp-file source-file (insert content))
+;;         (with-temp-file metadata-file (insert uri))))
+;;     source-file))
+
+(defcustom eglot-jdtls-class-cache-dir
+  (expand-file-name "share/jdt-sources" user-emacs-directory)
+  "Cache for read-only Java class sources returned by JDTLS."
+  :type 'directory
+  :group 'eglot-jdtls)
+
+(defvar eglot-jdtls--fetching-class-uris nil
+  "JDTLS class URIs currently being fetched, to prevent recursive requests.")
+
+(defun eglot-jdtls--class-cache-file (uri)
+  "Return a distinct local cache filename for JDTLS URI.
+Use the class name and MD5 of the complete URI, including its query,
+so classes from different libraries or projects get distinct cache files."
+  (let* ((path (car (split-string uri "?")))
+         (base (file-name-base (car (last (split-string path "/" t)))))
+         (safe-base (replace-regexp-in-string "[^[:alnum:]_$-]" "_" base)))
+    (expand-file-name
+     (format "%s-%s.java" safe-base (secure-hash 'md5 uri))
+     eglot-jdtls-class-cache-dir)))
+
+(defun eglot-jdtls--class-source-file (uri)
+  "Fetch source text for URI once and return its read-only local file.
+Cache the text in a .java file and preserve the original JDTLS URI in a
+.metadata sidecar file for subsequent navigation requests."
+  (let ((file (eglot-jdtls--class-cache-file uri)))
+    (unless (file-readable-p file)
+      (when (member uri eglot-jdtls--fetching-class-uris)
+        (error "Recursive JDTLS class source request: %s" uri))
+      (let* ((eglot-jdtls--fetching-class-uris
+              (cons uri eglot-jdtls--fetching-class-uris))
+             (server (or (eglot-current-server) (eglot-java--find-server))))
+        (unless server
+          (user-error "No JDTLS server is available for this class source"))
+        (let ((content (
+                        jsonrpc-request
+                        server
+                        :java/classFileContents (list :uri uri)
+                        :timeout 10)))
+          (unless (stringp content)
+            (error "JDTLS returned no class source for %s" uri))
+          (make-directory (file-name-directory file) t)
+          (with-temp-file file (insert content))
+          (set-file-modes file #o444))))
+    ;; Retain the server's document identity when Emacs visits the cache file.
+    (let ((metadata (concat file ".metadata")))
+      (unless (file-readable-p metadata)
+        (with-temp-file metadata (insert uri))))
+    file))
+
+(defun eglot-java--jdt-uri-handler (operation &rest arguments)
+  "Perform file OPERATION on local read-only sources for `jdt://' URIs.
+Make Emacs file operations work with these virtual documents by replacing
+URI arguments in ARGUMENTS with cached source paths and calling OPERATION."
+  (when (memq operation '(
+                          write-region delete-file
+                          rename-file add-name-to-file
+                          make-symbolic-link set-file-modes set-file-times))
+    (signal 'file-error (list "JDTLS class sources are read-only")))
+  (cond
+   ((eq operation 'file-remote-p) nil)
+   ;; Name normalization must not start another synchronous LSP request.
+   ((eq operation 'expand-file-name) (car arguments))
+   (t
+    (let* ((inhibit-file-name-handlers
+            (cons #'eglot-java--jdt-uri-handler
+                  (and (eq inhibit-file-name-operation operation)
+                       inhibit-file-name-handlers)))
+           (inhibit-file-name-operation operation)
+           (local-arguments
+            (mapcar
+             (lambda (argument)
+               (if (and (stringp argument)
+                        (string-prefix-p "jdt://" argument))
+                   (eglot-jdtls--class-source-file argument)
+                 argument))
+             arguments)))
+      (apply operation local-arguments)))))
 
 (add-to-list 'file-name-handler-alist '("\\`jdt://" . eglot-java--jdt-uri-handler))
+
+(defun eglot-jdtls--cached-source-uri (path)
+  "Read the original JDTLS URI associated with cached source PATH.
+Recover the URI from the .metadata sidecar file so requests retain the
+class document's identity within JDTLS."
+  (when (and (stringp path) (file-name-absolute-p path)
+             (string-prefix-p
+              (file-name-as-directory (expand-file-name eglot-jdtls-class-cache-dir))
+              (expand-file-name path)))
+    (let ((metadata (concat (expand-file-name path) ".metadata")))
+      (when (file-readable-p metadata)
+        (with-temp-buffer
+          (insert-file-contents metadata)
+          (let ((uri (buffer-string)))
+            (when (string-prefix-p "jdt://" uri) uri)))))))
+
+(defun eglot-jdtls--uri-to-path (convert uri)
+  "Convert incoming JDTLS URI locations into local cache paths.
+This lets Eglot record the server associated with each source file.
+Delegate ordinary URI conversion to the original function CONVERT."
+  (let ((text (if (keywordp uri) (substring (symbol-name uri) 1) uri)))
+    (if (and (stringp text) (string-prefix-p "jdt://" text))
+        (eglot-jdtls--class-source-file text)
+      (funcall convert uri))))
+
+(defun eglot-jdtls--path-to-uri (convert path &rest options)
+  "Convert cached source PATH back into its original JDTLS document URI.
+Use that URI for outgoing requests so navigation can continue into parent
+classes and constructors.  Delegate other paths and OPTIONS to CONVERT."
+  (or (eglot-jdtls--cached-source-uri path)
+      (apply convert path options)))
+
+(advice-add 'eglot-uri-to-path :around #'eglot-jdtls--uri-to-path)
+(advice-add 'eglot-path-to-uri :around #'eglot-jdtls--path-to-uri)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defclass eglot-java-eclipse-jdt (eglot-lsp-server) ()
   :documentation "Eclipse's Java Development Tools Language Server.")

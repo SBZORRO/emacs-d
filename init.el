@@ -14,6 +14,8 @@
 (load-file (expand-file-name "use-app.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-minad.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "use-eglot.el" (file-name-directory load-file-name)))
+(load-file (expand-file-name "use-agent-shell.el" (file-name-directory load-file-name)))
+(load-file (expand-file-name "use-java.el" (file-name-directory load-file-name)))
 (load-file (expand-file-name "defunk.el" (file-name-directory load-file-name)))
 
 ;; (load-file custom-file)

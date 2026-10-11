@@ -101,6 +101,9 @@
   ;; display-line-numbers.el
   (global-display-line-numbers-mode t)
 
+  ;; display-fill-column-indicator
+  (global-display-fill-column-indicator-mode t)
+
   ;; Hide commands in M-x which do not apply to the current mode.  Corfu
   ;; commands are hidden, since they are not used via M-x. This setting is
   ;; useful beyond Corfu.
@@ -393,3 +396,7 @@
 (use-package repeat
   :config
   (repeat-mode))
+
+(use-package recentf
+  :init
+  (recentf-mode 1))
