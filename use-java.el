@@ -184,7 +184,9 @@ DESTINATION-DIR is the directory where the LSP server will be installed."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;    Handle navigation within JDTLS class sources
+;;;
+;;    Handle navigation within JDTLS class sources
+;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; JDTLS uses jdt:// URIs for virtual Java documents, typically classes
 ;; from dependency JARs or the JDK.  A typical URI has this structure:

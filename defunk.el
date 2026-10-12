@@ -20,6 +20,7 @@
 (keymap-global-set "C-x <" 'scroll-left-3)
 (keymap-global-set "C-x >" 'scroll-right-3)
 (keymap-global-set "C-c o" 'my-move-buffer-to-other-window)
+(keymap-global-set "C-a" 'back-to-indentation)
 
 (defun delete-window-counterclockwise()
   (interactive)
