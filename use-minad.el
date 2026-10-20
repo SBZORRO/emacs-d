@@ -69,6 +69,11 @@
   ;;        (shell-mode . corfu-mode)
   ;;        (eshell-mode . corfu-mode))
   :bind
+  (:map corfu-map
+        ("TAB" . corfu-insert)
+        ("<tab>" . corfu-insert)
+        ("RET" . nil)
+        ("<return>" . nil))
   ;; (("C-TAB" . #'corfu-expand)
   ;; Configure SPC for separator insertion
   ;; (:map corfu-map ("SPC" . corfu-insert-separator))

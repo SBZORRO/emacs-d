@@ -383,6 +383,8 @@
 (use-package hideshow
   :diminish 'hs-minor-mode)
 (use-package isearch
+  :bind
+  (("C-s" . isearch-forward-thing-at-point))
   :diminish)
 (use-package autorevert
   :diminish 'auto-revert-mode

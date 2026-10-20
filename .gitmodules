@@ -157,4 +157,5 @@
 	url = git@github.com:abo-abo/ace-window.git
 [submodule "site-lisp/java-kit"]
 	path = site-lisp/java-kit
+  ignore = all
 	url = git@github.com:LuciusChen/java-kit.git
