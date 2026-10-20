@@ -2,6 +2,7 @@
   :hook
   ;;  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
   (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
+  ((java-mode java-ts-mode) . eglot-jdtls-mode)
   ((c-ts-mode c++-ts-mode c++-mode c-mode cc-mode) . eglot-ensure)
   ((vue-mode) . eglot-ensure)
   :custom
