@@ -40,6 +40,8 @@
   ;; :config
   ;; (yas-load-directory (emacs-path "snippets"))
   :config
+  (add-hook 'yas-keymap-disable-hook
+            (lambda () (bound-and-true-p completion-in-region-mode)))
   (yas-global-mode 1)
   )
 

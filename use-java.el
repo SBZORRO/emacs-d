@@ -189,7 +189,7 @@ Save changes to pom.xml before running this command."
   (let* ((server (or (eglot-current-server) (eglot-java--find-server)
                      (user-error "No JDTLS server is available")))
          (root (or (locate-dominating-file default-directory
-                                          eglot-java-filename-build-maven)
+                                           eglot-java-filename-build-maven)
                    (user-error "No pom.xml found above %s" default-directory))))
     (jsonrpc-notify
      server :java/projectConfigurationUpdate

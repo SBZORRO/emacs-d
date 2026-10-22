@@ -70,8 +70,8 @@
   ;;        (eshell-mode . corfu-mode))
   :bind
   (:map corfu-map
-        ("TAB" . corfu-insert)
-        ("<tab>" . corfu-insert)
+        ("TAB" . corfu-complete)
+        ("<tab>" . corfu-complete)
         ("RET" . nil)
         ("<return>" . nil))
   ;; (("C-TAB" . #'corfu-expand)
