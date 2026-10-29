@@ -52,7 +52,7 @@
   ;; (corfu-preview-current nil)      ;; Disable current candidate preview
   (corfu-preview-current t)           ;; Preview without accepting on further input
   ;; (corfu-preselect 'prompt)        ;; Preselect the prompt
-  (corfu-preselect-first t)           ;; Preselect first candidate?
+  (corfu-preselect 'first)            ;; Preselect first candidate
   (corfu-auto-prefix 1)
   (corfu-auto-delay 0.02)
   ;; `nil' means to ignore `corfu-separator' behavior, that is, use the older
@@ -184,10 +184,6 @@
          :map minibuffer-local-map
          ("M-s" . consult-history)                 ;; orig. next-matching-history-element
          ("M-r" . consult-history))                ;; orig. previous-matching-history-element
-
-  ;; Enable automatic preview at point in the *Completions* buffer. This is
-  ;; relevant when you use the default completion UI.
-  :hook (completion-list-mode . consult-preview-at-point-mode)
 
   ;; The :init configuration is always executed (Not lazy)
   :init

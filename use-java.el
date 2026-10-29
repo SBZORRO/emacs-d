@@ -1,6 +1,7 @@
 ;;; use-java.el --- Minimal Java + Eglot config -*- lexical-binding: t; -*-
 
 (require 'eglot)
+(require 'dape)
 
 (defconst eglot-java-filename-build-maven "pom.xml" "Maven build file name.")
 
@@ -63,6 +64,17 @@
   :type 'string
   :risky t
   :group 'eglot-jdtls)
+
+(defclass eglot-java-eclipse-jdt (eglot-lsp-server) ()
+  :documentation "Eclipse's Java Development Tools Language Server.")
+
+(defun eglot-java--find-server ()
+  "Find the LSP server of type eglot-java-eclipse-jdt for the
+current project. In the strange event that there are multiple,
+return the first one."
+  (when-let* ((project (project-current))
+              (servers (gethash project eglot--servers-by-project)))
+    (cl-find-if #'eglot-java-eclipse-jdt-p servers)))
 
 (defun eglot-jdtls--launcher-jars (plugins)
   "Return full paths to Equinox launcher JARs in PLUGINS."
@@ -226,14 +238,6 @@ Save changes to pom.xml before running this command."
 ;; The URI structure is defined by JDTUtils.toUri and resolveClassFile:
 ;; https://github.com/eclipse-jdtls/eclipse.jdt.ls/blob/v1.50.0/org.eclipse.jdt.ls.core/src/org/eclipse/jdt/ls/core/internal/JDTUtils.java
 ;;
-(defun eglot-java--find-server ()
-  "Find the LSP server of type eglot-java-eclipse-jdt for the
-current project. In the strange event that there are multiple,
-return the first one."
-  (when-let* ((project (project-current))
-              (servers (gethash project eglot--servers-by-project)))
-    (cl-find-if #'eglot-java-eclipse-jdt-p servers)))
-
 (defcustom eglot-jdtls-class-cache-dir
   (expand-file-name "share/jdt-sources" user-emacs-directory)
   "Cache for read-only Java class sources returned by JDTLS."
@@ -285,41 +289,36 @@ Cache the text in a .java file and preserve the original JDTLS URI in a
         (with-temp-file metadata (insert uri))))
     file))
 
-;; (defun eglot-java--jdt-uri-handler (operation &rest arguments)
-;;   "Perform file OPERATION on local read-only sources for `jdt://' URIs.
-;; Make Emacs file operations work with these virtual documents by replacing
-;; URI arguments in ARGUMENTS with cached source paths and calling OPERATION."
-;;   (when
-;;       (memq operation
-;;             '(write-region
-;;               delete-file
-;;               rename-file
-;;               add-name-to-file
-;;               make-symbolic-link
-;;               set-file-modes
-;;               set-file-times))
-;;     (signal 'file-error (list "JDTLS class sources are read-only")))
-;;   (cond
-;;    ((eq operation 'file-remote-p) nil)
-;;    ;; Name normalization must not start another synchronous LSP request.
-;;    ((eq operation 'expand-file-name) (car arguments))
-;;    (t
-;;     (let*
-;;         ((inhibit-file-name-handlers
-;;           (cons #'eglot-java--jdt-uri-handler
-;;                 (and (eq inhibit-file-name-operation operation)
-;;                      inhibit-file-name-handlers)))
-;;          (inhibit-file-name-operation operation)
-;;          (local-arguments
-;;           (mapcar
-;;            (lambda (argument)
-;;              (if (and (stringp argument) (string-prefix-p "jdt://" argument))
-;;                  (eglot-jdtls--class-source-file argument)
-;;                argument))
-;;            arguments)))
-;;       (apply operation local-arguments)))))
+(defun eglot-java--jdt-uri-handler (operation &rest arguments)
+  "Perform file OPERATION on local read-only sources for `jdt://' URIs.
+Make Emacs file operations work with these virtual documents by replacing
+URI arguments in ARGUMENTS with cached source paths and calling OPERATION."
+  (when
+      (memq operation
+            '(write-region
+              delete-file
+              rename-file
+              add-name-to-file
+              make-symbolic-link
+              set-file-modes
+              set-file-times))
+    (signal 'file-error (list "JDTLS class sources are read-only")))
+  (cond
+   ((eq operation 'file-remote-p) nil)
+   ;; Name normalization must not start another synchronous LSP request.
+   ((eq operation 'expand-file-name) (car arguments))
+   (t
+    (let
+        ((local-arguments
+          (mapcar
+           (lambda (argument)
+             (if (and (stringp argument) (string-prefix-p "jdt://" argument))
+                 (eglot-jdtls--class-source-file argument)
+               argument))
+           arguments)))
+      (apply operation local-arguments)))))
 
-;; (add-to-list 'file-name-handler-alist '("\\`jdt://" . eglot-java--jdt-uri-handler))
+(add-to-list 'file-name-handler-alist '("\\`jdt://" . eglot-java--jdt-uri-handler))
 
 (defun eglot-jdtls--cached-source-uri (path)
   "Read the original JDTLS URI associated with cached source PATH.
@@ -356,38 +355,85 @@ classes and constructors.  Delegate other paths and OPTIONS to CONVERT."
 
 (advice-add 'eglot-uri-to-path :around #'eglot-jdtls--uri-to-path)
 (advice-add 'eglot-path-to-uri :around #'eglot-jdtls--path-to-uri)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;    dape
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; attach dape to maven jvm
+;; mvn compile exec:exec \
+;;   -Dexec.executable=java \
+;;   -Dexec.args='-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 -cp %classpath com.smo.cloud.iabp.maquetcs100cs300.SmoIabpMaquetCs100Cs300Application'
+
+;; jdtls :request "attach" :hostName "127.0.0.1" :port 5005 compile nil
+
+(defcustom eglot-jdtls-debug-bundle-name
+  "com.microsoft.java.debug.plugin"
+  "Artifact name of the Java Debug plugin."
+  :type 'string
+  :group 'eglot-jdtls)
+
+(defcustom eglot-jdtls-debug-bundle-pattern
+  "~/.m2/repository/com/microsoft/java/%s/*/*.jar"
+  "Glob pattern matching installed Java Debug plugin JARs.
+The %s placeholder is replaced with `eglot-jdtls-debug-bundle-name'."
+  :type 'string
+  :group 'eglot-jdtls)
+
+(defun eglot-jdtls--debug-bundle ()
+  "Return the newest installed Java Debug plugin release, or nil."
+  (let*
+      ((pattern
+        (expand-file-name
+         (format eglot-jdtls-debug-bundle-pattern eglot-jdtls-debug-bundle-name)))
+       (prefix (concat eglot-jdtls-debug-bundle-name "-"))
+       (regexp (concat "/" (regexp-quote prefix) "[0-9.]+\\.jar\\'"))
+       (jars
+        (seq-filter (lambda (jar) (string-match-p regexp jar))
+                    (file-expand-wildcards pattern))))
+    (car
+     (sort jars
+           :key (lambda (file) (string-remove-prefix prefix (file-name-base file)))
+           :lessp #'version<
+           :reverse t))))
+
+;; Keep Dape's JDTLS checks, main-class lookup, classpaths and adapter setup.
+(let ((config (alist-get 'jdtls dape-configs)))
+  (setf (plist-get config :vmArgs) ""
+        (plist-get config :console) "integratedTerminal"
+        (alist-get 'jdtls dape-configs) config))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defclass eglot-java-eclipse-jdt (eglot-lsp-server) ()
-  :documentation "Eclipse's Java Development Tools Language Server.")
+(defun eglot-jdtls--workspace-folders (server)
+  "Return a vector of workspace URIs for SERVER's project."
+  (let* ((root (project-root (eglot--project server)))
+         (folders
+          (cons root
+                (mapcar #'file-name-directory
+                        (append
+                         (file-expand-wildcards (concat root "/*/" eglot-java-filename-build-maven))
+                         (file-expand-wildcards (concat root "/.project")))))))
+    (vconcat (cl-delete-duplicates (mapcar #'eglot--path-to-uri folders) :test #'string=))))
 
 (cl-defmethod eglot-initialization-options ((server eglot-java-eclipse-jdt))
   "Passes through required jdt initialization options."
   (let ((settings-plist
-         `(
-           :extendedClientCapabilities (:classFileContentsSupport t)
-           :workspaceFolders
-           [,@(cl-delete-duplicates
-               (mapcar
-                #'eglot--path-to-uri
-                (let* ((root (project-root (eglot--project server))))
-                  (cons
-                   root
-                   (mapcar
-                    #'file-name-directory
-                    (append
-                     (file-expand-wildcards (concat root "/*/" eglot-java-filename-build-maven))
-                     (file-expand-wildcards (concat root "/.project")))))))
-               :test #'string=)]
-           :settings
-           (:java (
-                   :home ,eglot-jdtls-java-home
-                   :signatureHelp (:enabled t)
-                   :maven (:downloadSources t)
-                   :import (:maven (:offline (:enabled :json-false)))
-                   :format (:settings (
-                                       :url "/home/sbzorro/.emacs.d/share/mimi.xml"
-                                       :profile "mimi")))))))
+         `( :extendedClientCapabilities (:classFileContentsSupport t)
+            :bundles [,(eglot-jdtls--debug-bundle)]
+            :workspaceFolders ,(eglot-jdtls--workspace-folders server)
+            :settings
+            ( :java
+              ( :home ,eglot-jdtls-java-home
+                :completion (:overwrite :json-false)
+                :signatureHelp (:enabled t)
+                :maven (:downloadSources t)
+                :import (:maven (:offline (:enabled :json-false)))
+                :format
+                ( :settings
+                  ( :url "/home/sbzorro/.emacs.d/share/mimi.xml"
+                    :profile "mimi")))))))
     settings-plist))
 
 ;;;###autoload
