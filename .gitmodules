@@ -79,10 +79,6 @@
 	path = site-lisp/tempel
 	ignore = all
 	url = git@github.com:minad/tempel.git
-[submodule "site-lisp/emacs-reader"]
-	path = site-lisp/emacs-reader
-	ignore = all
-	url = ssh://git@codeberg.org/MonadicSheep/emacs-reader.git
 [submodule "site-lisp/dape"]
 	path = site-lisp/dape
 	ignore = all
