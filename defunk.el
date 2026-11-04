@@ -98,6 +98,34 @@
   )
 ;; (advice-add 'keyboard-quit :before #'vmacs-bury-boring-windows)
 
+(defun scroll-left-3 (&optional arg set-minimum)
+  (interactive "^P\np")
+  (scroll-left 3))
+(defun scroll-right-3 (&optional arg set-minimum)
+  (interactive "^P\np")
+  (scroll-right 3))
+
+(defun seq-to-lines (beg end)
+  "seq to lines"
+  (interactive "r")
+  (save-excursion
+    (let ((text (buffer-substring beg end)))
+      (delete-region beg end)
+      (insert (replace-regexp-in-string "\\s-+" "\n" text)))))
+
+(defun hex-to-int (beg end)
+  "Convert ASCII-whitespace-separated hex numbers in BEG END to decimal lines."
+  (interactive "r")
+  (let ((text
+         (mapconcat
+          (lambda (line)
+            (number-to-string (string-to-number line 16)))
+          (split-string (buffer-substring-no-properties beg end) nil t) " ")))
+    (save-excursion
+      (goto-char beg)
+      (delete-region beg end)
+      (insert text))))
+
 ;; wsl-copy
 (defun wsl-copy (start end)
   (interactive "r")
@@ -112,21 +140,6 @@
     (setq clipboard (replace-regexp-in-string "\r" "" clipboard)) ; Remove Windows ^M characters
     (setq clipboard (substring clipboard 0 -1)) ; Remove newline added by Powershell
     (insert clipboard)))
-
-(defun scroll-left-3 (&optional arg set-minimum)
-  (interactive "^P\np")
-  (scroll-left 3))
-(defun scroll-right-3 (&optional arg set-minimum)
-  (interactive "^P\np")
-  (scroll-right 3))
-
-(defun numbers-to-lines (beg end)
-  "num seq to lines"
-  (interactive "r")
-  (save-excursion
-    (let ((text (buffer-substring beg end)))
-      (delete-region beg end)
-      (insert (replace-regexp-in-string "\\s-+" "\n" text)))))
 
 ;; hyprland wl-clipboard
 (defun wl-set ()
@@ -151,6 +164,13 @@
     (user-error "Select a region first"))
   (ansi-color-apply-on-region beg end)
   (deactivate-mark))
+
+(defun my-ansi-color-buffer ()
+  "Apply ANSI colors to the current buffer, including read-only output."
+  (interactive)
+  (let ((inhibit-read-only t)
+        (ansi-color-context-region nil))
+    (ansi-color-apply-on-region (point-min) (point-max))))
 
 (defun my-compilation-ansi-color ()
   (ansi-color-apply-on-region compilation-filter-start (point)))
