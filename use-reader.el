@@ -1,34 +1,22 @@
-;; ** Manual
-;; This section is about how to install this package manually. Intended to be used by developers and testers.n
+;; Key Bindings
 
-;; After cloning the repository, follow the instructions from the previous section to install dependencies on your respective operating system.
+;;     n for going to next page
+;;     p for going to previous page
+;;     C-n for scrolling down.
+;;     C-p for scrolling up.
+;;     C-b for scrolling left.
+;;     C-f for scrolling right.
+;;     Q for closing the EMuReader buffer.
+;;     M-< for going to the first page.
+;;     M-> for going to the last page.
+;;     M-g g for going to a particular page.
+;;     M-v or Page Up for scrolling to the top of the page.
+;;     C-v or Page Down for scrolling to the end of the page.
+;;     SPC, S-SPC , and DEL make the above two commands keep scrolling the pages.
+;;     =, +, and C-<wheel-up> for zooming into the page.
+;;     - and C-<wheel-down> for zooming out of the page.
+;;     H to make the page fit the height of the current window.
+;;     W to make the page fit the width of the current window.
 
-;; Then, you run =make= in the git repository, as noted earlier this may take a few depending on if it is fetching and building =mupdf=.
-
-;; After this, you add the path to emacs-reader git repository to =load-path=,
-;; #+begin_src emacs-lisp
-;;   (add-to-list 'load-path "/path/to/emacs-reader")
-;; #+end_src
-
-;; You can also utilize =use-package= to do the same,
-;; #+begin_src emacs-lisp
-;;   (use-package reader
-;;     :vc t
-;;     :load-path "/path/to/emacs-reader")
-;; #+end_src
-
-;; To test emacs-reader in a default Emacs config, first generate the auto loads using =make autoloads=.
-;; #+begin_src shell
-;;   emacs -Q -L . -l reader-autoloads.el
-;; #+end_src
-;; This command adds the current directory to path, and loads =reader-autoloads.el=.
-
-;; You can also try using =package-vc-install-from-checkout=, [[https://codeberg.org/attachments/2555c252-0977-484e-b369-38b18a321a48][this video]] demonstrates how to do that.
-
-(use-package reader-autoloads
-  :demand t)
-
-;; (setq package-vc-allow-build-commands t)
-;; (use-package reader
-;;   :vc (:url "https://codeberg.org/MonadicSheep/emacs-reader"
-;;             :make "all"))
+;; You also need to build the dynamic module, for this we provide the M-x emureader-build RET. But you can also run make directly yourself.
+(use-package emureader)
