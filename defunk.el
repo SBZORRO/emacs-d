@@ -126,6 +126,39 @@
       (delete-region beg end)
       (insert text))))
 
+(defun hex-to-int-base (beg end width signed big-endian)
+  "Convert hex bytes in BEG END to WIDTH-byte integers.
+Group WIDTH whitespace-separated bytes per value.
+Use two's complement when SIGNED is non-nil, otherwise unsigned values.
+BIG-ENDIAN non-nil means big endian; nil means little endian.
+Separate decimal results with spaces."
+  (interactive
+   (list (region-beginning)
+         (region-end)
+         (read-number "Width (bytes): " 1)
+         (y-or-n-p "Signed? ")
+         (y-or-n-p "Big endian? ")))
+  (unless (and (integerp width) (> width 0))
+    (user-error "Width must be a positive integer (bytes)"))
+  (let* ((modulus (ash 1 (* 8 width)))
+         (sign-bit (ash modulus -1))
+         (text
+          (mapconcat
+           (lambda (bytes)
+             (unless (= (length bytes) width)
+               (user-error "Incomplete group: expected %d bytes, got %d" width (length bytes)))
+             (let*
+                 ((hex (mapconcat #'identity (if big-endian bytes (reverse bytes)) ""))
+                  (value (mod (string-to-number hex 16) modulus)))
+               (number-to-string
+                (if (and signed (>= value sign-bit)) (- value modulus) value))))
+           (seq-partition
+            (split-string (buffer-substring-no-properties beg end) nil t) width) " ")))
+    (save-excursion
+      (goto-char beg)
+      (delete-region beg end)
+      (insert text))))
+
 ;; wsl-copy
 (defun wsl-copy (start end)
   (interactive "r")

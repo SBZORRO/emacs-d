@@ -3,7 +3,7 @@
   ;;  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
   (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
   ((java-mode java-ts-mode) . eglot-jdtls-mode)
-  ((c-ts-mode c++-ts-mode c++-mode c-mode cc-mode) . eglot-ensure)
+  ((c-ts-mode c++-ts-mode c++-mode c-mode) . eglot-ensure)
   ((vue-mode) . eglot-ensure)
   :custom
   (eglot-send-changes-idle-time 0.1)
@@ -12,8 +12,9 @@
   ;; (fset #'jsonrpc--log-event #'ignore)
   ;; (setq eglot-report-perogress nil)
   ;; (eglot-events-buffer-size 0)
+  ;; In Make/GCC projects, generate compile_commands.json with: bear -- make -B
   (add-to-list 'eglot-server-programs
-               '((c-ts-mode c++-ts-mode c++-mode c-mode cc-mode)
+               '((c-ts-mode c++-ts-mode c++-mode c-mode)
                  "clangd"
                  "--log=error"
                  "-j=2"
@@ -24,7 +25,7 @@
                  "--completion-style=detailed"
                  "--header-insertion=iwyu"
                  "--header-insertion-decorators"
-                 "--query-driver=/usr/bin/**"))
+                 "--query-driver=/usr/bin/gcc,/usr/bin/g++,/usr/bin/cc,/usr/bin/c++"))
   ;; (add-to-list 'eglot-server-programs
   ;;   '((java-mode java-ts-mode)
   ;;      "java"
