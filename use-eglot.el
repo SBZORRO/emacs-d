@@ -9,6 +9,7 @@
   (eglot-send-changes-idle-time 0.1)
   (eglot-extend-to-xref t)
   (eglot-report-progress 'messages)
+  (eglot-completion-replace-semantics nil)
   :config
   ;; (fset #'jsonrpc--log-event #'ignore)
   ;; (setq eglot-report-perogress nil)
