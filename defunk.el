@@ -20,7 +20,15 @@
 (keymap-global-set "C-x <" 'scroll-left-3)
 (keymap-global-set "C-x >" 'scroll-right-3)
 (keymap-global-set "C-c o" 'my-move-buffer-to-other-window)
-(keymap-global-set "C-a" 'back-to-indentation)
+(keymap-global-set "C-a" 'my-beginning-of-line)
+
+(defun my-beginning-of-line ()
+  "Move to indentation, or to the beginning of the line if already there."
+  (interactive "^")
+  (let ((start (point)))
+    (back-to-indentation)
+    (when (= start (point))
+      (move-beginning-of-line 1))))
 
 (defun delete-window-counterclockwise()
   (interactive)
