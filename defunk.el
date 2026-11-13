@@ -14,6 +14,7 @@
 (keymap-global-set "M-o" 'new-previous-line)
 (keymap-global-set "C-o" 'new-next-line)
 (keymap-global-set "C-M-@" 'my-mark-sexp)
+(keymap-global-set "C-M-SPC" 'my-mark-sexp)
 (keymap-global-set "M-p" 'my-prev-line-recenter)
 (keymap-global-set "M-n" 'my-next-line-recenter)
 (keymap-global-set "C-x f" 'indent-buffer)
@@ -21,6 +22,13 @@
 (keymap-global-set "C-x >" 'scroll-right-3)
 (keymap-global-set "C-c o" 'my-move-buffer-to-other-window)
 (keymap-global-set "C-a" 'my-beginning-of-line)
+
+(defvar-keymap my-repeat-map
+  :repeat t
+  "<" #'scroll-left-3
+  ">" #'scroll-right-3
+  "1" #'delete-window-counterclockwise
+  )
 
 (defun my-beginning-of-line ()
   "Move to indentation, or to the beginning of the line if already there."
@@ -77,33 +85,29 @@
   (kill-region (point) (progn (forward-same-syntax arg) (point))))
 
 
-(defvar paren-list '(34 40 41 123 125 91 93)) ; " () {} []
-(defvar space-list '(?\s ?\t ?\n ?\r ?\f))
 (defun my-mark-sexp (&optional arg allow-extend)
+  "Mark a sexp, starting at the symbol beginning when inside one."
   (interactive "P\np")
-  (cond
-   ((and
-     (not (memq (char-after) paren-list))
-     (not (memq (char-before) paren-list))
-     (not (memq (char-after) space-list))
-     (not (memq (char-before) space-list))
-     (not (use-region-p)))
-    (forward-same-syntax (- 1)))
-   ((memq (char-after) space-list)
-    (forward-same-syntax 1))
-   )
+  (unless (use-region-p)
+    (skip-chars-forward " \t\n\r\f\v")
+    (when (looking-at "\\sw\\|\\s_")
+      (skip-syntax-backward "w_")))
   (mark-sexp arg allow-extend))
 
-(defun my-prev-line-recenter ()
-  (interactive)
-  (forward-line -1)
-  (recenter nil t)
-  )
-(defun my-next-line-recenter ()
-  (interactive)
-  (forward-line 1)
-  (recenter nil t)
-  )
+(defun my-prev-line-recenter (arg)
+  "Move ARG lines up and center point in the window."
+  (interactive "^p")
+  (setq this-command 'previous-line)
+  (previous-line arg)
+  (recenter))
+
+(defun my-next-line-recenter (arg)
+  "Move ARG lines down and center point in the window."
+  (interactive "^p")
+  (setq this-command 'next-line)
+  (next-line arg)
+  (recenter))
+
 ;; (advice-add 'keyboard-quit :before #'vmacs-bury-boring-windows)
 
 (defun scroll-left-3 (&optional arg set-minimum)

@@ -10,7 +10,7 @@
   ;; :bind* ("<C-return>" . other-window)
   :custom
   ;; C source code
-  (auto-hscroll-mode 'current-line)
+  (auto-hscroll-mode t)
   (auto-save-interval 64)
   (auto-save-timeout 2)
   (history-length 2000)
@@ -270,26 +270,27 @@
     (mapc #'delete-overlay my-whitespace-indent-overlays)
     (setq my-whitespace-indent-overlays nil))
   (defun my-whitespace-highlight-indentation ()
-    "Highlight leading spaces below the enclosing opening delimiter."
+    "Highlight indentation below the enclosing opening delimiter.
+When point is in indentation, choose an opening line indented no farther."
     (my-whitespace-clear-indentation)
     (save-excursion
       (condition-case nil
-          (progn
+          (let ((limit (when (<= (current-column) (current-indentation)) (current-column))))
             (back-to-indentation)
             (backward-up-list)
-            (let ((column (current-column))
+            (while (and limit (> (current-indentation) limit))
+              (backward-up-list))
+            (let ((column (if limit (current-indentation) (current-column)))
                   (end (1- (scan-sexps (point) 1))))
-              (forward-line 1)
-              (while (< (point) end)
+              (while (and (= (forward-line 1) 0) (< (point) end))
                 (move-to-column column)
                 (when (and (= (current-column) column)
                            (eq (char-after) ?\s)
-                           (save-excursion (skip-chars-backward " \t") (bolp)))
+                           (< column (current-indentation)))
                   (let ((overlay (make-overlay (point) (1+ (point)))))
                     (overlay-put overlay 'face 'highlight)
                     (overlay-put overlay 'priority 1)
-                    (push overlay my-whitespace-indent-overlays)))
-                (forward-line 1))))
+                    (push overlay my-whitespace-indent-overlays))))))
         (scan-error nil))))
   (add-hook 'post-command-hook #'my-whitespace-highlight-indentation)
   (add-hook 'change-major-mode-hook #'my-whitespace-clear-indentation)
