@@ -162,3 +162,6 @@
 	path = site-lisp/emureader
 	url = ssh://git@codeberg.org/MonadicSheep/emureader.git
 	ignore = all
+[submodule "site-lisp/dired-sidebar"]
+	path = site-lisp/dired-sidebar
+	url = git@github.com:jojojames/dired-sidebar.git
